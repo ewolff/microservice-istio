@@ -442,7 +442,7 @@ simple shell script that uses cURL to generate some load, so starting
 few times should be enough. You will see some HTTP 500 in the
 output. If you do additional `curl -X POST
 http://192.168.99.110:31380/invoicing/poll`, quite a few of them will
-also result in a 500.
+also result in a 500. Use `ingress-url.sh` to figure out the URL.
 
 Use `kubectl apply -f cicuit-breaker.yaml` to remove the rule.
 
