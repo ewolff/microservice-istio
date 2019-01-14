@@ -7,9 +7,9 @@ spec:
   - order.default.svc.cluster.local
   http:
   - fault:
-      delay:
+      abort:
         percent: 100
-        fixedDelay: 30s
+        httpStatus: 500
     route:
     - destination:
         host: order.default.svc.cluster.local
