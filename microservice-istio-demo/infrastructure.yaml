@@ -1,0 +1,173 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: apache
+    app: apache
+    version: "1.0"
+    visualize: "true"        
+  name: apache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apache
+      app: apache
+      version: "1.0"
+      serving: "true"    
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: apache
+        app: apache
+        version: "1.0"
+        serving: "true"    
+        visualize: "true"                
+    spec:
+      containers:
+      - name: apache
+        image: microservice-istio-apache:latest        
+        imagePullPolicy: Never        
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: postgres
+    app: postgres
+    version: "1.0"
+    visualize: "true"        
+  name: postgres
+  annotations:
+    sidecar.istio.io/inject: "false"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: postgres
+      app: postgres
+      version: "1.0"
+      serving: "true"    
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: postgres
+        app: postgres
+        version: "1.0"
+        serving: "true"    
+        visualize: "true"                
+    spec:
+      containers:
+      - name: postgres
+        image: microservice-istio-postgres:latest        
+        imagePullPolicy: Never        
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: "dbuser"
+        - name: POSTGRES_PASSWORD
+          value: "dbpass"
+        resources: {}
+        volumeMounts:
+        - name: postgres
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres
+        emptyDir: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: apache
+    visualize: "true"    
+  name: apache
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    name: http
+  selector:
+    run: apache
+    serving: "true"        
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: postgres
+    visualize: "true"    
+  name: postgres
+spec:
+  ports:
+  - port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    run: postgres
+    serving: "true"        
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: microservice-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: apache
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - microservice-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 80
+        host: apache.default.svc.cluster.local        

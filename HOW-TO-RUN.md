@@ -170,26 +170,34 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 * Make sure that the Istio containers are automatically injected when the pods are started:
 `kubectl label namespace default istio-injection=enabled`
 
-* Deploy the microservices using `kubectl`
+* Deploy the infrastructure for the microservices using `kubectl`:
 `microservice-kubernetes-demo` :
 
 ```
-[~/microservice-istio/microservice-istio]kubectl apply -f microservices.yaml
+[~/microservice-istio/microservice-istio]kubectl apply -f infrastructure.yaml
 deployment.apps/apache created
 deployment.apps/postgres created
-deployment.apps/catalog created
-deployment.apps/customer created
-deployment.apps/order created
 service/apache created
 service/postgres created
-service/catalog created
-service/customer created
-service/order created
 gateway.networking.istio.io/microservice-gateway created
-virtualservice.networking.istio.io/customer created
-virtualservice.networking.istio.io/catalog created
-virtualservice.networking.istio.io/order created
 virtualservice.networking.istio.io/apache created
+```
+
+
+* Deploy the microservices using `kubectl`:
+
+
+```
+[~/microservice-istio/microservice-istio]kubectl apply -f microservices.yaml
+deployment.apps/invoicing created
+deployment.apps/shipping created
+deployment.apps/order created
+service/invoicing created
+service/shipping created
+service/order created
+virtualservice.networking.istio.io/shipping created
+virtualservice.networking.istio.io/invoicing created
+virtualservice.networking.istio.io/order created
 ```
 
 That deploys the images. It creates Pods. Pods might contain one or
@@ -456,17 +464,24 @@ https://istio.io/docs/tasks/traffic-management/request-timeouts/ .
 
 ```
 [~/microservice-istio/microservice-istio]kubectl  delete -f microservices.yaml
-deployment.apps "apache" deleted
 deployment.apps "catalog" deleted
 deployment.apps "customer" deleted
 deployment.apps "order" deleted
-service "apache" deleted
 service "catalog" deleted
 service "customer" deleted
 service "order" deleted
-gateway.networking.istio.io "microservice-gateway" deleted
 virtualservice.networking.istio.io "customer" deleted
 virtualservice.networking.istio.io "catalog" deleted
 virtualservice.networking.istio.io "order" deleted
+```
+
+* Then remove the infrastructure - run `kubectl  delete -f
+  infrastructure.yaml`:
+
+```
+[~/microservice-istio/microservice-istio]kubectl  delete -f infrastructure.yaml
+deployment.apps "apache" deleted
+service "apache" deleted
+gateway.networking.istio.io "microservice-gateway" deleted
 virtualservice.networking.istio.io "apache" deleted
 ```
