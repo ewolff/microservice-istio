@@ -480,9 +480,89 @@ virtualservice.networking.istio.io "order" deleted
   infrastructure.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl  delete -f infrastructure.yaml
+[~/microservice-istio/microservice-istio-demo]kubectl  delete -f infrastructure.yaml
 deployment.apps "apache" deleted
 service "apache" deleted
 gateway.networking.istio.io "microservice-gateway" deleted
 virtualservice.networking.istio.io "apache" deleted
 ```
+
+## Installation with Heml
+
+The Kubernetes configuration for the microservices are very
+similar. It therefore makes sense to use a template and parameterize
+it. [Helm](https://helm.sh/) is a tool to create such template and use
+them to deploy Kubernetes systems. The templates are called Helm Charts.
+
+* Install Helm, see
+https://github.com/helm/helm/blob/master/docs/install.md
+
+* To actually use Helm on the Kubernetes cluster, you need to run
+  `helm init`.
+
+* To install one of the microservices `order`, `shipping`, and
+  `invoicing` you just need to run `helm install --set name=order
+  ../spring-boot-microservice/`. `../spring-boot-microservice` is the
+  directory that contains the Helm Chart.
+  
+* The file `spring-boot-microservice/values.yaml` contains the other
+  values like `name` that can be changed for an installation.
+
+* `helm install --dry-run --set name=order
+  ../spring-boot-microservice/`. `../spring-boot-microservice` does a
+  dry run i.e. nothing is actually changed.
+
+* You can also use the shell scritp `install-helm.sh` that contains
+all the necessary `helm`commands to run all three microservices:
+
+```
+[~/microservice-istio/microservice-istio-demo]./install-helm.sh
+NAME:   wobbling-billygoat
+LAST DEPLOYED: Wed Jan 16 10:07:50 2019
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Pod(related)
+NAME                    READY  STATUS   RESTARTS  AGE
+order-79cd6c8844-vhcqj  0/2    Pending  0         0s
+
+==> v1/Service
+NAME   TYPE      CLUSTER-IP      EXTERNAL-IP  PORT(S)         AGE
+order  NodePort  10.109.102.171  <none>       8080:31666/TCP  0s
+
+==> v1beta1/Deployment
+NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+order  1        1        1           0          0s
+...
+```
+
+* The result are multiple installation of the Helm Chart with
+  different parameters. The one in the console output is called
+  `wobbling-billygoat`. That name is automatically generated.
+
+
+## Clean-Up Helm installation
+
+* First you need to figure out the names of the Helm Chart installations:
+
+```
+[~/microservice-istio/microservice-istio-demo] helm list
+NAME            REVISION        UPDATED                         STATUS          CHART                           APP VERSION                                          NAMESPACE
+flabby-abalone  1               Wed Jan 16 08:21:50 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
+insipid-puma    1               Wed Jan 16 08:21:57 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
+lame-skunk      1               Wed Jan 16 08:21:40 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
+``` 
+
+* Then you can delete by name:
+
+``` 
+[~/microservice-istio/microservice-istio-demo] helm delete flabby-abalone
+release "flabby-abalone" deleted
+[~/microservice-istio/microservice-istio-demo] helm delete insipid-puma
+,release "insipid-puma" deleted
+[~/microservice-istio/microservice-istio-demo] helm delete lame-skunk
+release "lame-skunk" deleted
+``` 
+
+
