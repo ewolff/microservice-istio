@@ -487,7 +487,7 @@ gateway.networking.istio.io "microservice-gateway" deleted
 virtualservice.networking.istio.io "apache" deleted
 ```
 
-## Installation with Heml
+## Installation with Helm
 
 The Kubernetes configuration for the microservices are very
 similar. It therefore makes sense to use a template and parameterize
@@ -499,6 +499,9 @@ https://github.com/helm/helm/blob/master/docs/install.md
 
 * To actually use Helm on the Kubernetes cluster, you need to run
   `helm init`.
+  
+* Make sure that the infrastructure is deployed with `kubectl apply -f
+  infrastructure.yaml`, see above.
 
 * To install one of the microservices `order`, `shipping`, and
   `invoicing` you just need to run `helm install --set name=order
@@ -566,3 +569,5 @@ release "lame-skunk" deleted
 ``` 
 
 
+* You can also remove the infrastructure with `kubectl delete -f
+  infrastructure.yaml`.
