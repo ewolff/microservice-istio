@@ -368,7 +368,7 @@ This page has links to all other services.
 Istio comes with an installation of [Prometheus](https://prometheus.io/). It collects metrics from the
 proxies of the services. This is the foundation for monitoring.
 
-Enter `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090` to create a proxy for the Prometheus service. 
+Enter `kubectl -n istio-system port-forward deployment/prometheus 9090:9090` to create a proxy for the Prometheus service. 
 
 You can access Prometheus at http://localhost:9090/ then.
 
@@ -378,14 +378,14 @@ You can also use the shell script `monitoring-prometheus.sh`.
 
 Prometheus has only very limited dashboards. Therefore Istio comes with an installation of [Grafana](https://grafana.com/) that provides much better graphs and dashboards.
 
-Enter `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000` to create a proxy for the Grafana service. You can access the service at http://localhost:3000/ then. There are quite a few predefined dashboards.
+Enter `kubectl -n istio-system port-forward deployment/grafana 3000:3000` to create a proxy for the Grafana service. You can access the service at http://localhost:3000/ then. There are quite a few predefined dashboards.
 
 You can also use the shell script `monitoring-grafana.sh`.
 
 ## Tracing
 
 [Jaeger](https://www.jaegertracing.io/) is a system to trace calls between microservices.
-Istio provides an installation of Jaeger. If you run `kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686` you can access it at http://localhost:16686/ .
+Istio provides an installation of Jaeger. If you run `kubectl -n istio-system port-forward deployment/istio-tracing 16686:16686` you can access it at http://localhost:16686/ .
 
 You can also use the shell script `tracing.sh`.
 
@@ -408,9 +408,10 @@ To use the log infrastructure, it must be started with `kubectl apply
 -f logging.yaml`.
 
 
-`kubectl -n logging port-forward $(kubectl -n logging get pod -l
-app=kibana -o jsonpath='{.items[0].metadata.name}') 5601:5601` starts
+`kubectl -n logging port-forward deployment/kibana 5601:5601`
+starts
 a proxy for Kibana so it can be reached at http://localhost:5601/ .
+You can also use `kibana.sh`.
 
 If the microservices are started without an Elasticsearch server, they
 won't try to access it again after the startup. You might therefore
