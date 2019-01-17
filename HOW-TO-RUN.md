@@ -356,7 +356,7 @@ microservice-gateway   30m
 `192.168.99.104`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]minikube ip -p istio2
+[~/microservice-istio/microservice-istio-demo]minikube ip
 192.168.99.104
 ```
 
