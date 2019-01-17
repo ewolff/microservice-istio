@@ -260,18 +260,17 @@ Events:                   <none>kubectl describe services
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl get pods
 NAME                        READY   STATUS    RESTARTS   AGE
-apache-64f9b9545d-f5t6c     2/2     Running   0          5m12s
-catalog-668455c696-5qf6q    2/2     Running   0          5m12s
-customer-7bd99568cd-brsnk   2/2     Running   0          5m12s
-order-67d6c6f756-5l2jb      2/2     Running   0          5m12s
+apache-7f7f7f79c6-jbqx8      2/2     Running   0          8m51s
+invoicing-77f69ff854-rpcbk   2/2     Running   0          8m43s
+order-cc7f8866-9zbnf         2/2     Running   0          8m43s
+postgres-5ddddbbf8f-xfng5    2/2     Running   0          8m51s
+shipping-5d58798cdd-9jqj8    2/2     Running   0          8m43s
 ```
 
 * ...and you can see the logs of a pod:
 
 ```
-wolff@BLACK-HARDWARE:~/win/microservice-istio/microservice-istio-demo$ kubectl logs catalog-668455c696-5qf6q catalog
-2019-01-07 15:14:00.932  INFO [-,,,] 7 --- [           main] s.c.a.AnnotationConfigApplicationContext : Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@5c6648b0: startup date [Mon Jan 07 15:14:00 UTC 2019]; root of context hierarchy
-2019-01-07 15:14:02.440  INFO [-,,,] 7 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$c87046ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+~/microservice-istio/microservice-istio-demo$ kubectl logs order-cc7f8866-9zbnf order 
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -281,21 +280,21 @@ wolff@BLACK-HARDWARE:~/win/microservice-istio/microservice-istio-demo$ kubectl l
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.0.6.RELEASE)
 
-2019-01-07 15:14:03.480  INFO [catalog,,,] 7 --- [           main] c.e.microservice.catalog.CatalogApp      : No active profile set, falling back to default profiles: default
-2019-01-07 15:14:03.535  INFO [catalog,,,] 7 --- [           main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@57c03d88: startup date [Mon Jan 07 15:14:03 UTC 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@5c6648b0
-...
-2019-01-07 15:14:50.636  INFO [catalog,,,] 7 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
-2019-01-07 15:14:50.923  INFO [catalog,,,] 7 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2019-01-07 15:14:50.981  INFO [catalog,,,] 7 --- [           main] c.e.microservice.catalog.CatalogApp      : Started CatalogApp in 55.296 seconds (JVM running for 57.545)
+2019-01-17 16:56:30.909  INFO 6 --- [           main] com.ewolff.microservice.order.OrderApp   : Starting OrderApp v0.0.1-SNAPSHOT on order-cc7f8866-9zbnf with PID 6 (/microservice-istio-order-0.0.1-SNAPSHOT.jar started by root in /)
+2019-01-17 16:56:30.918  INFO 6 --- [           main] com.ewolff.microservice.order.OrderApp   : No active profile set, falling back to default profiles: default
+2019-01-17 16:56:31.200  INFO 6 --- [    es-writer-1] es-logger                                : {"index":{"_index":"logs-2019-01-17","_type":"tester"}}
+{"@timestamp":"2019-01-17T16:56:30.909+0000","message":"Starting OrderApp v0.0.1-SNAPSHOT on order-cc7f8866-9zbnf with PID 6 (/microservice-istio-order-0.0.1-SNAPSHOT.jar started by root in /)","host":"order-cc7f8866-9zbnf","severity":"INFO","thread":"main","logger":"com.ewolff.microservice.order.OrderApp"}
+{"index":{"_index":"logs-2019-01-17","_type":"tester"}}
+{"@timestamp":"2019-01-17T16:56:30.918+0000","message":"No active profile set, falling back to default profiles: default","host":"order-cc7f8866-9zbnf","severity":"INFO","thread":"main","logger":"com.ewolff.microservice.order.OrderApp"}
 ...
 ```
 
 * You can also run commands in a pod:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl exec catalog-668455c696-5qf6q /bin/ls
-Defaulting container name to catalog.
-Use 'kubectl describe pod/catalog-668455c696-5qf6q -n default' to see all of the containers in this pod.
+[~/microservice-istio/microservice-istio-demo]kubectl exec order-cc7f8866-9zbnf /bin/ls
+Defaulting container name to order.
+Use 'kubectl describe pod/order-cc7f8866-9zbnf -n default' to see all of the containers in this pod.
 bin
 boot
 dev
@@ -307,7 +306,7 @@ lib32
 lib64
 libx32
 media
-microservice-istio-shipping-0.0.1-SNAPSHOT.jar
+microservice-istio-order-0.0.1-SNAPSHOT.jar
 mnt
 opt
 proc
@@ -324,14 +323,12 @@ var
 * You can even open a shell in a pod:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl exec catalog-668455c696-5qf6q -it /bin/sh
-Defaulting container name to catalog.
-Use 'kubectl describe pod/catalog-668455c696-5qf6q -n default' to see all of the containers in this pod.
+[~/microservice-istio/microservice-istio-demo]kubectl exec order-cc7f8866-9zbnf -it /bin/sh
+Defaulting container name to order.
+Use 'kubectl describe pod/order-cc7f8866-9zbnf -n default' to see all of the containers in this pod.
 # ls
-bin   docker-java-home  lib    libx32                                              mnt   root  srv  usr
-boot  etc               lib32  media                                               opt   run   sys  var
-dev   home              lib64  microservice-istio-shipping-0.0.1-SNAPSHOT.jar  proc  sbin  tmp
-# 
+bin  boot  dev	docker-java-home  etc  home  lib  lib32  lib64	libx32	media  microservice-istio-order-0.0.1-SNAPSHOT.jar  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+#
 ```
 
 ## Use the Demo
