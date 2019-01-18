@@ -34,12 +34,6 @@ Kubectl is now configured to use the cluster.
 
 * [Download](https://istio.io/docs/setup/kubernetes/download-release/) and [install](https://istio.io/docs/setup/kubernetes/quick-start/) Istio.
 
-After installation you will need to change the type of the istio-ingressgateway service from LoadBalancer to NodePort as we are on minikube which does not support LoadBalancer type services. 
-
-```
-kubectl patch service -n istio-system istio-ingressgateway -p'{"spec":{"type":"NodePort"}}'
-```
-
 ## Build the Docker images
 
 * The example is implemented in Java. See
