@@ -13,10 +13,11 @@ for developer environments.
 * Create a Minikube instance with `minikube start --cpus=2 --memory=6000`. This
   will set the memory of the Kubernetes VM to 6.000 MB - which should
   be enough for most experiments. You might want to adjust the number of CPUs
-  depending on you local machine.
+  depending on your local machine. Please make sure that you deleted any pre-existing 
+  minikube instance using `minikube delete` as the memory and cpu values would otherwise have no effect. 
 
 ```
-[~/microservice-istio]minikube start --memory=6000
+[~/microservice-istio]minikube start --cpus=2 --memory=6000
 Starting local Kubernetes v1.12.4 cluster...
 Starting VM...
 Getting VM IP address...
@@ -28,11 +29,16 @@ Starting cluster components...
 Kubectl is now configured to use the cluster.
 ```
 
-* Install
-  [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/). This
+* Install [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/). This
   is the command line interface for Kubernetes.
 
-* Install [istio](https://istio.io/docs/setup/kubernetes/quick-start/)
+* [Download](https://istio.io/docs/setup/kubernetes/download-release/) and [install](https://istio.io/docs/setup/kubernetes/quick-start/) Istio.
+
+After installation you will need to change the type of the istio-ingressgateway service from LoadBalancer to NodePort as we are on minikube which does not support LoadBalancer type services. 
+
+```
+kubectl patch service -n istio-system istio-ingressgateway -p'{"spec":{"type":"NodePort"}}'
+```
 
 ## Build the Docker images
 
@@ -52,7 +58,7 @@ Change to the directory `microservice-isitio-demo` and run `./mvnw clean
 package` or `mvnw.cmd clean package` (Windows). This will take a while:
 
 ```
-[~/microservice-istio/microservice-istio]./mvnw clean package
+[~/microservice-istio/microservice-istio-demo]./mvnw clean package
 ....
 [INFO] 
 [INFO] --- maven-jar-plugin:2.6:jar (default-jar) @ microservice-istio-order ---
@@ -96,7 +102,7 @@ Now the Java code has been compiles. The next step is to create Docker
 images:
 
 * Configure Docker so that it uses the Kubernetes cluster to install the
-Docker images: `minikube.exe docker-env` tells you how to do that.
+Docker images: `minikube docker-env`(MacOS or Linux) or `minikube.exe docker-env`(Windows) tells you how to do that. 
 
 * Afterwards you should see the Docker images of Kubernetes if you do `docker images`:
 
@@ -127,11 +133,11 @@ quay.io/coreos/hyperkube                  v1.7.6_coreos.0     2faf6f7a322f      
 ```
 
 * Run `docker-build.sh` in the directory
-`microservice-istio`. It builds the images and uploads them into the
+`microservice-istio-demo`. It builds the images and uploads them into the
 Kubernetes cluster.
 
 ```
-[~/microservice-istio/microservice-istio]./docker-build.sh 
+[~/microservice-istio/microservice-istio-demo]./docker-build.sh 
 ...
 Successfully tagged microservice-istio-invoicing:latest
 Sending build context to Docker daemon  47.88MB
@@ -154,7 +160,7 @@ Successfully tagged microservice-istio-order:latest
 * The images should now be available in the Kubernets cluster:
 
 ```
-[~/microservice-istio/microservice-istio]docker images
+[~/microservice-istio/microservice-istio-demo]docker images
 REPOSITORY                                TAG                 IMAGE ID            CREATED              SIZE
 microservice-istio-order             latest              b60004d121e5        About a minute ago   342MB
 microservice-istio-invoicing          latest              287e662e8111        About a minute ago   342MB
@@ -174,7 +180,7 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 `microservice-kubernetes-demo` :
 
 ```
-[~/microservice-istio/microservice-istio]kubectl apply -f infrastructure.yaml
+[~/microservice-istio/microservice-istio-demo]kubectl apply -f infrastructure.yaml
 deployment.apps/apache created
 deployment.apps/postgres created
 service/apache created
@@ -188,7 +194,7 @@ virtualservice.networking.istio.io/apache created
 
 
 ```
-[~/microservice-istio/microservice-istio]kubectl apply -f microservices.yaml
+[~/microservice-istio/microservice-istio-demo]kubectl apply -f microservices.yaml
 deployment.apps/invoicing created
 deployment.apps/shipping created
 deployment.apps/order created
@@ -215,7 +221,7 @@ balancing. To actually view the services:
 * Run `kubectl get services` to see all services:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl get services
+[~/microservice-istio/microservice-istio-demo]kubectl get services
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 apache       NodePort    10.110.196.4     <none>        80:31475/TCP     4m13s
 catalog      NodePort    10.96.45.251     <none>        8080:32300/TCP   4m13s
@@ -230,7 +236,7 @@ order        NodePort    10.109.230.95    <none>        8080:32182/TCP   4m13s
   deployments (`kubectl describe deployments`).
 
 ```
-[~/microservice-istio/microservice-istio]kubectl describe service order
+[~/microservice-istio/microservice-istio-demo]kubectl describe service order
 Name:                     order
 Namespace:                default
 Labels:                   run=order
@@ -252,20 +258,19 @@ Events:                   <none>kubectl describe services
 * You can also get a list of the pods:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl get pods
+[~/microservice-istio/microservice-istio-demo]kubectl get pods
 NAME                        READY   STATUS    RESTARTS   AGE
-apache-64f9b9545d-f5t6c     2/2     Running   0          5m12s
-catalog-668455c696-5qf6q    2/2     Running   0          5m12s
-customer-7bd99568cd-brsnk   2/2     Running   0          5m12s
-order-67d6c6f756-5l2jb      2/2     Running   0          5m12s
+apache-7f7f7f79c6-jbqx8      2/2     Running   0          8m51s
+invoicing-77f69ff854-rpcbk   2/2     Running   0          8m43s
+order-cc7f8866-9zbnf         2/2     Running   0          8m43s
+postgres-5ddddbbf8f-xfng5    2/2     Running   0          8m51s
+shipping-5d58798cdd-9jqj8    2/2     Running   0          8m43s
 ```
 
 * ...and you can see the logs of a pod:
 
 ```
-wolff@BLACK-HARDWARE:~/win/microservice-istio/microservice-istio$ kubectl logs catalog-668455c696-5qf6q catalog
-2019-01-07 15:14:00.932  INFO [-,,,] 7 --- [           main] s.c.a.AnnotationConfigApplicationContext : Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@5c6648b0: startup date [Mon Jan 07 15:14:00 UTC 2019]; root of context hierarchy
-2019-01-07 15:14:02.440  INFO [-,,,] 7 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$c87046ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+~/microservice-istio/microservice-istio-demo$ kubectl logs order-cc7f8866-9zbnf order 
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -275,21 +280,21 @@ wolff@BLACK-HARDWARE:~/win/microservice-istio/microservice-istio$ kubectl logs c
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::        (v2.0.6.RELEASE)
 
-2019-01-07 15:14:03.480  INFO [catalog,,,] 7 --- [           main] c.e.microservice.catalog.CatalogApp      : No active profile set, falling back to default profiles: default
-2019-01-07 15:14:03.535  INFO [catalog,,,] 7 --- [           main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@57c03d88: startup date [Mon Jan 07 15:14:03 UTC 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@5c6648b0
-...
-2019-01-07 15:14:50.636  INFO [catalog,,,] 7 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
-2019-01-07 15:14:50.923  INFO [catalog,,,] 7 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2019-01-07 15:14:50.981  INFO [catalog,,,] 7 --- [           main] c.e.microservice.catalog.CatalogApp      : Started CatalogApp in 55.296 seconds (JVM running for 57.545)
+2019-01-17 16:56:30.909  INFO 6 --- [           main] com.ewolff.microservice.order.OrderApp   : Starting OrderApp v0.0.1-SNAPSHOT on order-cc7f8866-9zbnf with PID 6 (/microservice-istio-order-0.0.1-SNAPSHOT.jar started by root in /)
+2019-01-17 16:56:30.918  INFO 6 --- [           main] com.ewolff.microservice.order.OrderApp   : No active profile set, falling back to default profiles: default
+2019-01-17 16:56:31.200  INFO 6 --- [    es-writer-1] es-logger                                : {"index":{"_index":"logs-2019-01-17","_type":"tester"}}
+{"@timestamp":"2019-01-17T16:56:30.909+0000","message":"Starting OrderApp v0.0.1-SNAPSHOT on order-cc7f8866-9zbnf with PID 6 (/microservice-istio-order-0.0.1-SNAPSHOT.jar started by root in /)","host":"order-cc7f8866-9zbnf","severity":"INFO","thread":"main","logger":"com.ewolff.microservice.order.OrderApp"}
+{"index":{"_index":"logs-2019-01-17","_type":"tester"}}
+{"@timestamp":"2019-01-17T16:56:30.918+0000","message":"No active profile set, falling back to default profiles: default","host":"order-cc7f8866-9zbnf","severity":"INFO","thread":"main","logger":"com.ewolff.microservice.order.OrderApp"}
 ...
 ```
 
 * You can also run commands in a pod:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl exec catalog-668455c696-5qf6q /bin/ls
-Defaulting container name to catalog.
-Use 'kubectl describe pod/catalog-668455c696-5qf6q -n default' to see all of the containers in this pod.
+[~/microservice-istio/microservice-istio-demo]kubectl exec order-cc7f8866-9zbnf /bin/ls
+Defaulting container name to order.
+Use 'kubectl describe pod/order-cc7f8866-9zbnf -n default' to see all of the containers in this pod.
 bin
 boot
 dev
@@ -301,7 +306,7 @@ lib32
 lib64
 libx32
 media
-microservice-istio-shipping-0.0.1-SNAPSHOT.jar
+microservice-istio-order-0.0.1-SNAPSHOT.jar
 mnt
 opt
 proc
@@ -318,14 +323,12 @@ var
 * You can even open a shell in a pod:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl exec catalog-668455c696-5qf6q -it /bin/sh
-Defaulting container name to catalog.
-Use 'kubectl describe pod/catalog-668455c696-5qf6q -n default' to see all of the containers in this pod.
+[~/microservice-istio/microservice-istio-demo]kubectl exec order-cc7f8866-9zbnf -it /bin/sh
+Defaulting container name to order.
+Use 'kubectl describe pod/order-cc7f8866-9zbnf -n default' to see all of the containers in this pod.
 # ls
-bin   docker-java-home  lib    libx32                                              mnt   root  srv  usr
-boot  etc               lib32  media                                               opt   run   sys  var
-dev   home              lib64  microservice-istio-shipping-0.0.1-SNAPSHOT.jar  proc  sbin  tmp
-# 
+bin  boot  dev	docker-java-home  etc  home  lib  lib32  lib64	libx32	media  microservice-istio-order-0.0.1-SNAPSHOT.jar  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+#
 ```
 
 ## Use the Demo
@@ -336,7 +339,7 @@ services.
 * Make sure the Ingress gatway works:
 
 ```
-[~/microservice-istio/microservice-istio] kubectl get gateway
+[~/microservice-istio/microservice-istio-demo] kubectl get gateway
 NAME                   AGE
 microservice-gateway   30m
 ```
@@ -345,7 +348,7 @@ microservice-gateway   30m
 * First figure out the port of the Ingress with `kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'`. In this case it's `31380`:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
+[~/microservice-istio/microservice-istio-demo]kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
 31380
 ```
 
@@ -353,7 +356,7 @@ microservice-gateway   30m
 `192.168.99.104`:
 
 ```
-[~/microservice-istio/microservice-istio]minikube ip -p istio2
+[~/microservice-istio/microservice-istio-demo]minikube ip
 192.168.99.104
 ```
 
@@ -464,7 +467,7 @@ https://istio.io/docs/tasks/traffic-management/request-timeouts/ .
 * To remove all services and deployments run `kubectl  delete -f microservices.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio]kubectl  delete -f microservices.yaml
+[~/microservice-istio/microservice-istio-demo]kubectl  delete -f microservices.yaml
 deployment.apps "catalog" deleted
 deployment.apps "customer" deleted
 deployment.apps "order" deleted
