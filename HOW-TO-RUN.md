@@ -33,6 +33,8 @@ Kubectl is now configured to use the cluster.
   is the command line interface for Kubernetes.
 
 * [Download](https://istio.io/docs/setup/kubernetes/download-release/) and [install](https://istio.io/docs/setup/kubernetes/quick-start/) Istio.
+It is enough to install Istio *without* mutual TLS authentication
+between sidecars.
 
 ## Build the Docker images
 
