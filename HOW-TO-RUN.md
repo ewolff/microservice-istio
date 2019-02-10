@@ -97,7 +97,8 @@ server runs in the background.
 Now the Java code has been compiles. The next step is to create Docker
 images:
 
-* Configure Docker so that it uses the Kubernetes cluster to install the
+* Configure Docker so that it uses the Kubernetes cluster. This is
+required to install the
 Docker images: `minikube docker-env`(MacOS or Linux) or `minikube.exe docker-env`(Windows) tells you how to do that. 
 
 * Afterwards you should see the Docker images of Kubernetes if you do `docker images`:
@@ -172,7 +173,8 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 * Make sure that the Istio containers are automatically injected when the pods are started:
 `kubectl label namespace default istio-injection=enabled`
 
-* Deploy the infrastructure for the microservices using `kubectl`:
+* Deploy the infrastructure for the microservices using `kubectl` in
+the directory
 `microservice-kubernetes-demo` :
 
 ```
@@ -202,8 +204,9 @@ virtualservice.networking.istio.io/invoicing created
 virtualservice.networking.istio.io/order created
 ```
 
-That deploys the images. It creates Pods. Pods might contain one or
-many Docker containers. In this case each Pod contains just one
+It creates Pods based on the Docker images created before. Pods might
+contain one or
+many Docker containers. In this case, each Pod contains just one
 Docker container.
 
 Note: The Postgres installation is very limited i.e. it is not ensured
