@@ -13,4 +13,3 @@ spec:
     route:
     - destination:
         host: order.default.svc.cluster.local
-        subset: v1
