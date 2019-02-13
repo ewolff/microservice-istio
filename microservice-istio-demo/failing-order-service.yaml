@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: order
+    app: order    
+    version: "1.0"
+    visualize: "true"
+  name: order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: order
+      app: order
+      version: "1.0"
+      serving: "true"    
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: order
+        app: order
+        version: "1.0"
+        serving: "true"    
+        visualize: "true"                
+    spec:
+      containers:
+      - name: order
+        image: microservice-istio-order:1
+        imagePullPolicy: Never        
+        ports:
+        - containerPort: 8080
+        env:
+          - name: FAILRANDOMLY
+            value: "true"
+        resources: {}
+status: {}
