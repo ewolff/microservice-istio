@@ -1,0 +1,42 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order-retry
+spec:
+  hosts:
+  - order.default.svc.cluster.local
+  http:
+  - retries:
+      attempts: 20
+      perTryTimeout: 5s
+    timeout: 10s
+    route:
+    - destination:
+        host: order.default.svc.cluster.local
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: order
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - microservice-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /order
+    rewrite:
+      uri: /
+    retries:
+      attempts: 20
+      perTryTimeout: 5s
+    timeout: 10s
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: order.default.svc.cluster.local
