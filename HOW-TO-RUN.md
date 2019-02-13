@@ -461,6 +461,19 @@ Note that you can also set a timeout so the system won't be waiting
 too long for a request to be handled, see
 https://istio.io/docs/tasks/traffic-management/request-timeouts/ .
 
+## Retry
+
+Use `kubectl apply -f failing-order-service.yaml` to deploy a version
+of the order microservice that answers 50% of all requests with an
+http status code of 500. If you access the order microservice's web UI
+or if you make shipping and invoicing poll the order microservice, you
+will receive an error.
+
+With `kubectl apply -f retry.yaml` you can make Istio retry requests
+to the order service. The configuration adds retries to the
+communication between the microservices as well as the access through
+the Istio gateway. So polling and the web UI will both work again.
+
 ## Clean Up
 
 * To remove all services and deployments run `kubectl  delete -f microservices.yaml`:
