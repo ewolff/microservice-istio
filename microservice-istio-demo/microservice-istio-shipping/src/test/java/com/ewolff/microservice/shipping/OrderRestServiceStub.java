@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("test")
 public class OrderRestServiceStub {
 
-	@RequestMapping(value = "/feed", method = RequestMethod.GET)
+	@RequestMapping(value = "/feed", method = RequestMethod.GET, produces="application/atom+xml")
 	public String feed() {
 		return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
 				"<feed xmlns=\"http://www.w3.org/2005/Atom\">" +

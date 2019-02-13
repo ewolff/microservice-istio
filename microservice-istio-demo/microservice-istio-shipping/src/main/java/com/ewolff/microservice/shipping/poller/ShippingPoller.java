@@ -54,6 +54,7 @@ public class ShippingPoller {
 
 	public void pollInternal() {
 		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.set(HttpHeaders.ACCEPT, "*/*");
 		if (lastModified != null) {
 			requestHeaders.set(HttpHeaders.IF_MODIFIED_SINCE, DateUtils.formatDate(lastModified));
 		}
