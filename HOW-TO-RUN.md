@@ -365,6 +365,86 @@ microservice-gateway   30m
 that URL, a static HTML page is shown which is served by the apache service.
 This page has links to all other services.
 
+## Adding another Microservice
+
+There is another microservice in the sub directory
+`microservice-istio-bonus`. To add the microservice to your system you
+can do the following:
+
+* Change to the directory `microservice-isitio-demo` and run `./mvnw clean
+package` or `mvnw.cmd clean package` (Windows) to compile the Java
+code.
+
+* Run `docker-build.sh` in the directory
+`microservice-istio-bonus`. It builds the images and uploads them into
+the Kubernetes cluster.
+
+* Deploy the microservice with `kubectl apply -f bonus.yaml`.
+
+* You can remove the microservice again with `kubectl delete -f bonus.yaml`.
+
+## Adding a Microservice with Helm
+
+You can also add the microservice with Helm.  [Helm](https://helm.sh/)
+is a package manager for Kubernetes that supports templates for
+Kubernetes configurations. That makes it easier to add a new
+microservice:
+
+* First you need to [install
+  Helm](https://docs.helm.sh/using_helm/#installing-helm) into the
+  Kubernetes cluster.
+  
+* The directory `spring-boot-microservice` contains a Helm chart for
+  the microservices in this project. So `helm install --set name=bonus
+  spring-boot-microservice/` is enough to deploy the microservice.
+  
+~~~~~~~~
+[~/microservice-istio] helm install --set name=bonus  spring-boot-microservice/
+NAME:   waxen-newt
+LAST DEPLOYED: Wed Feb 13 14:25:52 2019
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/Service
+NAME   TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)         AGE
+bonus  NodePort  10.108.31.211  <none>       8080:30878/TCP  5s
+
+==> v1beta1/Deployment
+NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+bonus  1        1        1           1          5s
+
+==> v1alpha3/VirtualService
+NAME   AGE
+bonus  1s
+
+==> v1/Pod(related)
+NAME                    READY  STATUS   RESTARTS  AGE
+bonus-55d854b9d9-sn4pm  2/2    Running  0         4s
+~~~~~
+
+* A name is automatically assigned to the release. In this example,
+  the name is `waxen-newt`. `helm list` provides a list of releases
+  that are currently installed.
+
+* You can remove the Helm release by using this assigned name
+  e.g. `helm delete waxen-newt`.
+
+#### Using the additonal microservice
+
+The bonus microservice is not included in the static web page that
+contains links to the other microservices. However, it can be accessed
+via the Ingress gateway. If the Ingress gateway's URL is
+<http://192.168.99.127:31380/>, you can access the bonus microservice
+at <http://192.168.99.127:31380/bonus>.
+
+Note that the bonus microservice does not show any revenue for the
+orders. This is because it requires a field `revenue` in the data the
+order microservice provides. That field is currently not included in
+the data structure. This shows that adding a new microservice might
+require changes to a common data structure. Such changes might also
+impact the other microservices.
+
 ## Prometheus
 
 Istio comes with an installation of [Prometheus](https://prometheus.io/). It collects metrics from the
