@@ -1,6 +1,8 @@
 Microservice Istio Sample
 =====================
 
+[Deutsche Anleitung zum Starten des Beispiels](WIE-LAUFEN.md)
+
 This demo uses [Kubernetes](https://kubernetes.io/) as Docker
 environment. Kubernetes also support service discovery and load
 balancing. An Apache httpd as a reverse proxy routes the calls to the
