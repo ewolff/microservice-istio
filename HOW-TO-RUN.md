@@ -50,8 +50,8 @@ between sidecars.
   Community Edition, see https://www.docker.com/community-edition/
   . You should be able to run `docker` after the installation.
 
-Change to the directory `microservice-isitio-demo` and run `./mvnw clean
-package` or `mvnw.cmd clean package` (Windows). This will take a while:
+Change to the directory `microservice-istio-demo` and run `./mvnw clean
+package` (macOS / Linux) or `mvnw.cmd clean package` (Windows). This will take a while:
 
 ```
 [~/microservice-istio/microservice-istio-demo]./mvnw clean package
@@ -99,7 +99,7 @@ images:
 
 * Configure Docker so that it uses the Kubernetes cluster. This is
 required to install the
-Docker images: `minikube docker-env`(MacOS or Linux) or `minikube.exe docker-env`(Windows) tells you how to do that. 
+Docker images: `minikube docker-env`(macOS / Linux) or `minikube.exe docker-env`(Windows) tells you how to do that. 
 
 * Afterwards you should see the Docker images of Kubernetes if you do `docker images`:
 
@@ -168,7 +168,7 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 ```
 
 
-## Run the containers
+## Run the Containers
 
 * Make sure that the Istio containers are automatically injected when the pods are started:
 `kubectl label namespace default istio-injection=enabled`
@@ -204,17 +204,19 @@ virtualservice.networking.istio.io/invoicing created
 virtualservice.networking.istio.io/order created
 ```
 
-It creates Pods based on the Docker images created before. Pods might
+The script creates Pods based on the Docker images created
+before. Pods might
 contain one or
-many Docker containers. In this case, each Pod contains just one
-Docker container.
+many Docker containers. In this case, each Pod contains one
+Docker container with the microservice and another one with Istio
+infrastructure is created automatically.
 
 Note: The Postgres installation is very limited i.e. it is not ensured
 that data survives restarts or changes in the cluster. However, for a demo
 this should be enough and it simplifies the setup.
 
-Also services are created. Services have a clusterwide unique IP
-adress and a DNS entry. Service can use many Pods to do load
+Also Kubernetes services are created. Services have a clusterwide unique IP
+address and a DNS entry. Service can use many Pods to do load
 balancing. To actually view the services:
 
 * Run `kubectl get services` to see all services:
@@ -230,9 +232,9 @@ order        NodePort    10.109.230.95    <none>        8080:32182/TCP   4m13s
 ```
 
 
-* Run `kubectl describe services` for more
-  details. This also works for pods (`kubectl describe pods`) and
-  deployments (`kubectl describe deployments`).
+* Run `kubectl describe service` for more
+  details. This also works for pods (`kubectl describe pod`) and
+  deployments (`kubectl describe deployment`).
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl describe service order
@@ -335,7 +337,7 @@ bin  boot  dev	docker-java-home  etc  home  lib  lib32  lib64	libx32	media  micr
 The demo is available via an Ingress that provides access to all the
 services.
 
-* Make sure the Ingress gatway works:
+* Make sure the Ingress gateway works:
 
 ```
 [~/microservice-istio/microservice-istio-demo] kubectl get gateway
@@ -371,12 +373,13 @@ There is another microservice in the sub directory
 `microservice-istio-bonus`. To add the microservice to your system you
 can do the following:
 
-* Change to the directory `microservice-isitio-demo` and run `./mvnw clean
-package` or `mvnw.cmd clean package` (Windows) to compile the Java
+* Change to the directory `microservice-istio-bonus` and run `./mvnw clean
+package` (macOS / Linux) or `mvnw.cmd clean package` (Windows) to
+compile the Java 
 code.
 
 * Run `docker-build.sh` in the directory
-`microservice-istio-bonus`. It builds the images and uploads them into
+`microservice-istio-bonus`. It builds the Docker images and uploads them into
 the Kubernetes cluster.
 
 * Deploy the microservice with `kubectl apply -f bonus.yaml`.
@@ -398,7 +401,7 @@ microservice:
   the microservices in this project. So `helm install --set name=bonus
   spring-boot-microservice/` is enough to deploy the microservice.
   
-~~~~~~~~
+```
 [~/microservice-istio] helm install --set name=bonus  spring-boot-microservice/
 NAME:   waxen-newt
 LAST DEPLOYED: Wed Feb 13 14:25:52 2019
@@ -421,9 +424,9 @@ bonus  1s
 ==> v1/Pod(related)
 NAME                    READY  STATUS   RESTARTS  AGE
 bonus-55d854b9d9-sn4pm  2/2    Running  0         4s
-~~~~~
+```
 
-* A name is automatically assigned to the release. In this example,
+* A name is automatically assigned to the Helm release. In this example,
   the name is `waxen-newt`. `helm list` provides a list of releases
   that are currently installed.
 
@@ -435,8 +438,8 @@ bonus-55d854b9d9-sn4pm  2/2    Running  0         4s
 The bonus microservice is not included in the static web page that
 contains links to the other microservices. However, it can be accessed
 via the Ingress gateway. If the Ingress gateway's URL is
-<http://192.168.99.127:31380/>, you can access the bonus microservice
-at <http://192.168.99.127:31380/bonus>.
+http://192.168.99.127:31380/, you can access the bonus microservice
+at http://192.168.99.127:31380/bonus.
 
 Note that the bonus microservice does not show any revenue for the
 orders. This is because it requires a field `revenue` in the data the
@@ -460,14 +463,18 @@ You can also use the shell script `monitoring-prometheus.sh`.
 
 Prometheus has only very limited dashboards. Therefore Istio comes with an installation of [Grafana](https://grafana.com/) that provides much better graphs and dashboards.
 
-Enter `kubectl -n istio-system port-forward deployment/grafana 3000:3000` to create a proxy for the Grafana service. You can access the service at http://localhost:3000/ then. There are quite a few predefined dashboards.
+Enter `kubectl -n istio-system port-forward deployment/grafana
+3000:3000` to create a proxy for the Grafana service. You can access
+the tool at http://localhost:3000/ then. There are quite a few predefined dashboards.
 
 You can also use the shell script `monitoring-grafana.sh`.
 
 ## Tracing
 
 [Jaeger](https://www.jaegertracing.io/) is a system to trace calls between microservices.
-Istio provides an installation of Jaeger. If you run `kubectl -n istio-system port-forward deployment/istio-tracing 16686:16686` you can access it at http://localhost:16686/ .
+Istio provides an installation of Jaeger. If you run `kubectl -n
+istio-system port-forward deployment/istio-tracing 16686:16686` you
+can access it at http://localhost:16686/ .
 
 You can also use the shell script `tracing.sh`.
 
@@ -483,7 +490,7 @@ the system, the logs must be stored in a centralized system.
 The demo uses
 [Elasticsearch](https://www.elastic.co/products/elasticsearch) to
 store the logs. Microservices write their logs directly to
-Elasticsearchs. [Kibana](https://www.elastic.co/products/kibana) is
+Elasticsearch. [Kibana](https://www.elastic.co/products/kibana) is
 used to display and analyze the logs.
 
 To use the log infrastructure, it must be started with `kubectl apply
@@ -500,19 +507,19 @@ won't try to access it again after the startup. You might therefore
 need to restart all microservices by doing `kubectl delete -f
 microservices.yaml` and `kubectl apply -f microservices.yaml`.
 
-The logging infrastructure can be removed with `kubectl delete -f
+The log infrastructure can be removed with `kubectl delete -f
 logging.yaml`.
 
 ## Fault Injection
 
-Instio provides feature to add fault scenarios to the
-system. `fault-injection.yaml` adds a 30s delay to REST requests to
-the order services. You can add it to the system with `kubectl apply
--f fault-injection.yaml` . If you make the systems poll new
+Istio provides feature to add fault scenarios to the
+system. That makes it possible to test the system's resilience.
+`fault-injection.yaml` adds a 30s delay to REST requests to
+the order microservice. You can add it to the system with `kubectl apply
+-f fault-injection.yaml` . If you make the shipping or invoicing
+microservices poll new
 information from the order microservice now, this takes quite a while
 and finally ends in an error.
-
-This is useful to simulate an error in the system.
 
 To remove the fault injection again, just use `kubectl delete -f
 fault-injection.yaml`.
@@ -521,9 +528,11 @@ fault-injection.yaml`.
 
 Istio provides a circuit breaker. If a system is too slow or
 generates errors, it does not make a lot of sense to still send all
-requests to the system. Therefore Istio can have a rule that takes the
-traffic and triggers a circuit breaker if a certain number of requests
-are waiting to be processed.
+requests to the system. Therefore Istio can have a rule that triggers
+a circuit breaker if a certain number of requests
+are waiting to be processed or run into errors.
+In that case the requests are no longer forwarded to the system but an
+error is returned.
 
 Use `kubectl apply -f cicuit-breaker.yaml` to activate the rule and
 limit the number of concurrent requests so much that it is easy to
@@ -531,7 +540,7 @@ overload the system. Then put some load on the system. There is a very
 simple shell script that uses cURL to generate some load, so starting
 `./load.sh "-X POST http://192.168.99.110:31380/invoicing/poll" &` a
 few times should be enough. You will see some HTTP 500 in the
-output. If you do additional `curl -X POST
+output that the circuit breaker has caused. If you do additional `curl -X POST
 http://192.168.99.110:31380/invoicing/poll`, quite a few of them will
 also result in a 500. Use `ingress-url.sh` to figure out the URL.
 
@@ -547,12 +556,12 @@ Use `kubectl apply -f failing-order-service.yaml` to deploy a version
 of the order microservice that answers 50% of all requests with an
 http status code of 500. If you access the order microservice's web UI
 or if you make shipping and invoicing poll the order microservice, you
-will receive an error.
+will likely receive an error.
 
 With `kubectl apply -f retry.yaml` you can make Istio retry requests
 to the order service. The configuration adds retries to the
 communication between the microservices as well as the access through
-the Istio gateway. So polling and the web UI will both work again.
+the Ingress gateway. So polling and the web UI will both work again.
 
 ## Clean Up
 
@@ -604,11 +613,11 @@ https://github.com/helm/helm/blob/master/docs/install.md
   directory that contains the Helm Chart.
   
 * The file `spring-boot-microservice/values.yaml` contains the other
-  values like `name` that can be changed for an installation.
+  values that can be changed for an installation just like `name`.
 
 * `helm install --dry-run --set name=order
   ../spring-boot-microservice/`. `../spring-boot-microservice` does a
-  dry run i.e. nothing is actually changed.
+  dry run i.e. nothing is actually changed. Just the logs are shown.
 
 * You can also use the shell scritp `install-helm.sh` that contains
 all the necessary `helm`commands to run all three microservices:
@@ -635,14 +644,14 @@ order  1        1        1           0          0s
 ...
 ```
 
-* The result are multiple installation of the Helm Chart with
-  different parameters. The one in the console output is called
-  `wobbling-billygoat`. That name is automatically generated.
+* The result are multiple releases of the Helm Chart with
+  different parameters. The one in the console output above is called
+  `wobbling-billygoat` for example. That name is automatically generated.
 
 
 ## Clean-Up Helm installation
 
-* First you need to figure out the names of the Helm Chart installations:
+* First you need to figure out the names of the Helm releases:
 
 ```
 [~/microservice-istio/microservice-istio-demo] helm list
