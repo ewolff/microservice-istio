@@ -1,4 +1,4 @@
-# How to Run
+# Beispiel starten
 
 Die ist eine Schritt-für-Schritt-Anleitung zum Starten der Beispiele.
 Informationen zu Maven und Docker finden sich im
@@ -47,7 +47,7 @@ und [installiere
 es](https://istio.io/docs/setup/kubernetes/quick-start/). Für das
 Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
 
-## Docker Images bauen (optional)
+## Docker Images bauen
 
 * Die Beispiele sind in Java implementiert. Daher muss Java
   installiert werden. Die Anleitung findet sich unter
