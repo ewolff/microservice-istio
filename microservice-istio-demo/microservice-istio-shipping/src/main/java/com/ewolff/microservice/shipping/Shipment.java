@@ -34,13 +34,15 @@ public class Shipment {
 
 	private String deliveryService;
 
+	private int cost;
+
 	public Shipment() {
 		super();
 		shipmentLine = new ArrayList<ShipmentLine>();
 	}
 
-	public Shipment(long id, Customer customer, Date updated, Address shippingAddress,
-			List<ShipmentLine> shipmentLine, String deliveryService) {
+	public Shipment(long id, Customer customer, Date updated, Address shippingAddress, List<ShipmentLine> shipmentLine,
+			String deliveryService) {
 		super();
 		this.id = id;
 		this.customer = customer;
@@ -126,5 +128,13 @@ public class Shipment {
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public int getCost() {
+		return cost;
 	}
 }

@@ -43,4 +43,26 @@ public class ShippingServiceTest {
 		assertThat(shipmentRepository.findById(42L).get().getUpdated().getTime(), equalTo(0L));
 	}
 
+
+	@Test
+	public void ensureShipmentRateCalculted() {
+		Shipment shipment = new Shipment(43L,
+				new Customer(23L, "Eberhard", "Wolff"),
+				new Date(0L), new Address("Krischstr. 100", "40789", "Monheim am Rhein"),
+				new ArrayList<ShipmentLine>(),"DHL");
+		shipmentService.ship(shipment);
+		assertThat(shipment.getCost(), is(1));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void ensureUnkownShipmentError() {
+		Shipment shipment = new Shipment(44L,
+				new Customer(23L, "Eberhard", "Wolff"),
+				new Date(0L), new Address("Krischstr. 100", "40789", "Monheim am Rhein"),
+				new ArrayList<ShipmentLine>(),"Unkown Service");
+		shipmentService.ship(shipment);
+	}
+
+	
+	
 }
