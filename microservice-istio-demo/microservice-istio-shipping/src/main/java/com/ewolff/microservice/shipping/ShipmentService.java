@@ -24,13 +24,7 @@ public class ShipmentService {
 		if (shipmentRepository.existsById(shipment.getId())) {
 			log.info("Shipment id {} already exists - ignored", shipment.getId());
 		} else {
-			if (shipment.getDeliveryService().equalsIgnoreCase("DHL")) {
-				shipment.setCost(1);
-			} else if (shipment.getDeliveryService().equalsIgnoreCase("Hermes")) {
-				shipment.setCost(2);
-			} else {
-				throw new IllegalArgumentException("Unknow Delivery Service!");
-			}
+			shipment.calculateShippingCost();
 			shipmentRepository.save(shipment);
 		}
 	}

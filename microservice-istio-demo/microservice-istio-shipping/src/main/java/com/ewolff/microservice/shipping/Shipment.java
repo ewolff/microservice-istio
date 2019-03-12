@@ -137,4 +137,14 @@ public class Shipment {
 	public int getCost() {
 		return cost;
 	}
+
+	public void calculateShippingCost() {
+		if (getDeliveryService().equalsIgnoreCase("DHL")) {
+			setCost(1);
+		} else if (getDeliveryService().equalsIgnoreCase("Hermes")) {
+			setCost(2);
+		} else {
+			throw new IllegalArgumentException("Unknow Delivery Service!");
+		}
+	}
 }
