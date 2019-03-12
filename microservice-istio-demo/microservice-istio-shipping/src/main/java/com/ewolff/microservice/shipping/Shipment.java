@@ -144,7 +144,7 @@ public class Shipment {
 		} else if (getDeliveryService().equalsIgnoreCase("Hermes")) {
 			setCost(2);
 		} else {
-			throw new IllegalArgumentException("Unknow Delivery Service!");
+			throw new IllegalArgumentException("Unknown Delivery Service!");
 		}
 	}
 }
