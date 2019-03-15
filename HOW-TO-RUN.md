@@ -138,7 +138,7 @@ Kubernetes cluster.
 ...
 Successfully tagged microservice-istio-invoicing:latest
 Sending build context to Docker daemon  47.88MB
-Step 1/4 : FROM openjdk:10.0.2-jre-slim
+Step 1/4 : FROM openjdk:11.0.2-jre-slim
  ---> 4bd06752ac4a
 Step 2/4 : COPY target/microservice-istio-order-0.0.1-SNAPSHOT.jar .
  ---> 31d666e6ecab
