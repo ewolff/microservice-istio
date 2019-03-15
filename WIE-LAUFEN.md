@@ -5,7 +5,7 @@ Informationen zu Maven und Docker finden sich im
 [Cheatsheet-Projekt](https://github.com/ewolff/cheatsheets-DE).
 
 
-## Installation
+## Installation Minikube
 
 * Installiere
 [minikube](https://github.com/kubernetes/minikube/releases). Minikube
@@ -39,7 +39,52 @@ Kubectl is now configured to use the cluster.
 * Installiere
   [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/). Das
   ist das Kommandozeilenwerkzeug für den Umgang mit Kubernetes.
+
+## Installation Google Cloud
+
+* Registriere Dich bei der [Google Cloud](https://cloud.google.com/).
+
+* Gehe zut [Kubernetes Engine Page](https://console.cloud.google.com/projectselector/kubernetes?_ga=2.66966445.-2058400183.1547494992)
+
+* Erzeuge ein Projekt oder wähle eines aus.
+
+Hinweis: Die Installation und alle folgende Schritte kann man in der
+[Google Cloud Shell](https://cloud.google.com/shell/docs/)
+durchführen.  Die Google Cloud Shell bietet Zugriff auf ein
+Linux-System. Daher ist es nicht notwendig, Software auf der lokalen
+Maschine zu installieren. Ein Web Browser ist völlig ausreichend.
+
+Sonst muss das [Google Cloud
+ SDK](https://cloud.google.com/sdk/docs/quickstarts) und
+ [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/)
+ installiert werden.
+
+* Wähle das Projekt aus der Kubernetes Engine Page mit `gcloud
+  config set project <projekt name>` aus.
+
+* Wähle ein Rechenzentrum, z.B. das in Frankfurt: `gcloud config set
+  compute/zone europe-west3-a`
   
+* Definiere die `PROJECT_ID` mit `export PROJECT_ID="$(gcloud config
+  get-value project -q)"`
+  
+* Konfiguriere Docker `gcloud auth configure-docker`
+
+* Erzeuge einen Cluster mit `gcloud container clusters create
+  hello-cluster --num-nodes=3`
+  
+* Weise dem Nutzer die Rechte zu, die für einen Installation von
+  Kubernetes notwendig sind: `kubectl create clusterrolebinding
+  cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud
+  config get-value core/account)`
+  
+
+
+## Installation von Istio
+
+Dieser und die folgenden Schritte können entweder auf der
+Kommandozeile (Minkube / Google Cloud) oder in der Google Cloud Shell
+durchgeführt werden.
 
 * [Lade Istio
 herunter](https://istio.io/docs/setup/kubernetes/download-release/)
@@ -55,9 +100,11 @@ Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
   Beispiele kompiliert werden müssen, muss ein JDK (Java Development
   Kit) installiert werden. Das JRE (Java Runtime Environment) reicht
   nicht aus. Nach der Installation sollte sowohl `java` und `javac` in
-  der Eingabeaufforderung möglich sein.
-
-
+  der Eingabeaufforderung möglich sein.  Das Beispiel benötigt
+  mindestens Java 10. In der Google Cloud Shell kann man Java 11 mit
+  `sudo update-java-alternatives -s java-1.11.0-openjdk-amd64 &&
+  export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64` auswählen.
+  
 * Die Beispiele laufen in Docker Containern. Dazu ist eine
   Installation von Docker Community Edition notwendig, siehe
   https://www.docker.com/community-edition/ . Docker kann mit
@@ -116,12 +163,12 @@ einfach löschen.
 Der Java-Code ist nun kompiliert. Der nächste Schritt ist, die Docker
 Images zu erstellen:
 
-* Konfiguriere Docker so, dass es den Kubernetes Cluster nutzt. Nur so
+* Nur Minikube: Konfiguriere Docker so, dass es den Kubernetes Cluster nutzt. Nur so
   können die Docker Images in den Kubernetes Cluster übertragen
   werden: `minikube docker-env`(macOS / Linux) oder `minikube.exe
   docker-env`(Windows) beschreibt, wie man dafür vorgehen muss.
 
-* Danach sollte `docker images` die Kubernetes Docker Images anzeigen:
+* Nur Minikube: Danach sollte `docker images` die Kubernetes Docker Images anzeigen:
 
 ```
 [~/microservice-istio/microservice-istio]docker images
@@ -151,7 +198,7 @@ quay.io/coreos/hyperkube                  v1.7.6_coreos.0     2faf6f7a322f      
 
 * Starte `docker-build.sh` im Verzeichnis
 `microservice-istio-demo`. Das Skript kompiliert erzeugt die Docker
-Images und lädt sie in den Cluster hoch.
+Images.
 
 ```
 [~/microservice-istio/microservice-istio-demo]./docker-build.sh 
@@ -174,7 +221,7 @@ Successfully built b60004d121e5
 Successfully tagged microservice-istio-order:latest
 ```
 
-* Die Images sollten nun im Kubernetes Cluster verfügbar sein:
+* Die Images sollten nun verfügbar sein:
 
 ```
 [~/microservice-istio/microservice-istio-demo]docker images
@@ -186,13 +233,19 @@ microservice-istio-apache            latest              eff5fd508880        Abo
 microservice-istio-postgres          latest              deadbeef8880        About a minute ago   42MB
 ...
 ```
-
+* Nur Google Cloud: Lade die Docker Images mit `docker-push-gpc.sh` in
+  die Cloud hoch.
 
 ## Container starten
 
 * Konfiguriere Istio so, dass die Istio Container automatisch in die
 Kubernetes Pods injiziert werden: `kubectl label namespace default
 istio-injection=enabled`
+
+* Nur Google Cloud: Modifiziere die YAML-Dateien so, dass sie die
+  Docker Images aus dem Google Docker Repository herunterladen mit
+  `fix-microservices-gpc.sh` 
+
 
 * Deploye die Infrastruktur für die Microservices mit `kubectl` im
 Verzeichnis `microservice-kubernetes-demo` :
@@ -364,28 +417,10 @@ NAME                   AGE
 microservice-gateway   30m
 ```
 
+* `ingress-url.sh`  gibt die Ingress-URL für Minikube aus. Für die
+  Google Cloud ist es `ingress-gpc.sh`
 
-* Ermittel den Port des Ingress mit  `kubectl -n istio-system get
-  service istio-ingressgateway -o
-  jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'`. In diesem
-  Fall ist es `31380`:
-
-```
-[~/microservice-istio/microservice-istio-demo]kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}'
-31380
-```
-
-* Ermittel dann die IP-Adresse der Minikube VM mit `minikube ip`. In
-diesem Fall ist es `192.168.99.104`:
-
-```
-[~/microservice-istio/microservice-istio-demo]minikube ip
-192.168.99.104
-```
-
-* `ingress-url.sh` enthält diese beiden Kommandos und gibt die URL aus.
-
-* Wenn Du nun die URL http://192.168.99.104:31380/ öffnest, dann wird
+* Wenn Du nun die Ingress URL öffnest, dann wird
 eine statische HTML-Seite angezeigt, die vom Apache-Webserver
 angezeigt wird. Sie hat Links zu den andern Microservices.
 
@@ -485,6 +520,9 @@ das Monitoring dar.
 Mit `kubectl -n istio-system port-forward deployment/prometheus
 9090:9090` kann man einen Proxy erzeugen, um dann auf Prometheus unter
 http://localhost:9090/ zuzugreifen. 
+In der Google Cloud Shell kann man die [Web
++Preview](https://cloud.google.com/shell/docs/using-web-preview)
+nutzen, um die Oberfläche im Browser anzuzeigen.
 
 Das Skript `monitoring-prometheus.sh` enthält ebenfalls diesen Befehl.
 
@@ -588,7 +626,8 @@ sollte reichen. In der Ausgabe wirst Du einige  HTTP-500-Fehler sehen,
 die der Circuit Breaker erzeugt hat. Weitere
 `curl -X POST http://192.168.99.110:31380/invoicing/poll`,
 werden mit hoher Wahrscheinlichkeit auch ein 500 zurückgeben. Nutze
-`ingress-url.sh`, um die richtige URL zu finden.
+`ingress-url.sh` (Minikube) oder `ingress-gpc.sh` (Google Cloud), um
+die richtige URL zu finden.
 
 Mit `kubectl apply -f cicuit-breaker.yaml` kann die Regel wieder
 entfernt werden.
