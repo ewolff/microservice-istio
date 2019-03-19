@@ -210,7 +210,7 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 ...
 ```
 
-* Google Cloud only: Upload the images to the Google Cloud with `./docker-push-gpc.sh`
+* Google Cloud only: Upload the images to the Google Cloud with `./docker-push-gcp.sh`
 
 
 ## Run the Containers
@@ -219,7 +219,7 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 `kubectl label namespace default istio-injection=enabled`
 
 * Google Cloud only: Modify the YAML files to load the Docker images
-  from the Google Docker repo with `fix-microservices-gpc.sh`
+  from the Google Docker repo with `fix-microservices-gcp.sh`
 
 * Deploy the infrastructure for the microservices using `kubectl` in
 the directory
@@ -394,7 +394,7 @@ microservice-gateway   30m
 ```
 
 * `ingress-url.sh` outputs the URL for the Ingress
-  gateway for minikube. For the Google Cloud, use `ingress-gpc.sh`
+  gateway for minikube. For the Google Cloud, use `ingress-gcp.sh`
 
 * If you open
 the Ingress URL, a static HTML page is shown which is served by the apache service.
@@ -579,7 +579,7 @@ few times should be enough. You will see some HTTP 500 in the
 output that the circuit breaker has caused. If you do additional `curl -X POST
 http://192.168.99.110:31380/invoicing/poll`, quite a few of them will
 also result in a 500. Use `ingress-url.sh` (minikube) or
-`ingress-gpc.sh` (Google Cloud) to figure out the URL.
+`ingress-gcp.sh` (Google Cloud) to figure out the URL.
 
 Use `kubectl apply -f cicuit-breaker.yaml` to remove the rule.
 
