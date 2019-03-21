@@ -3,8 +3,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: {{ quote .Values.name }}
-    visualize: "true"
+    app: {{ quote .Values.name }}
   name: {{ quote .Values.name }}
 spec:
   ports:
@@ -13,8 +12,7 @@ spec:
     targetPort: {{ .Values.port }}
     name: http    
   selector:
-    run: {{ quote .Values.name }}
-    serving: "true"    
+    app: {{ quote .Values.name }}
   type: NodePort
 status:
   loadBalancer: {}

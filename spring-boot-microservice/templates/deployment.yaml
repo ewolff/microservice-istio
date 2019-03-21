@@ -3,29 +3,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: {{ quote .Values.name }}
     app: {{ quote .Values.name }}
     version: {{ quote .Values.deploymentVersion }}
-    visualize: "true"        
   name: {{ quote .Values.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: {{ quote .Values.name }}
       app: {{ quote .Values.name }}
-      version: {{ quote .Values.deploymentVersion }}
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: {{ quote .Values.name }}
         app: {{ quote .Values.name }}
-        version: {{ quote .Values.deploymentVersion }}
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: {{ quote .Values.name }}

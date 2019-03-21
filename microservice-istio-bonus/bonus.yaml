@@ -3,29 +3,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: bonus
     app: bonus
     version: "1.0"
-    visualize: "true"        
   name: bonus
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: bonus
       app: bonus
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: bonus
         app: bonus
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: bonus
@@ -43,8 +34,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: bonus
-    visualize: "true"
+    app: bonus
   name: bonus
 spec:
   ports:
@@ -53,8 +43,7 @@ spec:
     targetPort: 8080
     name: http    
   selector:
-    run: bonus
-    serving: "true"    
+    app: bonus
   type: NodePort
 status:
   loadBalancer: {}

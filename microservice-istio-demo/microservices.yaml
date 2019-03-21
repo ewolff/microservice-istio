@@ -3,29 +3,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: invoicing
     app: invoicing
     version: "1.0"
-    visualize: "true"        
   name: invoicing
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: invoicing
       app: invoicing
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: invoicing
         app: invoicing
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: invoicing
@@ -52,29 +43,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: shipping
     app: shipping
     version: "1.0"
-    visualize: "true"        
   name: shipping
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: shipping
       app: shipping
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: shipping
         app: shipping
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: shipping
@@ -92,29 +74,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: order
     app: order    
     version: "1.0"
-    visualize: "true"
   name: order
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: order
       app: order
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: order
         app: order
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: order
@@ -132,8 +105,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: invoicing
-    visualize: "true"
+    app: invoicing
   name: invoicing
 spec:
   ports:
@@ -142,8 +114,7 @@ spec:
     targetPort: 8080
     name: http    
   selector:
-    run: invoicing
-    serving: "true"    
+    app: invoicing
   type: NodePort
 status:
   loadBalancer: {}
@@ -155,8 +126,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: shipping
-    visualize: "true"
+    app: shipping
   name: shipping
 spec:
   ports:
@@ -165,8 +135,7 @@ spec:
     targetPort: 8080
     name: http    
   selector:
-    run: shipping
-    serving: "true"    
+    app: shipping
   type: NodePort
 status:
   loadBalancer: {}
@@ -178,7 +147,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: order
+    app: order
     visualize: "true"
   name: order
 spec:
@@ -188,8 +157,7 @@ spec:
     targetPort: 8080
     name: http    
   selector:
-    run: order
-    serving: "true"    
+    app: order
   type: NodePort
 status:
   loadBalancer: {}

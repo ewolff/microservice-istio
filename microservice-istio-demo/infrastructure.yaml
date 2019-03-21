@@ -3,29 +3,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: apache
     app: apache
     version: "1.0"
-    visualize: "true"        
   name: apache
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: apache
       app: apache
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: apache
         app: apache
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: apache
@@ -43,10 +34,8 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    run: postgres
     app: postgres
     version: "1.0"
-    visualize: "true"        
   name: postgres
   annotations:
     sidecar.istio.io/inject: "false"
@@ -54,20 +43,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      run: postgres
       app: postgres
-      version: "1.0"
-      serving: "true"    
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        run: postgres
         app: postgres
-        version: "1.0"
-        serving: "true"    
-        visualize: "true"                
     spec:
       containers:
       - name: postgres
@@ -96,8 +78,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: apache
-    visualize: "true"    
+    app: apache
   name: apache
 spec:
   ports:
@@ -106,8 +87,7 @@ spec:
     targetPort: 80
     name: http
   selector:
-    run: apache
-    serving: "true"        
+    app: apache
   type: NodePort
 status:
   loadBalancer: {}
@@ -119,8 +99,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    run: postgres
-    visualize: "true"    
+    app: postgres
   name: postgres
 spec:
   ports:
@@ -128,8 +107,7 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    run: postgres
-    serving: "true"        
+    app: postgres
   type: NodePort
 status:
   loadBalancer: {}
