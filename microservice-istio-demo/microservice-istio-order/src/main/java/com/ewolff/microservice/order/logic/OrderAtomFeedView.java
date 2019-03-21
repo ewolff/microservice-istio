@@ -29,7 +29,7 @@ public class OrderAtomFeedView extends AbstractAtomFeedView {
 
 	@Override
 	protected void buildFeedMetadata(Map<String, Object> model, Feed feed, HttpServletRequest request) {
-		feed.setId("tag:ewolff.com/microservice-atom/order");
+		feed.setId("tag:ewolff.com/microservice-istio/order");
 		feed.setTitle("Order");
 		List<Link> alternateLinks = new ArrayList<>();
 		Link link = new Link();
@@ -63,7 +63,7 @@ public class OrderAtomFeedView extends AbstractAtomFeedView {
 
 		for (Order o : orderlist) {
 			Entry entry = new Entry();
-			entry.setId("tag:ewolff.com/microservice-atom/order/" + Long.toString(o.getId()));
+			entry.setId("tag:ewolff.com/microservice-istio/order/" + Long.toString(o.getId()));
 			entry.setUpdated(o.getUpdated());
 			entry.setTitle("Order " + o.getId());
 			List<Content> contents = new ArrayList<Content>();

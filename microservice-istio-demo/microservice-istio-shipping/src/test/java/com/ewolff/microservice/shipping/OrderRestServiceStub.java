@@ -19,7 +19,7 @@ public class OrderRestServiceStub {
 				"    <name>Big Money Online Commerce Inc.</name>" +
 				"  </author>" +
 				"  <subtitle>List of all orders</subtitle>" +
-				"  <id>https://github.com/ewolff/microservice-atom/order</id>" +
+				"  <id>https://github.com/ewolff/microservice-istio/order</id>" +
 				"  <updated>2017-04-20T15:28:50Z</updated>" +
 				"  <entry>" +
 				"    <title>Order 1</title>" +
