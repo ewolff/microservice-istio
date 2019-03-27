@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = BonusTestApp.class, webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(classes = BonusTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class BonusServiceTest {
 

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ewolff.microservice.order.OrderApp;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class OrderServiceTest {
 
