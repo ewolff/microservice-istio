@@ -9,6 +9,7 @@ spec:
   - retries:
       attempts: 20
       perTryTimeout: 5s
+      retryOn: gateway-error,connect-failure,refused-stream,5xx
     timeout: 10s
     route:
     - destination:
@@ -34,6 +35,7 @@ spec:
     retries:
       attempts: 20
       perTryTimeout: 5s
+      retryOn: gateway-error,connect-failure,refused-stream,5xx
     timeout: 10s
     route:
     - destination:
