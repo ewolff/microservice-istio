@@ -400,6 +400,11 @@ microservice-gateway   30m
 the Ingress URL, a static HTML page is shown which is served by the apache service.
 This page has links to all other services.
 
+* If it is not possible to access the Ingress or if the scripts show
+  no valid URL, you can still use the script `ingress-forward.sh`. It
+  creates a proxy to the Ingress on the local machine. The script
+  prints out the URL for the proxy.
+
 ## Adding another Microservice
 
 There is another microservice in the sub directory
