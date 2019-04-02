@@ -16,7 +16,7 @@ auszuprobieren oder Entwicklermaschinen aufzubauen.
 
 
 * Installiere eine Minikube-Instanz mit `minikube start
---memory=6000`. Die Instanz hat dann 6.000 MB RAM. Das sollte für das
+--memory=5000`. Die Instanz hat dann 5.000 MB RAM. Das sollte für das
 Beispiel ausreichend sein. Die Anzahl der CPUs kann je nach genutzter
 Hardware geändert werden. Lösche vor der Installation gegebenenfalls
 bereits vorhandene Minikube-Instanzen mit `minikube delete`, da
@@ -24,7 +24,7 @@ Minikube anderenfalls die Einstellungen für Speicher und CPU nicht
 beachtet.
 
 ```
-[~/microservice-istio]minikube start --cpus=2 --memory=6000
+[~/microservice-istio]minikube start --cpus=2 --memory=5000
 Starting local Kubernetes v1.12.4 cluster...
 Starting VM...
 Getting VM IP address...

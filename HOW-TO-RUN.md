@@ -10,14 +10,14 @@ is a Kubernetes environment in a virtual machine that is easy to use
 and install. It is not meant for production but to test Kubernetes or
 for developer environments.
 
-* Create a Minikube instance with `minikube start --cpus=2 --memory=6000`. This
+* Create a Minikube instance with `minikube start --cpus=2 --memory=5000`. This
   will set the memory of the Kubernetes VM to 6.000 MB - which should
   be enough for most experiments. You might want to adjust the number of CPUs
   depending on your local machine. Please make sure that you deleted any pre-existing 
   minikube instance using `minikube delete` as the memory and cpu values would otherwise have no effect. 
 
 ```
-[~/microservice-istio]minikube start --cpus=2 --memory=6000
+[~/microservice-istio]minikube start --cpus=2 --memory=5000
 Starting local Kubernetes v1.12.4 cluster...
 Starting VM...
 Getting VM IP address...
