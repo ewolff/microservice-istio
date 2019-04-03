@@ -72,7 +72,7 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 This and all following steps are either done in the command line
 (Minikube / Google Cloud) or the Google Cloud Shell.
 
-* [Download](https://istio.io/docs/setup/kubernetes/download-release/) and [install](https://istio.io/docs/setup/kubernetes/quick-start/) Istio.
+* [Download](https://istio.io/docs/setup/kubernetes/download-release/) and [install](https://istio.io/docs/setup/kubernetes/install/kubernetes/) Istio.
 It is enough to install Istio *without* mutual TLS authentication
 between sidecars.
 

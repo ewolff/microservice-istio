@@ -89,7 +89,7 @@ durchgeführt werden.
 * [Lade Istio
 herunter](https://istio.io/docs/setup/kubernetes/download-release/)
 und [installiere
-es](https://istio.io/docs/setup/kubernetes/quick-start/). Für das
+es](https://istio.io/docs/setup/kubernetes/install/kubernetes/). Für das
 Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
 
 ## Docker Images bauen
