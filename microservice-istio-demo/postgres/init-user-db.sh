@@ -9,5 +9,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE DATABASE dborder;
     GRANT ALL PRIVILEGES ON DATABASE dborder TO dbuser;
     CREATE DATABASE dbbonus;
-    GRANT ALL PRIVILEGES ON DATABASE dbshipping TO dbuser;
+    GRANT ALL PRIVILEGES ON DATABASE dbbonus TO dbuser;
 EOSQL
