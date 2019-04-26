@@ -81,6 +81,14 @@
 			<div class="col-md-2" th:text="${shipment.cost}"></div>
 		</div>
 
+		<div class="row">
+			<h2>More Information</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2" ><a href="/invoicing/42" th:href="'/invoicing/'+${shipment.id}">Invocing</a></a></div>
+			<div class="col-md-2" ><a href="/order/42" th:href="'/order/'+${shipment.id}">Order</a></a></div>
+		</div>
 
 	</div>
 </body>

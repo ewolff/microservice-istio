@@ -72,6 +72,16 @@
 			<div class="col-md-2" th:text="${invoiceLine.totalAmount()}"></div>
 		</div>
 
+		
+		<div class="row">
+			<h2>More Information</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2" ><a href="/order/42" th:href="'/order/'+${invoice.id}">Order</a></a></div>
+			<div class="col-md-2" ><a href="/shipping/42" th:href="'/shipping/'+${invoice.id}">Shipping</a></a></div>
+		</div>
+
 	</div>
 </body>
 </html>
