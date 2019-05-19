@@ -19,8 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import com.ewolff.microservice.bonus.Bonus;
 import com.ewolff.microservice.bonus.BonusRepository;
 import com.ewolff.microservice.bonus.BonusService;
-import com.rometools.rome.feed.atom.Entry;
-import com.rometools.rome.feed.atom.Feed;
 
 @Component
 public class BonusPoller {
@@ -59,15 +57,15 @@ public class BonusPoller {
 			requestHeaders.set(HttpHeaders.IF_MODIFIED_SINCE, DateUtils.formatDate(lastModified));
 		}
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
-		ResponseEntity<Feed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Feed.class);
+		ResponseEntity<OrderFeed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, OrderFeed.class);
 
 		if (response.getStatusCode() != HttpStatus.NOT_MODIFIED) {
 			log.trace("data has been modified");
-			Feed feed = response.getBody();
-			for (Entry entry : feed.getEntries()) {
+			OrderFeed feed = response.getBody();
+			for (OrderFeedEntry entry : feed.getOrders()) {
 				if ((lastModified == null) || (entry.getUpdated().after(lastModified))) {
 					Bonus bonus = restTemplate
-							.getForEntity(entry.getContents().get(0).getSrc(), Bonus.class).getBody();
+							.getForEntity(entry.getLink(), Bonus.class).getBody();
 					log.trace("saving bonus {}", bonus.getId());
 					bonusService.calculateBonus(bonus);
 				}

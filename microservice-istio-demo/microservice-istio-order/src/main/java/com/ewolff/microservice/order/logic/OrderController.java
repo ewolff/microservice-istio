@@ -1,20 +1,18 @@
 package com.ewolff.microservice.order.logic;
 
+import com.ewolff.microservice.order.customer.Customer;
+import com.ewolff.microservice.order.customer.CustomerRepository;
+import com.ewolff.microservice.order.item.ItemRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.ewolff.microservice.order.customer.Customer;
-import com.ewolff.microservice.order.customer.CustomerRepository;
-import com.ewolff.microservice.order.item.ItemRepository;
 
 @Controller
 class OrderController {
@@ -51,18 +49,6 @@ class OrderController {
 	@RequestMapping("/")
 	public ModelAndView orderList() {
 		return new ModelAndView("orderlist", "orders", orderRepository.findAll());
-	}
-
-	@RequestMapping(value = "/feed", produces = "application/atom+xml")
-	public ModelAndView orderFeed(WebRequest webRequest) {
-		if ((orderRepository.lastUpdate() != null)
-				&& (webRequest.checkNotModified(orderRepository.lastUpdate().getTime()))) {
-			log.trace("Not Modified returned - request with If-Modified-Since {}",
-					webRequest.getHeader(HttpHeaders.IF_MODIFIED_SINCE));
-			return null;
-		}
-		log.trace("Returned Feed");
-		return new ModelAndView(new OrderAtomFeedView(orderRepository), "orders", orderRepository.findAll());
 	}
 
 	@RequestMapping(value = "/form.html", method = RequestMethod.GET)

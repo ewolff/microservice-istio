@@ -18,8 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ewolff.microservice.invoicing.Invoice;
 import com.ewolff.microservice.invoicing.InvoiceService;
-import com.rometools.rome.feed.atom.Entry;
-import com.rometools.rome.feed.atom.Feed;
 
 @Component
 public class InvoicePoller {
@@ -59,15 +57,15 @@ public class InvoicePoller {
 			requestHeaders.set(HttpHeaders.IF_MODIFIED_SINCE, DateUtils.formatDate(lastModified));
 		}
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
-		ResponseEntity<Feed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Feed.class);
+		ResponseEntity<OrderFeed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, OrderFeed.class);
 
 		if (response.getStatusCode() != HttpStatus.NOT_MODIFIED) {
 			log.trace("data has been modified");
-			Feed feed = response.getBody();
-			for (Entry entry : feed.getEntries()) {
+			OrderFeed feed = response.getBody();
+			for (OrderFeedEntry entry : feed.getOrders()) {
 				if ((lastModified == null) || (entry.getUpdated().after(lastModified))) {
 					Invoice invoice = restTemplate
-							.getForEntity(entry.getContents().get(0).getSrc(), Invoice.class).getBody();
+							.getForEntity(entry.getLink(), Invoice.class).getBody();
 					log.trace("saving invoice {}", invoice.getId());
 					invoiceService.generateInvoice(invoice);
 				}

@@ -2,6 +2,9 @@ package com.ewolff.microservice.shipping.poller;
 
 import java.util.Date;
 
+import com.ewolff.microservice.shipping.Shipment;
+import com.ewolff.microservice.shipping.ShipmentService;
+
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import com.ewolff.microservice.shipping.Shipment;
-import com.ewolff.microservice.shipping.ShipmentService;
-import com.rometools.rome.feed.atom.Entry;
-import com.rometools.rome.feed.atom.Feed;
 
 @Component
 public class ShippingPoller {
@@ -59,15 +57,15 @@ public class ShippingPoller {
 			requestHeaders.set(HttpHeaders.IF_MODIFIED_SINCE, DateUtils.formatDate(lastModified));
 		}
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
-		ResponseEntity<Feed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Feed.class);
+		ResponseEntity<OrderFeed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, OrderFeed.class);
 
 		if (response.getStatusCode() != HttpStatus.NOT_MODIFIED) {
 			log.trace("data has been modified");
-			Feed feed = response.getBody();
-			for (Entry entry : feed.getEntries()) {
+			OrderFeed feed = response.getBody();
+			for (OrderFeedEntry entry : feed.getOrders()) {
 				if ((lastModified == null) || (entry.getUpdated().after(lastModified))) {
 					Shipment shipping = restTemplate
-							.getForEntity(entry.getContents().get(0).getSrc(), Shipment.class).getBody();
+							.getForEntity(entry.getLink(), Shipment.class).getBody();
 					log.trace("saving shipping {}", shipping.getId());
 					shipmentService.ship(shipping);
 				}

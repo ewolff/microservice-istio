@@ -87,12 +87,6 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.rometools</groupId>
-			<artifactId>rome</artifactId>
-			<version>1.7.1</version>
-		</dependency>
 	
   		<dependency>
 			<groupId>org.springframework.cloud</groupId>
