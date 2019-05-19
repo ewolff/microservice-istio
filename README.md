@@ -47,5 +47,5 @@ odd if a change to a price would also change existing invoices. Also
 only the information needed for the shipment and the invoice are
 copied over to the other systems.
 
-The job to poll the Atom feed is run every 30 seconds.
+The job to poll the order feed is run every 30 seconds.
 
