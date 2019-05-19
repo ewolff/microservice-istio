@@ -64,7 +64,7 @@ public class Shipment {
 		return deliveryService;
 	}
 
-	public void setDeliverSyervice(String deliveryService) {
+	public void setDeliveryService(String deliveryService) {
 		this.deliveryService = deliveryService;
 	}
 
