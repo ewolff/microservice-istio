@@ -1,19 +1,21 @@
 package com.ewolff.microservice.order.logic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.stream.StreamSupport;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -24,7 +26,7 @@ import com.ewolff.microservice.order.customer.CustomerRepository;
 import com.ewolff.microservice.order.item.Item;
 import com.ewolff.microservice.order.item.ItemRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class OrderWebIntegrationTest {
@@ -59,7 +61,7 @@ public class OrderWebIntegrationTest {
 		try {
 			Iterable<Order> orders = orderRepository.findAll();
 			assertTrue(StreamSupport.stream(orders.spliterator(), false)
-					.noneMatch(o -> ((o.getCustomer() != null) && (o.getCustomer().equals(customer)))));
+									.noneMatch(o -> ((o.getCustomer() != null) && (o.getCustomer().equals(customer)))));
 			ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL(), String.class);
 			assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 			String orderList = resultEntity.getBody();

@@ -6,16 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
-import com.ewolff.microservice.order.OrderApp;
-import com.ewolff.microservice.order.OrderFeed;
-import com.ewolff.microservice.order.OrderFeedEntry;
-import com.ewolff.microservice.order.customer.CustomerRepository;
-import com.ewolff.microservice.order.logic.Order;
-import com.ewolff.microservice.order.logic.OrderRepository;
-
 import org.apache.http.client.utils.DateUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -26,10 +19,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import com.ewolff.microservice.order.OrderApp;
+import com.ewolff.microservice.order.OrderFeed;
+import com.ewolff.microservice.order.OrderFeedEntry;
+import com.ewolff.microservice.order.customer.CustomerRepository;
+import com.ewolff.microservice.order.logic.Order;
+import com.ewolff.microservice.order.logic.OrderRepository;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class FeedClientTest {
