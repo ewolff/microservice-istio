@@ -32,11 +32,12 @@ public class OrderTestDataGenerator {
 
 	@PostConstruct
 	public void generateTestData() {
-		Order order = new Order(customerRepository.findAll().iterator().next());
+		Order order = new Order(customerRepository.findAll().iterator().next(),1);
 		order.setShippingAddress(new Address("Ohlauer Str. 43", "10999", "Berlin"));
 		order.setBillingAddress(new Address("Krischerstr. 100", "40789", "Monheim am Rhein"));
 		order.setDeliveryService("Hermes");
 		order.addLine(42, itemRepository.findAll().iterator().next());
+		order=orderRepository.save(order);
 		orderRepository.save(order);
 	}
 

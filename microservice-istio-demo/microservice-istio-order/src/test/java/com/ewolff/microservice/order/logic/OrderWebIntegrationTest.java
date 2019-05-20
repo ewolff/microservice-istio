@@ -25,7 +25,7 @@ import com.ewolff.microservice.order.item.Item;
 import com.ewolff.microservice.order.item.ItemRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class OrderWebIntegrationTest {
 

@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -59,7 +59,7 @@
 			<artifactId>hsqldb</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -70,11 +70,11 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -102,6 +102,13 @@
 			<groupId>com.internetitem</groupId>
 			<artifactId>logback-elasticsearch-appender</artifactId>
 			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>au.com.dius</groupId>
+			<artifactId>pact-jvm-consumer-junit</artifactId>
+			<version>4.0.0-beta.2</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

@@ -3,6 +3,7 @@ package com.ewolff.microservice.order.logic;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -28,14 +29,13 @@ import com.ewolff.microservice.order.item.Item;
 public class Order {
 
 	@Id
-	@GeneratedValue
 	private long id;
 
 	@ManyToOne
 	private Customer customer;
 
 	private String deliveryService;
-	
+
 	private Date updated;
 
 	@Embedded
@@ -53,9 +53,31 @@ public class Order {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<OrderLine> orderLine;
 
+	private static long generateID() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.getLeastSignificantBits();
+	}
+
 	public Order() {
+		this(generateID());
+	}
+
+	public Order(long id) {
 		super();
+		this.id = id;
 		orderLine = new ArrayList<OrderLine>();
+		updated();
+	}
+
+	public Order(Customer customer) {
+		this(customer,generateID());
+	}
+
+	public Order(Customer customer, long id) {
+		super();
+		this.customer = customer;
+		this.orderLine = new ArrayList<OrderLine>();
+		this.id = id;
 		updated();
 	}
 
@@ -116,12 +138,6 @@ public class Order {
 
 	public List<OrderLine> getOrderLine() {
 		return orderLine;
-	}
-
-	public Order(Customer customer) {
-		super();
-		this.customer = customer;
-		this.orderLine = new ArrayList<OrderLine>();
 	}
 
 	public void setOrderLine(List<OrderLine> orderLine) {

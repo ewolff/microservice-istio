@@ -87,8 +87,8 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 		</dependency>
-	
-  		<dependency>
+
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
@@ -103,6 +103,22 @@
 			<groupId>com.internetitem</groupId>
 			<artifactId>logback-elasticsearch-appender</artifactId>
 			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>au.com.dius</groupId>
+			<artifactId>pact-jvm-provider-junit5</artifactId>
+			<version>4.0.0-beta.2</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
