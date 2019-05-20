@@ -55,7 +55,7 @@ public class Order {
 
 	private static long generateID() {
 		UUID uuid = UUID.randomUUID();
-		return uuid.getLeastSignificantBits();
+		return Math.abs(uuid.getLeastSignificantBits());
 	}
 
 	public Order() {
