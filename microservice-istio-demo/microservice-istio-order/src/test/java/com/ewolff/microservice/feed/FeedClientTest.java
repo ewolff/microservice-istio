@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Date;
 
 import org.apache.http.client.utils.DateUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
