@@ -1,4 +1,4 @@
-package com.ewolff.microservice.feed;
+package com.ewolff.microservice.order;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +30,7 @@ import com.ewolff.microservice.order.logic.Order;
 import com.ewolff.microservice.order.logic.OrderRepository;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class FeedClientTest {
 

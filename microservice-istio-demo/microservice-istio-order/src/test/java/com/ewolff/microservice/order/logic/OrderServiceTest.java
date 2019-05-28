@@ -12,6 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ewolff.microservice.order.OrderApp;
+import com.ewolff.microservice.order.logic.Order;
+import com.ewolff.microservice.order.logic.OrderRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
