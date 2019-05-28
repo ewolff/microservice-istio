@@ -33,8 +33,4 @@ public class PactTest {
 		context.verifyInteraction();
 	}
 
-	@Test
-	public void testPacts() {
-	}
-
 }
