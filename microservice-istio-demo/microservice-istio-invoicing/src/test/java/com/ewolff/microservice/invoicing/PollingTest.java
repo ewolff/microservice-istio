@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,14 @@ import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.consumer.junit.PactProviderRule;
-import au.com.dius.pact.consumer.junit.PactVerification;
+import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
+import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 
 @ExtendWith(SpringExtension.class)
+@ExtendWith(PactConsumerTestExt.class)
 @SpringBootTest(classes = InvoiceTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
+@PactTestFor(providerName = "OrderProvider", port = "8081")
 @ActiveProfiles("test")
 public class PollingTest {
 
@@ -37,9 +38,6 @@ public class PollingTest {
 
 	@Autowired
 	private InvoicePoller invoicePoller;
-
-	@Rule
-	public PactProviderRule mockProvider = new PactProviderRule("OrderProvider", "localhost", 8081, this);
 
 	private DslPart feedBody(Date now) {
 		return new PactDslJsonBody().date("updated", "yyyy-MM-dd'T'kk:mm:ss.SSS+0000", now)
@@ -99,7 +97,6 @@ public class PollingTest {
 	}
 
 	@Test
-	@PactVerification
 	public void orderArePolled() {
 		long countBeforePoll = invoiceRepository.count();
 		invoicePoller.pollInternal();
