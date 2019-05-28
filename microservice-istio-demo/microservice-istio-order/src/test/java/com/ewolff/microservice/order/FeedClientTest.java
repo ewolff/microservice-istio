@@ -53,9 +53,6 @@ public class FeedClientTest {
 
 	@Test
 	public void requestWithLastModifiedReturns304() {
-		Order order = new Order();
-		order.setCustomer(customerRepository.findAll().iterator().next());
-		orderRepository.save(order);
 		ResponseEntity<OrderFeed> response = restTemplate.exchange(feedUrl(), HttpMethod.GET, new HttpEntity(null),
 				OrderFeed.class);
 

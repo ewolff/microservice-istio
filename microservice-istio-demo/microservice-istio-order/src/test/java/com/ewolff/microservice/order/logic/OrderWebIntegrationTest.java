@@ -59,17 +59,17 @@ public class OrderWebIntegrationTest {
 		customer = customerRepository.save(customer);
 	}
 
-	
 	@Test
 	public void IsTestOrderReturned() {
-		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL()+"/order/1", String.class);
+		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL() + "/order/1", String.class);
 		assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 		String order = resultEntity.getBody();
 		assertTrue(order.contains("Berlin"));
 	}
-		
+
 	@Test
 	public void IsOrderListReturned() {
+		Order order = null;
 		try {
 			Iterable<Order> orders = orderRepository.findAll();
 			assertTrue(StreamSupport.stream(orders.spliterator(), false)
@@ -78,13 +78,15 @@ public class OrderWebIntegrationTest {
 			assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 			String orderList = resultEntity.getBody();
 			assertFalse(orderList.contains("RZA"));
-			Order order = new Order(customer);
+			order = new Order(customer);
 			order.addLine(42, item);
 			orderRepository.save(order);
 			orderList = restTemplate.getForObject(orderURL(), String.class);
 			assertTrue(orderList.contains("Eberhard"));
 		} finally {
-			orderRepository.deleteAll();
+			if (order != null) {
+				orderRepository.delete(order);
+			}
 		}
 	}
 
