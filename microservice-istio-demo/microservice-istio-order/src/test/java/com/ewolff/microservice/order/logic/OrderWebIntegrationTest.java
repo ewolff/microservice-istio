@@ -6,8 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.stream.StreamSupport;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +31,7 @@ import com.ewolff.microservice.order.item.ItemRepository;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
+@TestInstance(Lifecycle.PER_CLASS)
 public class OrderWebIntegrationTest {
 
 	private RestTemplate restTemplate = new RestTemplate();
@@ -49,7 +52,7 @@ public class OrderWebIntegrationTest {
 
 	private Customer customer;
 
-	@Before
+	@BeforeAll
 	public void setup() {
 		item = itemRepository.findAll().iterator().next();
 		customer = new Customer("RZA", "GZA", "rza@wutang.com", "Chamber", "Shaolin");
