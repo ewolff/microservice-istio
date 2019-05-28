@@ -59,6 +59,15 @@ public class OrderWebIntegrationTest {
 		customer = customerRepository.save(customer);
 	}
 
+	
+	@Test
+	public void IsTestOrderReturned() {
+		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL()+"/order/1", String.class);
+		assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
+		String order = resultEntity.getBody();
+		assertTrue(order.contains("Berlin"));
+	}
+		
 	@Test
 	public void IsOrderListReturned() {
 		try {
