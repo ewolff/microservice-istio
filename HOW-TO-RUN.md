@@ -197,6 +197,9 @@ Successfully built b60004d121e5
 Successfully tagged microservice-istio-order:latest
 ```
 
+* Sometime pulling the images does not work. Try `docker logout` then
+  and rerun the script.
+
 * The images should now be available:
 
 ```

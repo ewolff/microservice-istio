@@ -221,6 +221,10 @@ Successfully built b60004d121e5
 Successfully tagged microservice-istio-order:latest
 ```
 
+* Manchmal können die Images nicht heruntergeladen werden. Versuche
+  dann, `docker logout` einzugeben und das Skript erneut zu starten.
+
+
 * Die Images sollten nun verfügbar sein:
 
 ```
