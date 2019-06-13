@@ -15,11 +15,16 @@ public class CustomerTestDataGenerator {
 		this.customerRepository = customerRepository;
 	}
 
+	private void createIfNotExist(String firstname, String name, String email, String street, String city) {
+		if (customerRepository.findByName(name).size() == 0) {
+			customerRepository.save(new Customer(firstname, name, email, street, city));
+		}
+	}
+
 	@PostConstruct
 	public void generateTestData() {
-		customerRepository
-				.save(new Customer("Eberhard", "Wolff", "eberhard.wolff@gmail.com", "Unter den Linden", "Berlin"));
-		customerRepository.save(new Customer("Rod", "Johnson", "rod@somewhere.com", "Market Street", "San Francisco"));
+		createIfNotExist("Eberhard", "Wolff", "eberhard.wolff@posteo.net", "Unter den Linden", "Berlin");
+		createIfNotExist("Rod", "Johnson", "rod@somewhere.com", "Market Street", "San Francisco");
 	}
 
 }
