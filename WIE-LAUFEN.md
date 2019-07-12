@@ -197,7 +197,7 @@ quay.io/coreos/hyperkube                  v1.7.6_coreos.0     2faf6f7a322f      
 ```
 
 * Starte `docker-build.sh` im Verzeichnis
-`microservice-istio-demo`. Das Skript kompiliert erzeugt die Docker
+`microservice-istio-demo`. Das Skript erzeugt die Docker
 Images.
 
 ```

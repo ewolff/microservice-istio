@@ -138,7 +138,7 @@ server runs in the background.
   in your home directory. Note that this means all dependencies will
   be downloaded again.
 
-Now the Java code has been compiles. The next step is to create Docker
+Now the Java code has been compiled. The next step is to create Docker
 images:
 
 * Minkube only: Configure Docker so that it uses the Kubernetes cluster. This is
