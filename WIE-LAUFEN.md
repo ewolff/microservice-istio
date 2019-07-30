@@ -627,8 +627,6 @@ delay-injection.yaml` wieder entfernen. Wenn man nun den Shipping
 Microservice den Order Microservice pollen lässt, dauert dieser
 Vorgang entsprechend länger.
 
-
-
 ## Circuit Breaker
 
 Istio enthält ebenfalls einen Circuit Breaker (Sicherung). Wenn ein
@@ -674,6 +672,10 @@ auszuführen. Diese Wiederholungen fügt Istio sowohl in die
 Kommunikation zwischen den Microservices ein als auch bei der
 Kommunikation mit dem Ingress Gateway. Also funktioniert sowohl das
 Pollen als auch die Web UI wieder.
+
+Mit `kubectl delete -f retry.yaml` kann man die Retrys aus dem System
+wieder entfernen. Der Microservice kann mit `kubectl apply -f
+microservices.yaml` zurückgesetzt werden.
 
 ## Aufräumen
 

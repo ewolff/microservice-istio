@@ -622,6 +622,10 @@ to the order service. The configuration adds retries to the
 communication between the microservices as well as the access through
 the Ingress gateway. So polling and the web UI will both work again.
 
+You can remove the retries with `kubectl delete -f retry.yaml`. The
+failing microservice can be set to normal with `kubectl apply -f
+microservices.yaml`.
+
 ## Clean Up
 
 * To remove all services and deployments run `kubectl  delete -f microservices.yaml`:
