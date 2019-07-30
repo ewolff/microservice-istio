@@ -595,7 +595,7 @@ http://192.168.99.110:31380/invoicing/poll`, quite a few of them will
 also result in a 500. Use `ingress-url.sh` (minikube) or
 `ingress-gcp.sh` (Google Cloud) to figure out the URL.
 
-Use `kubectl apply -f cicuit-breaker.yaml` to remove the rule.
+Use `kubectl delete -f cicuit-breaker.yaml` to remove the rule.
 
 Note that you can also set a timeout so the system won't be waiting
 too long for a request to be handled, see

@@ -644,7 +644,7 @@ werden mit hoher Wahrscheinlichkeit auch ein 500 zurückgeben. Nutze
 `ingress-url.sh` (Minikube) oder `ingress-gcp.sh` (Google Cloud), um
 die richtige URL zu finden.
 
-Mit `kubectl apply -f cicuit-breaker.yaml` kann die Regel wieder
+Mit `kubectl delete -f cicuit-breaker.yaml` kann die Regel wieder
 entfernt werden.
 
 Es ist auch möglich, einen Timeout in Istio einzufügen, siehe
