@@ -535,6 +535,12 @@ nutzen, um die Oberfläche im Browser anzuzeigen.
 
 Das Skript `monitoring-prometheus.sh` enthält ebenfalls diesen Befehl.
 
+Metriken sind nur sinnvoll, wenn das System unter Last ist. Das
+Shell-Skript `load.sh` nutzt `curl`, um eine bestimmte URL 1.000
+aufzurufen. Du kannst das eine oder mehrere Instanzen des Skripts
+starten und dabei beispielsweise die URL der Home Page des Shipping
+Microservice übergeben, um so Last auf diesem Service zu erzeugen.
+
 ## Grafana
 
 Prometheus bietet nur sehr limitierte Dashboards an. Deswegen hat

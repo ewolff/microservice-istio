@@ -503,6 +503,12 @@ open the URL from the shell in your local browser.
 
 You can also use the shell script `monitoring-prometheus.sh`.
 
+Metrics only make sense if there is load on the system. The shell
+script `load.sh` uses the tool `curl` to request a certain URL 1,000
+times. You can start one or multiple instances of this script with the
+URL of the home page of the shipping microservice to create some
+load on that service.
+
 ## Grafana
 
 Prometheus has only very limited dashboards. Therefore Istio comes with an installation of [Grafana](https://grafana.com/) that provides much better graphs and dashboards.
