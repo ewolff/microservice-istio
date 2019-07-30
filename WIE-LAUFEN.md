@@ -607,9 +607,8 @@ gelöscht werden.
 Istio kann auch Fehler in das System einbauen, um so die Resilienz des
 Systems zu überprüfen. 
 
-provides feature to add fault scenarios to the
-system. `fault-injection.yaml` erzeugt eine 30s-Verzögerung zu den
-REST Request zum Order Microservice hinzu. Mit
+`fault-injection.yaml` erzeugt bei jedem
+REST Request zum Order Microservice einen HTTP-500-Fehler. Mit
 `kubectl apply
 -f fault-injection.yaml` kann diese Konfiguration zum System
 hinzugefügt werden. Wenn man nun den Invoicing oder Shipping
@@ -618,6 +617,17 @@ dauert dieser Vorgang deutlich länger und endet in einem Fehler.
 
 Mit `kubectl delete -f fault-injection.yaml`verschwindet diese
 Verzögerung wieder aus dem System.
+
+## Delay Injection
+
+Mit `kubectl apply -f
+delay-injection.yaml` kann man eine Verzögerung von 7s zu jedem REST-Aufruf
+des Order Microservice hinzufügen und mit `kubectl delete -f
+delay-injection.yaml` wieder entfernen. Wenn man nun den Shipping
+Microservice den Order Microservice pollen lässt, dauert dieser
+Vorgang entsprechend länger.
+
+
 
 ## Circuit Breaker
 

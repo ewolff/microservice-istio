@@ -574,6 +574,14 @@ and finally ends in an error.
 To remove the fault injection again, just use `kubectl delete -f
 fault-injection.yaml`.
 
+## Delay Injection
+
+You can apply a delay to the system with `kubectl apply -f
+delay-injection.yaml` and remove it again with `kubectl delete -f
+delay-injection.yaml`. This will add a delay of 7s to each call to the
+order microservice. If you make the shipping microservice poll the
+order microservice, it will take longer now.
+
 ## Circuit Breaker
 
 Istio provides a circuit breaker. If a system is too slow or
