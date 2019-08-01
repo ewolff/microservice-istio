@@ -530,7 +530,12 @@ You can also use the shell script `tracing.sh`.
 
 ## Kiali
 
-[Kiali](https://www.kiali.io/) is a tool to visualize the dependencies between microservices. It generates a 
+[Kiali](https://www.kiali.io/) is a tool to visualize the dependencies
+between microservices. It generates a graph and also adds some basic
+metrics to the graph. You can use the shell script `kiali.sh` to start
+a proxy Istio's Kiali installation. Then you can open the Kiali
+console at http://localhost:20001/ . For the default installation, the
+user name is admin and the password is admin, too.
 
 ## Logging
 
