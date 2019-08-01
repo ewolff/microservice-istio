@@ -566,6 +566,16 @@ Istio enthält eine Installation von Jaeger. Nach einem Aufruf von
 
 Das Skript `tracing.sh` enhält ebenfalls den notwendigen Befehl.
 
+## Kiali
+
+[Kiali](https://www.kiali.io/) ist ein Werkzeug, dass die
+Abhängigkeiten zwischen den Microservices visualisiert. Es generiert
+Abhängigkeitsgraphen und zeigt einige wesentliche Metriken an. Das
+Skript `kiali.sh` dient dazu, einen Proxy zu Istios Kiali-Installation
+zu starten. Danach steht die Kiali-Konsole unter
+http://localhost:20001/ bereits. Der voreingestellte Benutzername ist
+admin. Das Passwort ist ebenfalls admin.
+
 ## Logging
 
 Istio unterstützt auch Logging. Aber Istio kann in den Logs nur die

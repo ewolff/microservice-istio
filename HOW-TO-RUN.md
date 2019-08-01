@@ -528,6 +528,10 @@ can access it at http://localhost:16686/ .
 
 You can also use the shell script `tracing.sh`.
 
+## Kiali
+
+[Kiali](https://www.kiali.io/) is a tool to visualize the dependencies between microservices. It generates a 
+
 ## Logging
 
 Istio also supports logging. However, the Istio's logs only contain
