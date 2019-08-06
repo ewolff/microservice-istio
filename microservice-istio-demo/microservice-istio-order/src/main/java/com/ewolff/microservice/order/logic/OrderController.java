@@ -63,6 +63,11 @@ class OrderController {
 		return new ModelAndView("order", "order", orderRepository.findById(id).get());
 	}
 
+	@RequestMapping(value = "/full-{id}", method = RequestMethod.GET)
+	public ModelAndView full(@PathVariable("id") long id) {
+		return new ModelAndView("order-full", "order", orderRepository.findById(id).get());
+	}
+
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ModelAndView post(Order order) {
 		order = orderService.order(order);

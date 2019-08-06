@@ -37,7 +37,6 @@
 			<div class="col-md-2" th:text="${order.shippingAddress.city}"></div>
 		</div>
 
-
 		<div class="row">
 			<h2>Billing Address</h2>
 		</div>
@@ -63,7 +62,6 @@
 			<div class="col-md-2"><b>Quantity</b></div>
 			<div class="col-md-2"><b>Item</b></div>
 			<div class="col-md-2"><b>Price</b></div>
-
 		</div>
 
 		<div class="row" th:each="orderLine : ${order.orderLine}">
@@ -72,16 +70,40 @@
 			<div class="col-md-2" th:text="${orderLine.item.price}"></div>
 		</div>
 
+		<hr />
+
 		<div class="row">
-			<h2>More Information</h2>
+			<h1>Invoicing</h1>
 		</div>
 
 		<div class="row">
-			<div class="col-md-2" ><a href="full-42" th:href="'full-'+${order.id}">All information</a></a></div>
-			<div class="col-md-2" ><a href="/invoicing/42" th:href="'/invoicing/'+${order.id}">Invocing</a></a></div>
-			<div class="col-md-2" ><a href="/shipping/42" th:href="'/shipping/'+${order.id}">Shipping</a></a></div>
+  			<a href="/invoicing/42" class="embeddable" th:href="'/invoicing/'+${order.id}">Invocing</a>
 		</div>
+		
+		<hr/>
+		
+		<div class="row">
+			<h1>Shipping</h1>
+		</div>
+		
+		<div class="row">
+			<a href="/shipping/42"  class="embeddable" th:href="'/shipping/'+${order.id}">Shipping</a>
+		</div>
+
+	  	<script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$("a.embeddable").each(function(i, link) {
+				$("<div />").load(link.href, function(data, status, xhr) {
+					if ( status != "error") {
+	 					$(link).replaceWith($(this).find("div.snippet"));
+					}
+				});
+			});
+		});
+    	</script>
 
 	</div>
+	
 </body>
 </html>
