@@ -21,12 +21,12 @@ public class BonusController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView Item(@PathVariable("id") long id) {
+	public ModelAndView bonus(@PathVariable("id") long id) {
 		return new ModelAndView("bonus", "bonus", bonusRepository.findById(id).get());
 	}
 
 	@RequestMapping("/")
-	public ModelAndView ItemList() {
+	public ModelAndView bonusList() {
 		return new ModelAndView("bonuslist", "bonuses", bonusRepository.findAll());
 	}
 
