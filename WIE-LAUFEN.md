@@ -481,7 +481,7 @@ RESOURCES:
 NAME   TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)         AGE
 bonus  NodePort  10.108.31.211  <none>       8080:30878/TCP  5s
 
-==> v1beta1/Deployment
+==> v1/Deployment
 NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
 bonus  1        1        1           1          5s
 
@@ -766,7 +766,7 @@ order-79cd6c8844-vhcqj  0/2    Pending  0         0s
 NAME   TYPE      CLUSTER-IP      EXTERNAL-IP  PORT(S)         AGE
 order  NodePort  10.109.102.171  <none>       8080:31666/TCP  0s
 
-==> v1beta1/Deployment
+==> v1/Deployment
 NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
 order  1        1        1           0          0s
 ...
