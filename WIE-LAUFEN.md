@@ -86,10 +86,8 @@ Dieser und die folgenden Schritte können entweder auf der
 Kommandozeile (Minkube / Google Cloud) oder in der Google Cloud Shell
 durchgeführt werden.
 
-* [Lade Istio
-herunter](https://istio.io/docs/setup/kubernetes/download-release/)
-und [installiere
-es](https://istio.io/docs/setup/kubernetes/install/kubernetes/). Für das
+* [Installiere
+Istio](https://istio.io/docs/setup/getting-started/). Für das
 Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
 
 ## Docker Images bauen
