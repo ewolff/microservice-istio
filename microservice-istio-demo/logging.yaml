@@ -41,14 +41,8 @@ spec:
         app: elasticsearch
     spec:
       containers:
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
         name: elasticsearch
-        resources:
-          # need more cpu upon initialization, therefore burstable class
-          limits:
-            cpu: 1000m
-          requests:
-            cpu: 100m
         env:
           - name: discovery.type
             value: single-node
@@ -107,13 +101,7 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:7.4.0
-        resources:
-          # need more cpu upon initialization, therefore burstable class
-          limits:
-            cpu: 1000m
-          requests:
-            cpu: 100m
+        image: docker.elastic.co/kibana/kibana:7.4.2
         env:
           - name: ELASTICSEARCH_URL
             value: http://elasticsearch.logging.svc.cluster.local:9200
