@@ -109,7 +109,7 @@ metadata:
   name: invoicing
 spec:
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
     targetPort: 8080
     name: http    
@@ -130,7 +130,7 @@ metadata:
   name: shipping
 spec:
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
     targetPort: 8080
     name: http    
@@ -152,7 +152,7 @@ metadata:
   name: order
 spec:
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
     targetPort: 8080
     name: http    
@@ -182,7 +182,7 @@ spec:
     route:
     - destination:
         port:
-          number: 8080
+          number: 80
         host: shipping.default.svc.cluster.local
 
 ---
@@ -205,7 +205,7 @@ spec:
     route:
     - destination:
         port:
-          number: 8080
+          number: 80
         host: invoicing.default.svc.cluster.local
 
 ---
@@ -228,5 +228,5 @@ spec:
     route:
     - destination:
         port:
-          number: 8080
+          number: 80
         host: order.default.svc.cluster.local
