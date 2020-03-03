@@ -20,7 +20,7 @@ public class PollController {
 	@RequestMapping(value = "/poll", method = RequestMethod.POST)
 	public String poll() {
 		poller.poll();
-		return "redirect:/";
+		return "success";
 	}
 
 }
