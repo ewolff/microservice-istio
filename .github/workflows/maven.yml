@@ -23,9 +23,9 @@ jobs:
       run: cd microservice-istio-bonus && sh ./docker-build.sh
     - name: Push image for other microservices
       run: |
-	    IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
-	    docker tag microservice-istio-bonus $IMAGE_PREFIX/microservice-istio-bonus:1
-	    docker push $IMAGE_PREFIX/microservice-istio-bonus:1
+        IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
+        docker tag microservice-istio-bonus $IMAGE_PREFIX/microservice-istio-bonus:1
+        docker push $IMAGE_PREFIX/microservice-istio-bonus:1
 
 
     - name: Build other microservices with Maven
