@@ -47,5 +47,3 @@ jobs:
         docker push $IMAGE_PREFIX/microservice-istio-invoicing:1
         docker tag microservice-istio-order:1 $IMAGE_PREFIX/microservice-istio-order:1
         docker push $IMAGE_PREFIX/microservice-istio-order:1
-	
-	
