@@ -17,11 +17,31 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Build Bonus Microservice with Maven
+    - name: Build bonus microservice with Maven
       run: cd microservice-istio-bonus && mvn -B package --file pom.xml
-    - name: Create Docker Images for Bonus Microservice
+    - name: Create Docker images for bonus microservice
       run: cd microservice-istio-bonus && sh ./docker-build.sh
-    - name: Build Other Microservices with Maven
+    - name: Push image for other microservices
+      run: |
+        IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
+	docker tag microservice-istio-bonus $IMAGE_PREFIX/microservice-istio-bonus:1
+	docker push $IMAGE_PREFIX/microservice-istio-bonus:1
+    - name: Build other microservices with Maven
       run: cd microservice-istio-demo && mvn -B package --file pom.xml
-    - name: Create Docker Images for Other Microservicee
+    - name: Create Docker images for other microservicee
       run: cd microservice-istio-demo && sh ./docker-build.sh
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+    - name: Push image for other microservices
+      run: |
+        IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
+	docker tag microservice-istio-apache $IMAGE_PREFIX/microservice-istio-apache:latest
+	docker push $IMAGE_PREFIX/microservice-istio-apache:latest
+	docker tag microservice-istio-postgres $IMAGE_PREFIX/microservice-istio-postgres:latest
+	docker push $IMAGE_PREFIX/microservice-istio-postgres:latest
+	docker tag microservice-istio-shipping:1 $IMAGE_PREFIX/microservice-istio-shipping:1
+	docker push $IMAGE_PREFIX/microservice-istio-shipping:1
+	docker tag microservice-istio-invoicing:1 $IMAGE_PREFIX/microservice-istio-invoicing:1
+	docker push $IMAGE_PREFIX/microservice-istio-invoicing:1
+	docker tag microservice-istio-order:1 $IMAGE_PREFIX/microservice-istio-order:1
+	docker push $IMAGE_PREFIX/microservice-istio-order:1
