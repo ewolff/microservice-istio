@@ -23,8 +23,8 @@ jobs:
     - name: Build Bonus Microservice with Maven
       run: cd microservice-istio-bonus && mvn -B package --file pom.xml
     - name: Create Docker Images for Bonus Microservice
-      run: cd microservice-istio-bonus && ./docker-build.sh
+      run: cd microservice-istio-bonus && sh ./docker-build.sh
     - name: Build Other Microservices with Maven
       run: cd microservice-istio-demo && mvn -B package --file pom.xml
     - name: Create Docker Images for Other Microservicee
-      run: cd microservice-istio-demo && ./docker-build.sh
+      run: cd microservice-istio-demo && sh ./docker-build.sh
