@@ -21,6 +21,8 @@ jobs:
       run: cd microservice-istio-bonus && mvn -B package --file pom.xml
     - name: Create Docker images for bonus microservice
       run: cd microservice-istio-bonus && sh ./docker-build.sh
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
     - name: Push image for other microservices
       run: |
         IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
