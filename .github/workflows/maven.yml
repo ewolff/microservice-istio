@@ -26,6 +26,8 @@ jobs:
         IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
 	docker tag microservice-istio-bonus $IMAGE_PREFIX/microservice-istio-bonus:1
 	docker push $IMAGE_PREFIX/microservice-istio-bonus:1
+
+
     - name: Build other microservices with Maven
       run: cd microservice-istio-demo && mvn -B package --file pom.xml
     - name: Create Docker images for other microservicee
@@ -45,3 +47,5 @@ jobs:
 	docker push $IMAGE_PREFIX/microservice-istio-invoicing:1
 	docker tag microservice-istio-order:1 $IMAGE_PREFIX/microservice-istio-order:1
 	docker push $IMAGE_PREFIX/microservice-istio-order:1
+	
+	
