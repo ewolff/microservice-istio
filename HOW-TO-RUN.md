@@ -79,6 +79,9 @@ between sidecars.
 
 ## Build the Docker images
 
+This step is optional if you use Minikube. You can skip this part and
+proceed to "Run the Containers".
+
 * The example is implemented in Java. See
    https://www.java.com/en/download/help/download_options.xml about how
    to download Java. The
@@ -224,9 +227,16 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 * Google Cloud only: Modify the YAML files to load the Docker images
   from the Google Docker repo with `fix-microservices-gcp.sh`
 
+* If you haven't built the Docker container yourself, run
+  `fix-microservices-dockerhub.sh`. The Docker images will be
+  downloaded from the Docker Hub in the Internet then.
+
 * Deploy the infrastructure for the microservices using `kubectl` in
 the directory
-`microservice-kubernetes-demo` :
+`microservice-kubernetes-demo`.
+Use `infrastructure-gcp.yaml` instead of `infrastructure.yaml` if you
+run on Google Cloud. Use `infrastructure-dockerhub.yaml` if you haven't
+built the Docker container yourself:
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl apply -f infrastructure.yaml
@@ -239,7 +249,11 @@ virtualservice.networking.istio.io/apache created
 ```
 
 
-* Deploy the microservices using `kubectl`:
+* Deploy the microservices using `kubectl`.
+Use `microservices-gcp.yaml` instead of `microservices.yaml` if you
+run on Google Cloud. Use `microservices-dockerhub.yaml` if you haven't
+built the Docker container yourself:
+
 
 
 ```
@@ -622,7 +636,13 @@ https://istio.io/docs/tasks/traffic-management/request-timeouts/ .
 
 Use `kubectl apply -f failing-order-service.yaml` to deploy a version
 of the order microservice that answers 50% of all requests with an
-http status code of 500. If you access the order microservice's web UI
+http status code of 500. 
+Use `failing-order-service-gcp.yaml` instead of
+`failing-order-service.yaml` if you run on Google Cloud. Use
+`failing-order-service-dockerhub.yaml` if you haven't built the Docker
+container yourself.
+
+If you access the order microservice's web UI
 or if you make shipping and invoicing poll the order microservice, you
 will likely receive an error.
 

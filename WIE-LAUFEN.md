@@ -92,6 +92,9 @@ Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
 
 ## Docker Images bauen
 
+Dieser Schritt ist optional, wenn Minikube genutzt wird. Du kannst den
+Schritt überspringen und direkt mit "Container starten" weitermachen.
+
 * Die Beispiele sind in Java implementiert. Daher muss Java
   installiert werden. Die Anleitung findet sich unter
   https://www.java.com/en/download/help/download_options.xml . Da die
@@ -248,9 +251,17 @@ istio-injection=enabled`
   Docker Images aus dem Google Docker Repository herunterladen mit
   `fix-microservices-gcp.sh` 
 
+* Wenn du die Container nicht selbst gebaut hast, starte
+  `fix-microservices-dockerhub.sh`, so dass die Container aus dem
+  Docker Hub im Internet heruntergeladen werden.
 
 * Deploye die Infrastruktur für die Microservices mit `kubectl` im
-Verzeichnis `microservice-kubernetes-demo` :
+Verzeichnis `microservice-kubernetes-demo` .
+Verwende `infrastructure-gcp.yaml` statt  `infrastructure.yaml`, wenn
+das System in der Google Cloud läuft. Verwende
+`infrastructure-dockerhub.yaml`, wenn du die Container nicht selbst
+gebaut hast.
+
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl apply -f infrastructure.yaml
@@ -263,7 +274,11 @@ virtualservice.networking.istio.io/apache created
 ```
 
 
-* Deploye die Microservices mit `kubectl`:
+* Deploye die Microservices mit `kubectl`.
+Verwende `microservices-gcp.yaml` statt `microservices.yaml`, wenn das
+System in der Google Cloud läuft. Verwende
+`microservices-dockerhub.yaml`, wenn du die Container nicht selbst
+gebaut hast.
 
 
 ```
@@ -670,7 +685,13 @@ https://istio.io/docs/tasks/traffic-management/request-timeouts/ .
 
 Mit `kubectl apply -f failing-order-service.yaml` kann man eine
 Version des Order-Microservices deployen, der 50%  aller Requests mit
-einen HTTP-500-Fehler beantwortet. Wenn man nun die Web UI des Order
+einen HTTP-500-Fehler beantwortet.
+Verwende `failing-order-service-gcp.yaml` statt
+`failing-order-service.yaml`, wenn das System in der Google Cloud
+läuft. Verwende `failing-order-service-dockerhub.yaml`, wenn du die
+Container nicht selbst gebaut hast.
+
+Wenn man nun die Web UI des Order
 Microservice nutzt bzw Invoicing order Shipping dazu bringt, den
 Order-Microservices zu pollen, dann gibt es vermutlich einen Fehler.
 
