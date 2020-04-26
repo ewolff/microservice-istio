@@ -22,10 +22,10 @@ jobs:
     - name: Create Docker images for bonus microservice
       run: cd microservice-istio-bonus && sh ./docker-build.sh
     - name: Log into registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image for other microservices
       run: |
-        IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
+        IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-bonus:1 $IMAGE_PREFIX/microservice-istio-bonus:1
         docker push $IMAGE_PREFIX/microservice-istio-bonus:1
 
@@ -35,10 +35,10 @@ jobs:
     - name: Create Docker images for other microservicee
       run: cd microservice-istio-demo && sh ./docker-build.sh
     - name: Log into registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image for other microservices
       run: |
-        IMAGE_PREFIX=docker.pkg.github.com/${{ github.repository }}
+        IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-apache $IMAGE_PREFIX/microservice-istio-apache:latest
         docker push $IMAGE_PREFIX/microservice-istio-apache:latest
         docker tag microservice-istio-postgres $IMAGE_PREFIX/microservice-istio-postgres:latest
