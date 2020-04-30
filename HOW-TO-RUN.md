@@ -532,7 +532,7 @@ user name is admin and the password is admin, too.
 
 ## Logging
 
-Istio also supports logging. However, the Istio's logs only contain
+Istio also [supports logging](https://istio.io/docs/tasks/observability/logs/access-log/). However, the Istio's logs only contain
 information about HTTP request. That is valuable but often not enough
 to understand the problems in the microservices. Therefore the
 microservices need to log some information. To support a large number
