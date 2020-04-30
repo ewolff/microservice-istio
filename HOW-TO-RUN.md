@@ -79,7 +79,7 @@ between sidecars.
 
 ## Build the Docker images
 
-This step is optional if you use Minikube. You can skip this part and
+This step is optional. You can skip this part and
 proceed to "Run the Containers".
 
 * The example is implemented in Java. See
@@ -223,20 +223,19 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 
 * Make sure that the Istio containers are automatically injected when the pods are started:
 `kubectl label namespace default istio-injection=enabled`
-
-* Google Cloud only: Modify the YAML files to load the Docker images
-  from the Google Docker repo with `fix-microservices-gcp.sh`
-
+* If you have build the Docker images yourself and use Google Cloud: 
+  Modify the YAML files to load the Docker images
+from the Google Docker repo with `fix-microservices-gcp.sh`
 * If you haven't built the Docker container yourself, run
   `fix-microservices-dockerhub.sh`. The Docker images will be
   downloaded from the Docker Hub in the Internet then.
-
 * Deploy the infrastructure for the microservices using `kubectl` in
-the directory
-`microservice-kubernetes-demo`.
-Use `infrastructure-gcp.yaml` instead of `infrastructure.yaml` if you
-run on Google Cloud. Use `infrastructure-dockerhub.yaml` if you haven't
-built the Docker container yourself:
+  the directory
+  `microservice-kubernetes-demo`.
+  Use `infrastructure-gcp.yaml` instead of `infrastructure.yaml` if you
+  if you built and uploaded the images to Google Cloud. 
+  Use `infrastructure-dockerhub.yaml` if you haven't
+  built the Docker container yourself:
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl apply -f infrastructure.yaml
@@ -250,11 +249,10 @@ virtualservice.networking.istio.io/apache created
 
 
 * Deploy the microservices using `kubectl`.
-Use `microservices-gcp.yaml` instead of `microservices.yaml` if you
-run on Google Cloud. Use `microservices-dockerhub.yaml` if you haven't
-built the Docker container yourself:
-
-
+  Use `microservices-gcp.yaml` instead of `microservices.yaml` if you
+  if you built and uploaded the images to Google Cloud. 
+  Use `microservices-dockerhub.yaml` if you haven't
+  built the Docker container yourself:
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl apply -f microservices.yaml
@@ -638,7 +636,7 @@ Use `kubectl apply -f failing-order-service.yaml` to deploy a version
 of the order microservice that answers 50% of all requests with an
 http status code of 500. 
 Use `failing-order-service-gcp.yaml` instead of
-`failing-order-service.yaml` if you run on Google Cloud. Use
+`failing-order-service.yaml` if you build and uploaded images to Google Cloud. Use
 `failing-order-service-dockerhub.yaml` if you haven't built the Docker
 container yourself.
 
