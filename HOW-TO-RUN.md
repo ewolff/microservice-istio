@@ -287,11 +287,12 @@ balancing. To actually view the services:
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl get services
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-apache       NodePort    10.110.196.4     <none>        80:31475/TCP     4m13s
-catalog      NodePort    10.96.45.251     <none>        8080:32300/TCP   4m13s
-customer     NodePort    10.101.227.211   <none>        8080:31621/TCP   4m13s
-kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          152m
-order        NodePort    10.109.230.95    <none>        8080:32182/TCP   4m13s
+apache       NodePort    10.31.244.219   <none>        80:30798/TCP     29m
+invoicing    NodePort    10.31.249.73    <none>        80:32105/TCP     2m34s
+kubernetes   ClusterIP   10.31.240.1     <none>        443/TCP          80m
+order        NodePort    10.31.241.103   <none>        80:30426/TCP     2m33s
+postgres     NodePort    10.31.252.0     <none>        5432:31520/TCP   29m
+shipping     NodePort    10.31.251.213   <none>        80:31754/TCP     2m34s
 ```
 
 
