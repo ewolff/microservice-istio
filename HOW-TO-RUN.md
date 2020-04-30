@@ -509,7 +509,8 @@ Prometheus has only very limited dashboards. Therefore Istio comes with an insta
 
 Enter `kubectl -n istio-system port-forward deployment/grafana
 3000:3000` to create a proxy for the Grafana service. You can access
-the tool at http://localhost:3000/ then. There are quite a few predefined dashboards.
+the tool at http://localhost:3000/ then. There are quite a few predefined dashboards. 
+In case they are not listed at the start page, go to Dashboard (4 tiles symbol) --> Manage. 
 
 You can also use the shell script `monitoring-grafana.sh`.
 
@@ -526,8 +527,8 @@ You can also use the shell script `tracing.sh`.
 
 [Kiali](https://www.kiali.io/) is a tool to visualize the dependencies
 between microservices. It generates a graph and also adds some basic
-metrics to the graph. You can use the shell script `kiali.sh` to start
-a proxy Istio's Kiali installation. Then you can open the Kiali
+metrics to the graph. You can use run `kubectl -n istio-system port-forward deployment/kiali 20001:20001` or the shell script `kiali.sh` to start
+a proxy to Istio's Kiali installation. Then you can open the Kiali
 console at http://localhost:20001/ . For the default installation, the
 user name is admin and the password is admin, too.
 
@@ -595,7 +596,7 @@ are waiting to be processed or run into errors.
 In that case the requests are no longer forwarded to the system but an
 error is returned.
 
-Use `kubectl apply -f cicuit-breaker.yaml` to activate the rule and
+Use `kubectl apply -f circuit-breaker.yaml` to activate the rule and
 limit the number of concurrent requests so much that it is easy to
 overload the system. Then put some load on the system. There is a very
 simple shell script that uses cURL to generate some load, so starting
@@ -606,7 +607,7 @@ http://192.168.99.110:31380/invoicing/poll`, quite a few of them will
 also result in a 500. Use `ingress-url.sh` (minikube) or
 `ingress-gcp.sh` (Google Cloud) to figure out the URL.
 
-Use `kubectl delete -f cicuit-breaker.yaml` to remove the rule.
+Use `kubectl delete -f circuit-breaker.yaml` to remove the rule.
 
 Note that you can also set a timeout so the system won't be waiting
 too long for a request to be handled, see
@@ -640,7 +641,7 @@ microservices.yaml`.
 * To remove all services and deployments run `kubectl  delete -f microservices.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl  delete -f microservices.yaml
+[~/microservice-istio/microservice-istio-demo] kubectl delete -f microservices.yaml
 deployment.apps "catalog" deleted
 deployment.apps "customer" deleted
 deployment.apps "order" deleted
