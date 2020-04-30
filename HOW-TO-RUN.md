@@ -448,44 +448,25 @@ Kubernetes configurations. That makes it easier to add a new
 microservice:
 
 * First you need to [install
-  Helm](https://docs.helm.sh/using_helm/#installing-helm) into the
-  Kubernetes cluster.
+  Helm 3](https://helm.sh/docs/intro/install/)
   
 * The directory `spring-boot-microservice` contains a Helm chart for
-  the microservices in this project. So `helm install --set name=bonus
-  spring-boot-microservice/` is enough to deploy the microservice.
-  
+  the microservices in this project. So `helm install bonus --set name=bonus spring-boot-microservice/` is enough to deploy the microservice.
 ```
-[~/microservice-istio] helm install --set name=bonus  spring-boot-microservice/
-NAME:   waxen-newt
-LAST DEPLOYED: Wed Feb 13 14:25:52 2019
+[~/microservice-istio] helm install bonus --set name=bonus spring-boot-microservice/
+NAME: bonus
+LAST DEPLOYED: Thu Apr 30 13:38:08 2020
 NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Service
-NAME   TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)         AGE
-bonus  NodePort  10.108.31.211  <none>       8080:30878/TCP  5s
-
-==> v1/Deployment
-NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-bonus  1        1        1           1          5s
-
-==> v1alpha3/VirtualService
-NAME   AGE
-bonus  1s
-
-==> v1/Pod(related)
-NAME                    READY  STATUS   RESTARTS  AGE
-bonus-55d854b9d9-sn4pm  2/2    Running  0         4s
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ```
 
-* A name is automatically assigned to the Helm release. In this example,
-  the name is `waxen-newt`. `helm list` provides a list of releases
+*  `helm list` provides a list of releases
   that are currently installed.
-
+  
 * You can remove the Helm release by using this assigned name
-  e.g. `helm delete waxen-newt`.
+  e.g. `helm delete bonus`.
 
 #### Using the additonal microservice
 
@@ -690,79 +671,44 @@ it. [Helm](https://helm.sh/) is a tool to create such template and use
 them to deploy Kubernetes systems. The templates are called Helm Charts.
 
 * Install Helm, see
-https://github.com/helm/helm/blob/master/docs/install.md
+https://github.com/helm/helm#install
 
-* To actually use Helm on the Kubernetes cluster, you need to run
-  `helm init`.
-  
 * Make sure that the infrastructure is deployed with `kubectl apply -f
   infrastructure.yaml`, see above.
 
 * To install one of the microservices `order`, `shipping`, and
-  `invoicing` you just need to run `helm install --set name=order
+  `invoicing` you just need to run `helm install order --set name=order
   ../spring-boot-microservice/`. `../spring-boot-microservice` is the
   directory that contains the Helm Chart.
   
 * The file `spring-boot-microservice/values.yaml` contains the other
   values that can be changed for an installation just like `name`.
 
-* `helm install --dry-run --set name=order
+* `helm install order --dry-run --set name=order
   ../spring-boot-microservice/`. `../spring-boot-microservice` does a
   dry run i.e. nothing is actually changed. Just the logs are shown.
 
 * You can also use the shell scritp `install-helm.sh` that contains
-all the necessary `helm`commands to run all three microservices:
+all the necessary `helm` commands to run all three microservices:
 
 ```
 [~/microservice-istio/microservice-istio-demo]./install-helm.sh
-NAME:   wobbling-billygoat
-LAST DEPLOYED: Wed Jan 16 10:07:50 2019
+NAME: order
+LAST DEPLOYED: Thu Apr 30 17:56:36 2020
 NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Pod(related)
-NAME                    READY  STATUS   RESTARTS  AGE
-order-79cd6c8844-vhcqj  0/2    Pending  0         0s
-
-==> v1/Service
-NAME   TYPE      CLUSTER-IP      EXTERNAL-IP  PORT(S)         AGE
-order  NodePort  10.109.102.171  <none>       8080:31666/TCP  0s
-
-==> v1/Deployment
-NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-order  1        1        1           0          0s
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ...
 ```
 
 * The result are multiple releases of the Helm Chart with
-  different parameters. The one in the console output above is called
-  `wobbling-billygoat` for example. That name is automatically generated.
+  different parameters. 
 
 
 ## Clean-Up Helm installation
 
-* First you need to figure out the names of the Helm releases:
-
-```
-[~/microservice-istio/microservice-istio-demo] helm list
-NAME            REVISION        UPDATED                         STATUS          CHART                           APP VERSION                                          NAMESPACE
-flabby-abalone  1               Wed Jan 16 08:21:50 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-insipid-puma    1               Wed Jan 16 08:21:57 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-lame-skunk      1               Wed Jan 16 08:21:40 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-``` 
-
-* Then you can delete by name:
-
-``` 
-[~/microservice-istio/microservice-istio-demo] helm delete flabby-abalone
-release "flabby-abalone" deleted
-[~/microservice-istio/microservice-istio-demo] helm delete insipid-puma
-,release "insipid-puma" deleted
-[~/microservice-istio/microservice-istio-demo] helm delete lame-skunk
-release "lame-skunk" deleted
-``` 
-
+* Delete all three Helm releases by executing `helm delete invoicing order shipping` 
 
 * You can also remove the infrastructure with `kubectl delete -f
   infrastructure.yaml`.
