@@ -86,9 +86,8 @@ Dieser und die folgenden Schritte können entweder auf der
 Kommandozeile (Minkube / Google Cloud) oder in der Google Cloud Shell
 durchgeführt werden.
 
-* [Installiere
-Istio](https://istio.io/docs/setup/getting-started/). Für das
-Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
+* [Installiere istioctl](https://istio.io/docs/setup/getting-started/) 
+und nutze es, um Istio auf dem Cluster zu installieren. Nutze das "demo" Profil.
 
 ## Docker Images bauen
 
@@ -609,6 +608,44 @@ und mit `kubectl apply -f microservices.yaml` wieder zu starten.
 
 Die Log-Infrastruktur kann mit `kubectl delete -f logging.yaml` wieder
 gelöscht werden.
+
+## Security
+
+Istio erweitert Verbindungen wenn möglich standardmäßig mit mTLS,. 
+Kiali visualisiert im Grafen, ob Verbindungen gegenseitig authentifiziert werden, 
+wenn Display --> Security aktiviert ist.
+
+Istio erzwingt mTLS jedoch nicht standardmäßig. Die aktuelle Authentifizierungs-Policy für einen Pod kann mit `istioctl authn tls-check <pod-id>` angezeigt werden.
+
+Das Ergebnis für den order-Pod zeigt, dass für den default-Namespace keine Policy aktiv ist
+
+```sh
+[~/microservice-istio/microservice-istio-demo] ORDER_POD=$(kubectl get pod -l app=order -o jsonpath="{.items[0].metadata.name}") 
+[~/microservice-istio/microservice-istio-demo] istioctl authn tls-check $ORDER_POD | grep "default.svc\|HOST:PORT"
+HOST:PORT                                                          STATUS     SERVER      CLIENT           AUTHN POLICY                                 DESTINATION RULE
+apache.default.svc.cluster.local:80                                AUTO       DISABLE     -                None                                         -
+invoicing.default.svc.cluster.local:80                             AUTO       DISABLE     -                None                                         -
+kubernetes.default.svc.cluster.local:443                           AUTO       DISABLE     -                None                                         -
+...
+```
+
+Durch Hinzufügen einer Authentifizierungs-`Policy` und einer `DestinationRule` für Anfragen an den invoicing-Service wird mTLS 
+explizit aktiviert und erzwungen. Diese Konfiguraion kann mit `kubectl apply -f enforce-mtls.yaml` angewendet werden.
+
+Eine erneute Ausführung von `istioctl authn tls-check` zeigt, dass mTLS nun 
+zwischen order und invoicing durchgesetzt wird.
+
+```
+[~/microservice-istio/microservice-istio-demo] istioctl authn tls-check $ORDER_POD | grep "default.svc\|HOST:PORT"
+HOST:PORT                                                          STATUS     SERVER      CLIENT           AUTHN POLICY                                 DESTINATION RULE
+apache.default.svc.cluster.local:80                                AUTO       DISABLE     -                None                                         -
+invoicing.default.svc.cluster.local:80                             OK         STRICT      ISTIO_MUTUAL     default/invoicing-policy                     default/invoicing
+kubernetes.default.svc.cluster.local:443                           AUTO       DISABLE     -                None                                         -
+...
+```
+
+Entferne erzwungenes mTLS durch `kubectl delete -f enforce-mtls.yaml`.
+
 
 ## Fault Injection
 

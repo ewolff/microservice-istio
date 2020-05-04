@@ -595,7 +595,7 @@ kubernetes.default.svc.cluster.local:443                           AUTO       DI
 ...
 ```
 
-Remove mTLS enforcement by running `kubectl apply -f enforce-mtls.yaml`.
+Remove mTLS enforcement by running `kubectl delete -f enforce-mtls.yaml`.
 
 ## Fault Injection
 
