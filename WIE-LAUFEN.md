@@ -575,7 +575,7 @@ admin. Das Passwort ist ebenfalls admin.
 
 ## Logging
 
-Istio unterstützt auch Logging. Aber Istio kann in den Logs nur die
+Istio [unterstützt auch Logging](https://istio.io/docs/tasks/observability/logs/access-log/). Aber Istio kann in den Logs nur die
 Informationen aus den HTTP Request loggen. Diese Informationen sind
 zwar wertvoll, aber reichen oft nicht aus, um Probleme in den
 Microservices zu untersuchen. Daher müssen die Microservices selber
