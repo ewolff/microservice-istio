@@ -86,9 +86,8 @@ Dieser und die folgenden Schritte können entweder auf der
 Kommandozeile (Minkube / Google Cloud) oder in der Google Cloud Shell
 durchgeführt werden.
 
-* [Installiere
-Istio](https://istio.io/docs/setup/getting-started/). Für das
-Beispiel ist Istio ohne "mutual TLS authentication" ausreichend.
+* [Installiere istioctl](https://istio.io/docs/setup/getting-started/) 
+und nutze es, um Istio auf dem Cluster zu installieren. Nutze das "demo" Profil.
 
 ## Docker Images bauen
 
@@ -313,11 +312,12 @@ dann viele Pods umfassen, um Lastverteilung umzusetzen.
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl get services
 NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
-apache       NodePort    10.110.196.4     <none>        80:31475/TCP     4m13s
-catalog      NodePort    10.96.45.251     <none>        8080:32300/TCP   4m13s
-customer     NodePort    10.101.227.211   <none>        8080:31621/TCP   4m13s
-kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          152m
-order        NodePort    10.109.230.95    <none>        8080:32182/TCP   4m13s
+apache       NodePort    10.31.244.219   <none>        80:30798/TCP     29m
+invoicing    NodePort    10.31.249.73    <none>        80:32105/TCP     2m34s
+kubernetes   ClusterIP   10.31.240.1     <none>        443/TCP          80m
+order        NodePort    10.31.241.103   <none>        80:30426/TCP     2m33s
+postgres     NodePort    10.31.252.0     <none>        5432:31520/TCP   29m
+shipping     NodePort    10.31.251.213   <none>        80:31754/TCP     2m34s
 ```
 
 
@@ -474,45 +474,27 @@ Kubernetes-Konfigurationen unterstützt. Das macht es einfacher, einen
 neuen Microservice zu dem System hinzuzufügen:
 
 * Als Erstes muss
-  [Helm](https://docs.helm.sh/using_helm/#installing-helm) in den
-  Kubernetes Cluster installiert werden.
+  [Helm 3](https://helm.sh/docs/intro/install/) installiert werden.
   
 * Das Verzeichnis `spring-boot-microservice` enthält einen Helm Chart
-  für die Microservices in diesem Projekt. Daher reicht `helm install
-  --set name=bonus spring-boot-microservice/`, um einen Microservice
+  für die Microservices in diesem Projekt. Daher reicht `helm install bonus --set name=bonus spring-boot-microservice/`, um einen Microservice
   zu deploymen.
   
 ```
-[~/microservice-istio] helm install --set name=bonus  spring-boot-microservice/
-NAME:   waxen-newt
-LAST DEPLOYED: Wed Feb 13 14:25:52 2019
+[~/microservice-istio] helm install bonus --set name=bonus spring-boot-microservice/
+NAME: bonus
+LAST DEPLOYED: Thu Apr 30 13:38:08 2020
 NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Service
-NAME   TYPE      CLUSTER-IP     EXTERNAL-IP  PORT(S)         AGE
-bonus  NodePort  10.108.31.211  <none>       8080:30878/TCP  5s
-
-==> v1/Deployment
-NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-bonus  1        1        1           1          5s
-
-==> v1alpha3/VirtualService
-NAME   AGE
-bonus  1s
-
-==> v1/Pod(related)
-NAME                    READY  STATUS   RESTARTS  AGE
-bonus-55d854b9d9-sn4pm  2/2    Running  0         4s
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ```
 
-* Dem Helm Release wird automatisch ein Name zugewiesen. Bei diesem
-  Beispiel ist es `waxen-newt`. `helm list` gibt eine Liste aller
-  derzeit installierten Helm Releases zurück.
+* `helm list` gibt eine Liste aller
+  derzeit installierten Helm Releases aus.
 
-* Helm Release können anhand des Names gelöscht werden, also
-  beispielsweise mit `helm delete waxen-newt`.
+* Helm Releases können anhand des Names gelöscht werden, also
+  beispielsweise mit `helm delete bonus`.
 
 #### Den neuen Microservice nutzen
 
@@ -565,6 +547,8 @@ Gib `kubectl -n istio-system port-forward deployment/grafana
 3000:3000` ein, um einen Proxy für Grafana zu erzeugen.  Das Werkzeug
 ist dann unter http://localhost:3000/ erreichbar. Es enthält einige
 vordefinierte Dashboards.
+Falls die Dashboards nicht auf der Startseite aufgelistet werden, 
+gehe auf Dashboard (Symbol mit vier Kacheln) --> Manage. 
 
 Das Skript `monitoring-grafana.sh` erzeugt ebenfalls den für den
 Zugriff notwendigen Proxy.
@@ -584,14 +568,14 @@ Das Skript `tracing.sh` enhält ebenfalls den notwendigen Befehl.
 [Kiali](https://www.kiali.io/) ist ein Werkzeug, dass die
 Abhängigkeiten zwischen den Microservices visualisiert. Es generiert
 Abhängigkeitsgraphen und zeigt einige wesentliche Metriken an. Das
-Skript `kiali.sh` dient dazu, einen Proxy zu Istios Kiali-Installation
+Skript `kiali.sh` bzw. der darin enthaltene Befehl `kubectl -n istio-system port-forward deployment/kiali 20001:20001` dient dazu, einen Proxy zu Istios Kiali-Installation
 zu starten. Danach steht die Kiali-Konsole unter
 http://localhost:20001/ bereits. Der voreingestellte Benutzername ist
 admin. Das Passwort ist ebenfalls admin.
 
 ## Logging
 
-Istio unterstützt auch Logging. Aber Istio kann in den Logs nur die
+Istio [unterstützt auch Logging](https://istio.io/docs/tasks/observability/logs/access-log/). Aber Istio kann in den Logs nur die
 Informationen aus den HTTP Request loggen. Diese Informationen sind
 zwar wertvoll, aber reichen oft nicht aus, um Probleme in den
 Microservices zu untersuchen. Daher müssen die Microservices selber
@@ -624,6 +608,44 @@ und mit `kubectl apply -f microservices.yaml` wieder zu starten.
 
 Die Log-Infrastruktur kann mit `kubectl delete -f logging.yaml` wieder
 gelöscht werden.
+
+## Security
+
+Istio erweitert Verbindungen wenn möglich standardmäßig mit mTLS,. 
+Kiali visualisiert im Grafen, ob Verbindungen gegenseitig authentifiziert werden, 
+wenn Display --> Security aktiviert ist.
+
+Istio erzwingt mTLS jedoch nicht standardmäßig. Die aktuelle Authentifizierungs-Policy für einen Pod kann mit `istioctl authn tls-check <pod-id>` angezeigt werden.
+
+Das Ergebnis für den order-Pod zeigt, dass für den default-Namespace keine Policy aktiv ist
+
+```sh
+[~/microservice-istio/microservice-istio-demo] ORDER_POD=$(kubectl get pod -l app=order -o jsonpath="{.items[0].metadata.name}") 
+[~/microservice-istio/microservice-istio-demo] istioctl authn tls-check $ORDER_POD | grep "default.svc\|HOST:PORT"
+HOST:PORT                                                          STATUS     SERVER      CLIENT           AUTHN POLICY                                 DESTINATION RULE
+apache.default.svc.cluster.local:80                                AUTO       DISABLE     -                None                                         -
+invoicing.default.svc.cluster.local:80                             AUTO       DISABLE     -                None                                         -
+kubernetes.default.svc.cluster.local:443                           AUTO       DISABLE     -                None                                         -
+...
+```
+
+Durch Hinzufügen einer Authentifizierungs-`Policy` und einer `DestinationRule` für Anfragen an den invoicing-Service wird mTLS 
+explizit aktiviert und erzwungen. Diese Konfiguraion kann mit `kubectl apply -f enforce-mtls.yaml` angewendet werden.
+
+Eine erneute Ausführung von `istioctl authn tls-check` zeigt, dass mTLS nun 
+zwischen order und invoicing durchgesetzt wird.
+
+```
+[~/microservice-istio/microservice-istio-demo] istioctl authn tls-check $ORDER_POD | grep "default.svc\|HOST:PORT"
+HOST:PORT                                                          STATUS     SERVER      CLIENT           AUTHN POLICY                                 DESTINATION RULE
+apache.default.svc.cluster.local:80                                AUTO       DISABLE     -                None                                         -
+invoicing.default.svc.cluster.local:80                             OK         STRICT      ISTIO_MUTUAL     default/invoicing-policy                     default/invoicing
+kubernetes.default.svc.cluster.local:443                           AUTO       DISABLE     -                None                                         -
+...
+```
+
+Entferne erzwungenes mTLS durch `kubectl delete -f enforce-mtls.yaml`.
+
 
 ## Fault Injection
 
@@ -661,7 +683,7 @@ Bearbeitung warten oder auf Fehler laufen. Dann werden die Requests
 nicht mehr an das eigentliche System weitergeschickt, sondern laufen
 direkt auf einen Fehler.
 
-Nutze `kubectl apply -f cicuit-breaker.yaml`, um die Regel zu
+Nutze `kubectl apply -f circuit-breaker.yaml`, um die Regel zu
 aktivieren. Die Anzahl der Requests, die warten oder parallel
 bearbeitet werden dürfen, wird dabei so stark eingeschränkt, dass es
 sehr einfach ist, das System zu überlasten. Erzeuge dann Last. Dazu
@@ -675,7 +697,7 @@ werden mit hoher Wahrscheinlichkeit auch ein 500 zurückgeben. Nutze
 `ingress-url.sh` (Minikube) oder `ingress-gcp.sh` (Google Cloud), um
 die richtige URL zu finden.
 
-Mit `kubectl delete -f cicuit-breaker.yaml` kann die Regel wieder
+Mit `kubectl delete -f circuit-breaker.yaml` kann die Regel wieder
 entfernt werden.
 
 Es ist auch möglich, einen Timeout in Istio einzufügen, siehe
@@ -712,7 +734,7 @@ microservices.yaml` zurückgesetzt werden.
   microservices.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl  delete -f microservices.yaml
+[~/microservice-istio/microservice-istio-demo] kubectl delete -f microservices.yaml
 deployment.apps "catalog" deleted
 deployment.apps "customer" deleted
 deployment.apps "order" deleted
@@ -728,7 +750,7 @@ virtualservice.networking.istio.io "order" deleted
   infrastructure.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl  delete -f infrastructure.yaml
+[~/microservice-istio/microservice-istio-demo] kubectl delete -f infrastructure.yaml
 deployment.apps "apache" deleted
 service "apache" deleted
 gateway.networking.istio.io "microservice-gateway" deleted
@@ -739,21 +761,18 @@ virtualservice.networking.istio.io "apache" deleted
 
 Die Kubernetes-Konfiguration für die Microservices sind alle sehr
 ähnlich. Es ist daher sinnvoll, ein Template zu nutzen und es zu
-parametrisieren.  [Helm](https://helm.sh/) ist ein Werkzeug, um solche
+parametrisieren. [Helm](https://helm.sh/) ist ein Werkzeug, um solche
 Templates zu erzeugen und sie zu nutzen. Die Templates heißen Helm
 Charts.
 
 * Installiere Helm, siehe
-https://github.com/helm/helm/blob/master/docs/install.md
+https://github.com/helm/helm#install
 
-* Um Helm in dem Kubernetes Cluster zu nutzen, muss man zunächst 
-  `helm init`starten.
-  
 * Stelle sicher, dass die Infrastruktur mit `kubectl apply -f
   infrastructure.yaml` deployt worden ist (siehe oben).
 
 * Um einen der Microservices `order`, `shipping`, und `invoicing`
-  starten, muss man nur z.B. `helm install --set name=order
+  starten, muss man nur z.B. `helm install order --set name=order
   ../spring-boot-microservice/`
   ausführen. `../spring-boot-microservice` ist das Verzeichnis, dass
   den Helm Chart enthält.
@@ -761,7 +780,7 @@ https://github.com/helm/helm/blob/master/docs/install.md
 * Die Datei `spring-boot-microservice/values.yaml`enthält die weiteren
   Paramter, die wie `name` bei der Installation geändert werden können.
 
-* `helm install --dry-run --set name=order
+* `helm install order --dry-run --set name=order
   ../spring-boot-microservice/`. `../spring-boot-microservice` macht
   einen "Dry Run", d.h. es wird nichts geändert sondern nur die
   entsprechenden Meldungen ausgegeben.
@@ -771,54 +790,22 @@ Microservices zu deployen:
 
 ```
 [~/microservice-istio/microservice-istio-demo]./install-helm.sh
-NAME:   wobbling-billygoat
-LAST DEPLOYED: Wed Jan 16 10:07:50 2019
+NAME: order
+LAST DEPLOYED: Thu Apr 30 17:56:36 2020
 NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Pod(related)
-NAME                    READY  STATUS   RESTARTS  AGE
-order-79cd6c8844-vhcqj  0/2    Pending  0         0s
-
-==> v1/Service
-NAME   TYPE      CLUSTER-IP      EXTERNAL-IP  PORT(S)         AGE
-order  NodePort  10.109.102.171  <none>       8080:31666/TCP  0s
-
-==> v1/Deployment
-NAME   DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-order  1        1        1           0          0s
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ...
 ```
 
 * Das Ergebnis sind mehrere Releases der Helm Chart mit
-  unterschiedlichen Parametern. Das Relase in der Ausgabe oben heißt
-  `wobbling-billygoat`. Der Name wird automatisch generier.t
+  unterschiedlichen Parametern.
 
 
 ## Helm-Installation aufräumen
 
-* Zunächst muss man die Namen der Helm Releases ermitteln:
-
-```
-[~/microservice-istio/microservice-istio-demo] helm list
-NAME            REVISION        UPDATED                         STATUS          CHART                           APP VERSION                                          NAMESPACE
-flabby-abalone  1               Wed Jan 16 08:21:50 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-insipid-puma    1               Wed Jan 16 08:21:57 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-lame-skunk      1               Wed Jan 16 08:21:40 2019        DEPLOYED        spring-boot-microservice-0.1.0  1.0                                                  default
-``` 
-
-* Dann kann man die Releases anhand der Namen löschen:
-
-``` 
-[~/microservice-istio/microservice-istio-demo] helm delete flabby-abalone
-release "flabby-abalone" deleted
-[~/microservice-istio/microservice-istio-demo] helm delete insipid-puma
-,release "insipid-puma" deleted
-[~/microservice-istio/microservice-istio-demo] helm delete lame-skunk
-release "lame-skunk" deleted
-``` 
-
+* Dann kann man die Releases durch `helm delete invoicing order shipping` löschen 
 
 * Schließlich kann man mit `kubectl delete -f infrastructure.yaml` die
   Infrastruktur löschen.
