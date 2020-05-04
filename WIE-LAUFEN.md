@@ -548,6 +548,8 @@ Gib `kubectl -n istio-system port-forward deployment/grafana
 3000:3000` ein, um einen Proxy für Grafana zu erzeugen.  Das Werkzeug
 ist dann unter http://localhost:3000/ erreichbar. Es enthält einige
 vordefinierte Dashboards.
+Falls die Dashboards nicht auf der Startseite aufgelistet werden, 
+gehe auf Dashboard (Symbol mit vier Kacheln) --> Manage. 
 
 Das Skript `monitoring-grafana.sh` erzeugt ebenfalls den für den
 Zugriff notwendigen Proxy.
@@ -567,7 +569,7 @@ Das Skript `tracing.sh` enhält ebenfalls den notwendigen Befehl.
 [Kiali](https://www.kiali.io/) ist ein Werkzeug, dass die
 Abhängigkeiten zwischen den Microservices visualisiert. Es generiert
 Abhängigkeitsgraphen und zeigt einige wesentliche Metriken an. Das
-Skript `kiali.sh` dient dazu, einen Proxy zu Istios Kiali-Installation
+Skript `kiali.sh` bzw. der darin enthaltene Befehl `kubectl -n istio-system port-forward deployment/kiali 20001:20001` dient dazu, einen Proxy zu Istios Kiali-Installation
 zu starten. Danach steht die Kiali-Konsole unter
 http://localhost:20001/ bereits. Der voreingestellte Benutzername ist
 admin. Das Passwort ist ebenfalls admin.
@@ -644,7 +646,7 @@ Bearbeitung warten oder auf Fehler laufen. Dann werden die Requests
 nicht mehr an das eigentliche System weitergeschickt, sondern laufen
 direkt auf einen Fehler.
 
-Nutze `kubectl apply -f cicuit-breaker.yaml`, um die Regel zu
+Nutze `kubectl apply -f circuit-breaker.yaml`, um die Regel zu
 aktivieren. Die Anzahl der Requests, die warten oder parallel
 bearbeitet werden dürfen, wird dabei so stark eingeschränkt, dass es
 sehr einfach ist, das System zu überlasten. Erzeuge dann Last. Dazu
@@ -658,7 +660,7 @@ werden mit hoher Wahrscheinlichkeit auch ein 500 zurückgeben. Nutze
 `ingress-url.sh` (Minikube) oder `ingress-gcp.sh` (Google Cloud), um
 die richtige URL zu finden.
 
-Mit `kubectl delete -f cicuit-breaker.yaml` kann die Regel wieder
+Mit `kubectl delete -f circuit-breaker.yaml` kann die Regel wieder
 entfernt werden.
 
 Es ist auch möglich, einen Timeout in Istio einzufügen, siehe
@@ -695,7 +697,7 @@ microservices.yaml` zurückgesetzt werden.
   microservices.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl  delete -f microservices.yaml
+[~/microservice-istio/microservice-istio-demo] kubectl delete -f microservices.yaml
 deployment.apps "catalog" deleted
 deployment.apps "customer" deleted
 deployment.apps "order" deleted
@@ -711,7 +713,7 @@ virtualservice.networking.istio.io "order" deleted
   infrastructure.yaml`:
 
 ```
-[~/microservice-istio/microservice-istio-demo]kubectl  delete -f infrastructure.yaml
+[~/microservice-istio/microservice-istio-demo] kubectl delete -f infrastructure.yaml
 deployment.apps "apache" deleted
 service "apache" deleted
 gateway.networking.istio.io "microservice-gateway" deleted
@@ -722,7 +724,7 @@ virtualservice.networking.istio.io "apache" deleted
 
 Die Kubernetes-Konfiguration für die Microservices sind alle sehr
 ähnlich. Es ist daher sinnvoll, ein Template zu nutzen und es zu
-parametrisieren.  [Helm](https://helm.sh/) ist ein Werkzeug, um solche
+parametrisieren. [Helm](https://helm.sh/) ist ein Werkzeug, um solche
 Templates zu erzeugen und sie zu nutzen. Die Templates heißen Helm
 Charts.
 
