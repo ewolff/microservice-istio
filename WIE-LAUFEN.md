@@ -44,7 +44,7 @@ Kubectl is now configured to use the cluster.
 
 * Registriere Dich bei der [Google Cloud](https://cloud.google.com/).
 
-* Gehe zut [Kubernetes Engine Page](https://console.cloud.google.com/projectselector/kubernetes?_ga=2.66966445.-2058400183.1547494992)
+* Gehe zur [Kubernetes Engine Page](https://console.cloud.google.com/projectselector/kubernetes?_ga=2.66966445.-2058400183.1547494992)
 
 * Erzeuge ein Projekt oder wähle eines aus.
 
