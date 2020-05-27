@@ -8,8 +8,9 @@ spec:
   http:
   - fault:
       abort:
-        percent: 100
         httpStatus: 500
+        percentage:
+          value: 100
     route:
     - destination:
         host: order.default.svc.cluster.local
