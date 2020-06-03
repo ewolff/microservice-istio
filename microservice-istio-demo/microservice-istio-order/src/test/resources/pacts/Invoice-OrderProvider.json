@@ -168,10 +168,10 @@
             {
               "link": "http://localhost:8081/order/1",
               "id": 1,
-              "updated": "2019-05-20T11:49:22.111+0000"
+              "updated": "2019-05-20T11:49:22.111+00:00"
             }
           ],
-          "updated": "2019-05-20T11:49:22.111+0000"
+          "updated": "2019-05-20T11:49:22.111+00:00"
         },
         "matchingRules": {
           "body": {
@@ -179,7 +179,7 @@
               "matchers": [
                 {
                   "match": "date",
-                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+0000"
+                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+00:00"
                 }
               ],
               "combine": "AND"
@@ -213,7 +213,7 @@
               "matchers": [
                 {
                   "match": "date",
-                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+0000"
+                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+00:00"
                 }
               ],
               "combine": "AND"
