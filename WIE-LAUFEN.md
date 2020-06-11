@@ -658,7 +658,7 @@ REST Request zum Order Microservice einen HTTP-500-Fehler. Mit
 -f fault-injection.yaml` kann diese Konfiguration zum System
 hinzugefügt werden. Wenn man nun den Invoicing oder Shipping
 Microservice Informationen vom Order Microservice pollen lässt, dann
-dauert dieser Vorgang deutlich länger und endet in einem Fehler.
+endet dieser Vorgang in einem Fehler.
 
 Mit `kubectl delete -f fault-injection.yaml`verschwindet diese
 Verzögerung wieder aus dem System.

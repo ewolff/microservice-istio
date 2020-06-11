@@ -605,8 +605,8 @@ system. That makes it possible to test the system's resilience.
 the order microservice fail. You can add it to the system with `kubectl apply
 -f fault-injection.yaml` . If you make the shipping or invoicing
 microservices poll new
-information from the order microservice now, this takes quite a while
-and finally ends in an error.
+information from the order microservice now, this 
+ends in an error.
 
 To remove the fault injection again, just use `kubectl delete -f
 fault-injection.yaml`.
