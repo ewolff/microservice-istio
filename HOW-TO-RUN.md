@@ -601,8 +601,8 @@ Remove mTLS enforcement by running `kubectl delete -f enforce-mtls.yaml`.
 
 Istio provides feature to add fault scenarios to the
 system. That makes it possible to test the system's resilience.
-`fault-injection.yaml` adds a 30s delay to REST requests to
-the order microservice. You can add it to the system with `kubectl apply
+`fault-injection.yaml` will make all REST requests to
+the order microservice fail. You can add it to the system with `kubectl apply
 -f fault-injection.yaml` . If you make the shipping or invoicing
 microservices poll new
 information from the order microservice now, this takes quite a while
