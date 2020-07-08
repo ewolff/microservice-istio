@@ -11,7 +11,7 @@ services.
 Also the demo uses [Istio](https://istio.io/) for features like
 monitoring, tracing, fault injection, and circuit breaking.
 
-This project creates a complete micro service demo system in Docker
+This project creates a complete microservice demo system in Docker
 containers. The services are implemented in Java using Spring Boot and
 Spring Cloud.
 
