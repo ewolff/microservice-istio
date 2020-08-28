@@ -74,7 +74,7 @@ Sonst muss das [Google Cloud
   hello-cluster --num-nodes=3`
   
 * Weise dem Nutzer die Rechte zu, die für einen Installation von
-  Kubernetes notwendig sind: `kubectl create clusterrolebinding
+  Istio notwendig sind: `kubectl create clusterrolebinding
   cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud
   config get-value core/account)`
   
