@@ -449,7 +449,13 @@ angezeigt wird. Sie hat Links zu den andern Microservices.
 ## Microservice hinzufügen
 
 Im Verzeichnis `microservice-istio-bonus` gibt es einen weiteren
-Microservice. Um auch diesen Microservice zu deployen, sind die
+Microservice.
+Dieser Microservice zeigt, wie man das System mit einem Microservice
+ergänzen kann, der sich nicht das Build-System mit den anderen
+Microservices teilt. So kann der Microservice beispielsweise eine neue
+Java-Version oder eine neue Spring-Boot-Version nutzen, ohne die
+anderen Microservices zu beeinflussen.
+Um auch diesen Microservice zu deployen, sind die
 folgenden Schritte notwendig:
 
 * Wechsel in das Verzeichnis`microservice-isitio-bonus` und starte

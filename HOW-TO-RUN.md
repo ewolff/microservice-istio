@@ -422,7 +422,12 @@ This page has links to all other services.
 ## Adding another Microservice
 
 There is another microservice in the sub directory
-`microservice-istio-bonus`. To add the microservice to your system you
+`microservice-istio-bonus`.
+This microservice shows how you can add another microservice to the
+system without sharing the build infrastructure. So for example you
+can change the Java version or Spring Boot version of this
+microservice without any impact on the other microservices.
+To add the microservice to your system you
 can do the following:
 
 * Change to the directory `microservice-istio-bonus` and run `./mvnw clean
