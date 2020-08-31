@@ -435,13 +435,23 @@ package` (macOS / Linux) or `mvnw.cmd clean package` (Windows) to
 compile the Java 
 code.
 
+* Google Cloud only: Upload the Docker images with `docker-push-gcp.sh`.
+
 * Run `docker-build.sh` in the directory
 `microservice-istio-bonus`. It builds the Docker images and uploads them into
 the Kubernetes cluster.
 
 * Deploy the microservice with `kubectl apply -f bonus.yaml`.
 
-* You can remove the microservice again with `kubectl delete -f bonus.yaml`.
+* Google Cloud: Use `fix-bonus-gcp.sh` first and then deploy with
+  `kubectl apply -f bonus-gcp.yaml`.
+
+You can also download the images from Dockerhub with
+`fix-bonus-github.sh` and `kubectl apply -f
+bonus-dockerhub.yaml`. That way there is no need to build them
+locally.
+
+You can remove the microservice again with `kubectl delete -f bonus.yaml`.
 
 ## Adding a Microservice with Helm
 

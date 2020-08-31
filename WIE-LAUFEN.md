@@ -456,20 +456,32 @@ Microservices teilt. So kann der Microservice beispielsweise eine neue
 Java-Version oder eine neue Spring-Boot-Version nutzen, ohne die
 anderen Microservices zu beeinflussen.
 Um auch diesen Microservice zu deployen, sind die
-folgenden Schritte notwendig:
+folgenden Schritte notwendig, wenn man den Microservice lokal bauen
+will:
 
-* Wechsel in das Verzeichnis`microservice-isitio-bonus` und starte
+  
+* Wechsel in das Verzeichnis`microservice-istio-bonus` und starte
 `./mvnw clean package` (macOS / Linux) oder `mvnw.cmd clean package`
 (Windows), um den Java Code zu kompilieren.
 
 * Starte `docker-build.sh` im Verzeichnis
-`microservice-istio-bonus`. Das Skript erzeugt das Docker image und
-lädt es in den Kubernetes cluster.
+`microservice-linkerd-bonus`. Das Skript erzeugt das Docker Image und
+lädt es in den Kubernetes Cluster.
+
+* Nur Google Cloud: Lade die Docker Images mit `docker-push-gcp.sh` in
+  die Cloud hoch.
 
 * Deploye die Microservices mit `kubectl apply -f bonus.yaml`.
 
-* Mit `kubectl delete -f bonus.yaml` kann man die  Microservices
-  wieder löschen.
+* Google Cloud: Nutze stattdessen `fix-bonus-gcp.sh` und deploye dann
+  mit `kubectl apply -f bonus-gcp.yaml`.
+
+Mit `fix-bonus-github.sh` und `kubectl apply -f
+bonus-dockerhub.yaml` kann man die Images auch aus Dockerhub
+herunterladen, so dass sie nicht lokal gebaut werden müssen.
+
+Mit `kubectl delete -f bonus.yaml` kann man die Microservices wieder
+löschen.
 
 ## Microservice mit Helm hinzufügen
 
