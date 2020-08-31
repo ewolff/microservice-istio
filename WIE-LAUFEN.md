@@ -600,7 +600,7 @@ Microservices zu untersuchen. Daher müssen die Microservices selber
 einige Informationen loggen. Die Logs müssen in einem zentralen System
 gespeichert werden, Um eine große Anzahl von Microservices zu
 unterstützen und um sicherzustellen, dass die Log-Informationen auch
-noch nach Restarts usw. zur Verfügung stehene,
+noch nach Restarts usw. zur Verfügung stehen.
 
 Die Demo nutzt
 [Elasticsearch](https://www.elastic.co/products/elasticsearch), um die
