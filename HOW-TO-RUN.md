@@ -74,6 +74,10 @@ This and all following steps are either done in the command line
 
 * [Install](https://istio.io/docs/setup/getting-started/) istioctl and use it install istio on the cluster. Use the demo profile. 
 
+* Also install the addons (Kiali, Prometheus, Jaeger, Kiali). In the
+  subdirectory `samples/addons` of the istio configuration are
+  matching configuration files. Apply them with `kubectl apply -f
+  samples/addons`.
 
 ## Build the Docker images
 
