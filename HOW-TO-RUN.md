@@ -60,13 +60,8 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 * Configure Docker `gcloud auth configure-docker`
 
 * Create a cluster with `gcloud container clusters create
-  hello-cluster --num-nodes=3`
-  
-* Assign the rights needed for the installation of Istio to yourself:
-  `kubectl create clusterrolebinding cluster-admin-binding
-  --clusterrole=cluster-admin --user=$(gcloud config get-value
-  core/account)`
-  
+  hello-cluster --num-nodes=3 --release-channel=rapid`
+    
 ## Install Istio
 
 This and all following steps are either done in the command line
