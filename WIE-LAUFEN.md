@@ -59,6 +59,9 @@ Sonst muss das [Google Cloud
  [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/)
  installiert werden.
 
+* Logge Dich mit `gcloud auth login <EMail-Adresse>` bei der Google
+  Cloud ein
+
 * Wähle das Projekt aus der Kubernetes Engine Page mit `gcloud
   config set project <projekt name>` aus.
 

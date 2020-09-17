@@ -48,6 +48,8 @@ Otherwise you need to install the [Google Cloud
 SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/).
 
+* Log in to the Google Cloug `gcloud auth login <email address>`
+
 * Select the project from the Kubernetes Engine Page with `gcloud
   config set project <project name>`
 
