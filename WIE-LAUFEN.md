@@ -59,6 +59,9 @@ Sonst muss das [Google Cloud
  [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/)
  installiert werden.
 
+* Logge Dich mit `gcloud auth login <EMail-Adresse>` bei der Google
+  Cloud ein
+
 * Wähle das Projekt aus der Kubernetes Engine Page mit `gcloud
   config set project <projekt name>` aus.
 
@@ -71,14 +74,8 @@ Sonst muss das [Google Cloud
 * Konfiguriere Docker `gcloud auth configure-docker`
 
 * Erzeuge einen Cluster mit `gcloud container clusters create
-  hello-cluster --num-nodes=3`
+  hello-cluster --num-nodes=3 --release-channel=rapid`
   
-* Weise dem Nutzer die Rechte zu, die für einen Installation von
-  Kubernetes notwendig sind: `kubectl create clusterrolebinding
-  cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud
-  config get-value core/account)`
-  
-
 
 ## Installation von Istio
 
@@ -88,6 +85,13 @@ durchgeführt werden.
 
 * [Installiere istioctl](https://istio.io/docs/setup/getting-started/) 
 und nutze es, um Istio auf dem Cluster zu installieren. Nutze das "demo" Profil.
+
+* Installiere auch die Addons (Kiali, Prometheus, Jaeger, Kiali). Die
+  dafür notwendigen Konfigurationsdatein finden sich im
+  Unterverzeichnis `samples/addons` der
+  Istio-Installation. Installiere die Addons mit `kubectl apply -f
+  samples/addons`.
+
 
 ## Docker Images bauen
 
@@ -449,21 +453,39 @@ angezeigt wird. Sie hat Links zu den andern Microservices.
 ## Microservice hinzufügen
 
 Im Verzeichnis `microservice-istio-bonus` gibt es einen weiteren
-Microservice. Um auch diesen Microservice zu deployen, sind die
-folgenden Schritte notwendig:
+Microservice.
+Dieser Microservice zeigt, wie man das System mit einem Microservice
+ergänzen kann, der sich nicht das Build-System mit den anderen
+Microservices teilt. So kann der Microservice beispielsweise eine neue
+Java-Version oder eine neue Spring-Boot-Version nutzen, ohne die
+anderen Microservices zu beeinflussen.
+Um auch diesen Microservice zu deployen, sind die
+folgenden Schritte notwendig, wenn man den Microservice lokal bauen
+will:
 
-* Wechsel in das Verzeichnis`microservice-isitio-bonus` und starte
+  
+* Wechsel in das Verzeichnis`microservice-istio-bonus` und starte
 `./mvnw clean package` (macOS / Linux) oder `mvnw.cmd clean package`
 (Windows), um den Java Code zu kompilieren.
 
 * Starte `docker-build.sh` im Verzeichnis
-`microservice-istio-bonus`. Das Skript erzeugt das Docker image und
-lädt es in den Kubernetes cluster.
+`microservice-linkerd-bonus`. Das Skript erzeugt das Docker Image und
+lädt es in den Kubernetes Cluster.
+
+* Nur Google Cloud: Lade die Docker Images mit `docker-push-gcp.sh` in
+  die Cloud hoch.
 
 * Deploye die Microservices mit `kubectl apply -f bonus.yaml`.
 
-* Mit `kubectl delete -f bonus.yaml` kann man die  Microservices
-  wieder löschen.
+* Google Cloud: Nutze stattdessen `fix-bonus-gcp.sh` und deploye dann
+  mit `kubectl apply -f bonus-gcp.yaml`.
+
+Mit `fix-bonus-github.sh` und `kubectl apply -f
+bonus-dockerhub.yaml` kann man die Images auch aus Dockerhub
+herunterladen, so dass sie nicht lokal gebaut werden müssen.
+
+Mit `kubectl delete -f bonus.yaml` kann man die Microservices wieder
+löschen.
 
 ## Microservice mit Helm hinzufügen
 
@@ -582,7 +604,7 @@ Microservices zu untersuchen. Daher müssen die Microservices selber
 einige Informationen loggen. Die Logs müssen in einem zentralen System
 gespeichert werden, Um eine große Anzahl von Microservices zu
 unterstützen und um sicherzustellen, dass die Log-Informationen auch
-noch nach Restarts usw. zur Verfügung stehene,
+noch nach Restarts usw. zur Verfügung stehen.
 
 Die Demo nutzt
 [Elasticsearch](https://www.elastic.co/products/elasticsearch), um die

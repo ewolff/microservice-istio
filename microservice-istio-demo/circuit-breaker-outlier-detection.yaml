@@ -11,3 +11,8 @@ spec:
       http:
         http1MaxPendingRequests: 1
         http2MaxRequests: 1
+    outlierDetection:
+      consecutiveErrors: 1
+      interval: 1m
+      baseEjectionTime: 10m
+      maxEjectionPercent: 100

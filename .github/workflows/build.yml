@@ -23,7 +23,7 @@ jobs:
       run: cd microservice-istio-bonus && sh ./docker-build.sh
     - name: Log into registry
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-    - name: Push image for other microservices
+    - name: Push image for bonus microservices
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-bonus:1 $IMAGE_PREFIX/microservice-istio-bonus:1

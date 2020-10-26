@@ -48,6 +48,8 @@ Otherwise you need to install the [Google Cloud
 SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 [kubectl](https://kubernetes.io/docs/tasks/kubectl/install/).
 
+* Log in to the Google Cloug `gcloud auth login <email address>`
+
 * Select the project from the Kubernetes Engine Page with `gcloud
   config set project <project name>`
 
@@ -60,13 +62,8 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 * Configure Docker `gcloud auth configure-docker`
 
 * Create a cluster with `gcloud container clusters create
-  hello-cluster --num-nodes=3`
-  
-* Assign the rights needed for the installation of Istio to yourself:
-  `kubectl create clusterrolebinding cluster-admin-binding
-  --clusterrole=cluster-admin --user=$(gcloud config get-value
-  core/account)`
-  
+  hello-cluster --num-nodes=3 --release-channel=rapid`
+    
 ## Install Istio
 
 This and all following steps are either done in the command line
@@ -74,6 +71,10 @@ This and all following steps are either done in the command line
 
 * [Install](https://istio.io/docs/setup/getting-started/) istioctl and use it install istio on the cluster. Use the demo profile. 
 
+* Also install the addons (Kiali, Prometheus, Jaeger, Kiali). In the
+  subdirectory `samples/addons` of the istio configuration are
+  matching configuration files. Apply them with `kubectl apply -f
+  samples/addons`.
 
 ## Build the Docker images
 
@@ -422,7 +423,12 @@ This page has links to all other services.
 ## Adding another Microservice
 
 There is another microservice in the sub directory
-`microservice-istio-bonus`. To add the microservice to your system you
+`microservice-istio-bonus`.
+This microservice shows how you can add another microservice to the
+system without sharing the build infrastructure. So for example you
+can change the Java version or Spring Boot version of this
+microservice without any impact on the other microservices.
+To add the microservice to your system you
 can do the following:
 
 * Change to the directory `microservice-istio-bonus` and run `./mvnw clean
@@ -430,13 +436,23 @@ package` (macOS / Linux) or `mvnw.cmd clean package` (Windows) to
 compile the Java 
 code.
 
+* Google Cloud only: Upload the Docker images with `docker-push-gcp.sh`.
+
 * Run `docker-build.sh` in the directory
 `microservice-istio-bonus`. It builds the Docker images and uploads them into
 the Kubernetes cluster.
 
 * Deploy the microservice with `kubectl apply -f bonus.yaml`.
 
-* You can remove the microservice again with `kubectl delete -f bonus.yaml`.
+* Google Cloud: Use `fix-bonus-gcp.sh` first and then deploy with
+  `kubectl apply -f bonus-gcp.yaml`.
+
+You can also download the images from Dockerhub with
+`fix-bonus-github.sh` and `kubectl apply -f
+bonus-dockerhub.yaml`. That way there is no need to build them
+locally.
+
+You can remove the microservice again with `kubectl delete -f bonus.yaml`.
 
 ## Adding a Microservice with Helm
 
