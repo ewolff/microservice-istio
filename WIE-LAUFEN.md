@@ -68,9 +68,6 @@ Sonst muss das [Google Cloud
 * Wähle ein Rechenzentrum, z.B. das in Frankfurt: `gcloud config set
   compute/zone europe-west3-a`
   
-* Definiere die `PROJECT_ID` mit `export PROJECT_ID="$(gcloud config
-  get-value project -q)"`
-  
 * Konfiguriere Docker `gcloud auth configure-docker`
 
 * Erzeuge einen Cluster mit `gcloud container clusters create

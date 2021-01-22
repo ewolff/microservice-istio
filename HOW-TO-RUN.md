@@ -56,9 +56,6 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 * Choose a data center e.g. in Frankfurt `gcloud config set
   compute/zone europe-west3-a`
   
-* Define the `PROJECT_ID` by doing `export PROJECT_ID="$(gcloud config
-  get-value project -q)"`
-  
 * Configure Docker `gcloud auth configure-docker`
 
 * Create a cluster with `gcloud container clusters create
