@@ -1,7 +1,7 @@
 package com.ewolff.microservice.invoicing;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 

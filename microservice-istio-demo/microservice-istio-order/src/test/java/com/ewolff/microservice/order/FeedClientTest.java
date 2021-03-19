@@ -1,8 +1,8 @@
 package com.ewolff.microservice.order;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 
@@ -22,9 +22,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
-import com.ewolff.microservice.order.OrderApp;
-import com.ewolff.microservice.order.OrderFeed;
-import com.ewolff.microservice.order.OrderFeedEntry;
 import com.ewolff.microservice.order.customer.CustomerRepository;
 import com.ewolff.microservice.order.logic.Order;
 import com.ewolff.microservice.order.logic.OrderRepository;
