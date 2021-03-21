@@ -120,7 +120,7 @@
 		<dependency>
 			<groupId>au.com.dius</groupId>
 			<artifactId>pact-jvm-consumer-junit5</artifactId>
-			<version>4.0.0-beta.2</version>
+			<version>4.0.10</version>
 			<scope>test</scope>
 		</dependency>
 
