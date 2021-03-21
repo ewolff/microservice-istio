@@ -1,6 +1,10 @@
 package com.ewolff.microservice.order.logic;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +65,16 @@ class OrderController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ModelAndView get(@PathVariable("id") long id) {
 		return new ModelAndView("order", "order", orderRepository.findById(id).get());
+	}
+
+	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Order> getJSON(@PathVariable("id") long id) {
+		Optional<Order> response = orderRepository.findById(id);
+		if (response.isEmpty()) {
+			return new ResponseEntity<Order>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Order>(response.get(), HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(value = "/full-{id}", method = RequestMethod.GET)

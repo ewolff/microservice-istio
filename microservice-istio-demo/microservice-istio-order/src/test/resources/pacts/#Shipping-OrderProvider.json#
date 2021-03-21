@@ -1,0 +1,235 @@
+{
+  "provider": {
+    "name": "OrderProvider"
+  },
+  "consumer": {
+    "name": "Shipping"
+  },
+  "interactions": [
+    {
+      "description": "Request for an order",
+      "request": {
+        "method": "GET",
+        "path": "/order/1"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "deliveryService": "Hermes",
+          "numberOfLines": 1,
+          "orderLine": [
+            {
+              "item": {
+                "itemId": 1,
+                "name": "iPod"
+              },
+              "count": 42
+            }
+          ],
+          "shippingAddress": {
+            "zip": "40789",
+            "city": "Monheim am Rhein",
+             "street": "Krischerstr. 100",
+	      "county": "Nordrhein-Westphalen" 
+          },
+          "id": 1,
+          "customer": {
+            "firstname": "Eberhard",
+            "customerId": 1,
+            "name": "Wolff",
+            "email": "eberhard.wolff@posteo.net"
+          }
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.numberOfLines": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.deliveryService": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.customer.customerId": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.customer.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.customer.firstname": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.customer.email": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.shippingAddress.street": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.shippingAddress.zip": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.shippingAddress.city": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orderLine[0].count": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orderLine[0].item.itemId": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orderLine[0].item.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      }
+    },
+    {
+      "description": "Request for order feed",
+      "request": {
+        "method": "GET",
+        "path": "/feed"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "orders": [
+            {
+              "link": "http://localhost:8081/order/1",
+              "id": 1,
+              "updated": "2019-05-20T12:06:36.376+00:00"
+            }
+          ],
+          "updated": "2019-05-20T12:06:36.376+00:00"
+        },
+        "matchingRules": {
+          "body": {
+            "$.updated": {
+              "matchers": [
+                {
+                  "match": "date",
+                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+00:00"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orders": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 0
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orders[*].id": {
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orders[*].link": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.orders[*].updated": {
+              "matchers": [
+                {
+                  "match": "date",
+                  "date": "yyyy-MM-dd\u0027T\u0027kk:mm:ss.SSS+00:00"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.0.0-beta.2"
+    }
+  }
+}
