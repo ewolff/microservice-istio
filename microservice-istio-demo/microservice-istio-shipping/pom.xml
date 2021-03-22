@@ -45,11 +45,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.hateoas</groupId>
-			<artifactId>spring-hateoas</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
