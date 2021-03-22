@@ -552,29 +552,6 @@ microservices need to log some information. To support a large number
 of microservices and to make sure that restarts etc. won't influence
 the system, the logs must be stored in a centralized system.
 
-The demo uses
-[Elasticsearch](https://www.elastic.co/products/elasticsearch) to
-store the logs. Microservices write their logs directly to
-Elasticsearch. [Kibana](https://www.elastic.co/products/kibana) is
-used to display and analyze the logs.
-
-To use the log infrastructure, it must be started with `kubectl apply
--f logging.yaml`.
-
-
-`kubectl -n logging port-forward deployment/kibana 5601:5601`
-starts
-a proxy for Kibana so it can be reached at http://localhost:5601/ .
-You can also use `kibana.sh`.
-
-If the microservices are started without an Elasticsearch server, they
-won't try to access it again after the startup. You might therefore
-need to restart all microservices by doing `kubectl delete -f
-microservices.yaml` and `kubectl apply -f microservices.yaml`.
-
-The log infrastructure can be removed with `kubectl delete -f
-logging.yaml`.
-
 ## Security
 
 Istio upgrades connections to mTLS by default where possible. Kiali visualizes 

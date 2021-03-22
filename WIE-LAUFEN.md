@@ -603,31 +603,6 @@ gespeichert werden, Um eine große Anzahl von Microservices zu
 unterstützen und um sicherzustellen, dass die Log-Informationen auch
 noch nach Restarts usw. zur Verfügung stehen.
 
-Die Demo nutzt
-[Elasticsearch](https://www.elastic.co/products/elasticsearch), um die
-Logs zu speichern. Die Microservices schreiben ihre Logs direkt in
-Elasticsearch. 
-[Kibana](https://www.elastic.co/products/kibana) kann genutzt werden,
-um die Logs anzuzeigen und zu analysieren.
-
-Um die Log-Infrastruktur zu nutzen, muss sie mit `kubectl apply -f
-logging.yaml` gestartet werden.
-
-
-`kubectl -n logging port-forward deployment/kibana 5601:5601` startet
-den Proxy für Kibana, so dass er unter http://localhost:5601/
-zugreifbar ist.  Das Skript `kibana.sh` ermöglicht dasselbe.
-
-Wenn die Microservices gestartet worden sind, ohne dass der
-Elasticsearch-Server gestartet worden ist, dann kann es vorkommen,
-dass nach dem Start die Microservices nicht mehr versuchen auf den
-Server zuzugreifen. Gegebenenfalls ist es dann notwendig, die
-Microservices mit `kubectl delete -f microservices.yaml` zu stoppen
-und mit `kubectl apply -f microservices.yaml` wieder zu starten.
-
-Die Log-Infrastruktur kann mit `kubectl delete -f logging.yaml` wieder
-gelöscht werden.
-
 ## Security
 
 Istio erweitert Verbindungen wenn möglich standardmäßig mit mTLS,. 
