@@ -16,10 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.ewolff.microservice.order.customer.Customer;
 import com.ewolff.microservice.order.item.Item;
 
@@ -158,17 +154,70 @@ public class Order {
 	}
 
 	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((billingAddress == null) ? 0 : billingAddress.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((deliveryService == null) ? 0 : deliveryService.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((orderLine == null) ? 0 : orderLine.hashCode());
+		result = prime * result + ((shippingAddress == null) ? 0 : shippingAddress.hashCode());
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (billingAddress == null) {
+			if (other.billingAddress != null)
+				return false;
+		} else if (!billingAddress.equals(other.billingAddress))
+			return false;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (deliveryService == null) {
+			if (other.deliveryService != null)
+				return false;
+		} else if (!deliveryService.equals(other.deliveryService))
+			return false;
+		if (id != other.id)
+			return false;
+		if (orderLine == null) {
+			if (other.orderLine != null)
+				return false;
+		} else if (!orderLine.equals(other.orderLine))
+			return false;
+		if (shippingAddress == null) {
+			if (other.shippingAddress != null)
+				return false;
+		} else if (!shippingAddress.equals(other.shippingAddress))
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", customer=" + customer + ", deliveryService=" + deliveryService + ", updated="
+				+ updated + ", shippingAddress=" + shippingAddress + ", billingAddress=" + billingAddress
+				+ ", orderLine=" + orderLine + "]";
+	}
+
+
+
 }
