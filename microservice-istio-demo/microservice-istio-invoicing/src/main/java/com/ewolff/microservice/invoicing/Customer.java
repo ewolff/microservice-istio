@@ -2,7 +2,6 @@ package com.ewolff.microservice.invoicing;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Email;
 
 @Embeddable
 public class Customer {
@@ -17,7 +16,6 @@ public class Customer {
 	private String firstname;
 
 	@Column(nullable = false)
-	@Email
 	private String email;
 
 	public Customer() {
