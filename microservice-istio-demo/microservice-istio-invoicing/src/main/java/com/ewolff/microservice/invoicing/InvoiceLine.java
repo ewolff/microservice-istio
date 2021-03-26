@@ -6,10 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 @Entity
 public class InvoiceLine {
 
@@ -52,19 +48,40 @@ public class InvoiceLine {
 	}
 
 	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + count;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((item == null) ? 0 : item.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InvoiceLine other = (InvoiceLine) obj;
+		if (count != other.count)
+			return false;
+		if (id != other.id)
+			return false;
+		if (item == null) {
+			if (other.item != null)
+				return false;
+		} else if (!item.equals(other.item))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "InvoiceLine [count=" + count + ", item=" + item + ", id=" + id + "]";
+	}
+
 
 }

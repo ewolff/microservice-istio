@@ -11,10 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 @Entity
 public class Shipment {
 
@@ -115,21 +111,6 @@ public class Shipment {
 		return shipmentLine.size();
 	}
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
-
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
@@ -147,4 +128,68 @@ public class Shipment {
 			throw new IllegalArgumentException("Unknown Delivery Service!");
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cost;
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((deliveryService == null) ? 0 : deliveryService.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((shipmentLine == null) ? 0 : shipmentLine.hashCode());
+		result = prime * result + ((shippingAddress == null) ? 0 : shippingAddress.hashCode());
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Shipment other = (Shipment) obj;
+		if (cost != other.cost)
+			return false;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (deliveryService == null) {
+			if (other.deliveryService != null)
+				return false;
+		} else if (!deliveryService.equals(other.deliveryService))
+			return false;
+		if (id != other.id)
+			return false;
+		if (shipmentLine == null) {
+			if (other.shipmentLine != null)
+				return false;
+		} else if (!shipmentLine.equals(other.shipmentLine))
+			return false;
+		if (shippingAddress == null) {
+			if (other.shippingAddress != null)
+				return false;
+		} else if (!shippingAddress.equals(other.shippingAddress))
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Shipment [id=" + id + ", customer=" + customer + ", updated=" + updated + ", shippingAddress="
+				+ shippingAddress + ", shipmentLine=" + shipmentLine + ", deliveryService=" + deliveryService
+				+ ", cost=" + cost + "]";
+	}
+	
+	
 }

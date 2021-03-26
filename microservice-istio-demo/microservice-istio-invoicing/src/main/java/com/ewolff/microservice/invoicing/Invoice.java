@@ -11,10 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 @Entity
 public class Invoice {
 
@@ -105,17 +101,55 @@ public class Invoice {
 	}
 
 	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((billingAddress == null) ? 0 : billingAddress.hashCode());
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((invoiceLine == null) ? 0 : invoiceLine.hashCode());
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Invoice other = (Invoice) obj;
+		if (billingAddress == null) {
+			if (other.billingAddress != null)
+				return false;
+		} else if (!billingAddress.equals(other.billingAddress))
+			return false;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (id != other.id)
+			return false;
+		if (invoiceLine == null) {
+			if (other.invoiceLine != null)
+				return false;
+		} else if (!invoiceLine.equals(other.invoiceLine))
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Invoice [id=" + id + ", customer=" + customer + ", updated=" + updated + ", billingAddress="
+				+ billingAddress + ", invoiceLine=" + invoiceLine + "]";
+	}
+
 }
