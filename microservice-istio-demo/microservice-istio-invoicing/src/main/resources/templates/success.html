@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout}">
-<head>
-<title>Sucess</title>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: common_head(~{::title})">
+	<title>Sucess</title>
 </head>
-<body>
-	<h1 layout:fragment="~{header}">Shipment</h1>
-	<div layout:fragment="~{content}" class="container">
-	Polling was successful! <br />
-	
-	<a class="brand" href="/">Home</a> 
+
+<body th:replace="layout :: common_body(~{::h1},~{::#content})">
+	<h1>Invoicing</h1>
+	<div id="content" class="container">
+		Polling was successful! <br />
+
+		<a class="brand" href="/">Home</a>
 
 	</div>
 </body>
+
 </html>

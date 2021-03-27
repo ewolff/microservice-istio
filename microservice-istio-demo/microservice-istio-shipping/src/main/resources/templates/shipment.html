@@ -1,98 +1,98 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout}">
-<head>
-<title>Shipping</title>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: common_head(~{::title})">
+	<title>Shipping</title>
 </head>
-<body>
-	<h1 layout:fragment="~{header}">Shipping</h1>
-	<div layout:fragment="~{content}" class="container">
 
-	<div class="snippet">
-		<div class="row">
-			<div class="col-md-2">
-				<b>Customer</b>
+<body th:replace="layout :: common_body(~{::h1},~{::#content})">
+	<h1>Shipping</h1>
+	<div id="content" class="container">
+
+		<div class="snippet">
+			<div class="row">
+				<div class="col-md-2">
+					<b>Customer</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.customer.firstname}+' '+${shipment.customer.name}"></div>
 			</div>
-			<div class="col-md-2"
-				th:text="${shipment.customer.firstname}+' '+${shipment.customer.name}"></div>
-		</div>
 
-		<div class="row">
-			<div class="col-md-2">
-				<b>Delivery Service</b>
+			<div class="row">
+				<div class="col-md-2">
+					<b>Delivery Service</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.deliveryService}"></div>
 			</div>
-			<div class="col-md-2" th:text="${shipment.deliveryService}"></div>
-		</div>
 
 
-		<div class="row">
-			<h2>Shipping Address</h2>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2">
-				<b>Street</b>
+			<div class="row">
+				<h2>Shipping Address</h2>
 			</div>
-			<div class="col-md-2" th:text="${shipment.shippingAddress.street}"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-2">
-				<b>Zip</b>
+
+			<div class="row">
+				<div class="col-md-2">
+					<b>Street</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.shippingAddress.street}"></div>
 			</div>
-			<div class="col-md-2" th:text="${shipment.shippingAddress.zip}"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-2">
-				<b>City</b>
+			<div class="row">
+				<div class="col-md-2">
+					<b>Zip</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.shippingAddress.zip}"></div>
 			</div>
-			<div class="col-md-2" th:text="${shipment.shippingAddress.city}"></div>
+			<div class="row">
+				<div class="col-md-2">
+					<b>City</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.shippingAddress.city}"></div>
+			</div>
+
+			<div class="row">
+				<h2>Shipment Lines</h2>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2">
+					<b>Quantity</b>
+				</div>
+				<div class="col-md-2">
+					<b>Item Id</b>
+				</div>
+				<div class="col-md-2">
+					<b>Item Name</b>
+				</div>
+			</div>
+
+			<div class="row" th:each="shipmentLine : ${shipment.shipmentLine}">
+				<div class="col-md-2" th:text="${shipmentLine.count}"></div>
+				<div class="col-md-2" th:text="${shipmentLine.item.itemId}"></div>
+				<div class="col-md-2" th:text="${shipmentLine.item.name}"></div>
+			</div>
+
+			<div class="row">
+				<h2>Shipment Costs</h2>
+			</div>
+
+			<div class="row">
+				<div class="col-md-2">
+					<b>Cost</b>
+				</div>
+				<div class="col-md-2" th:text="${shipment.cost}"></div>
+			</div>
+
 		</div>
 
 		<div class="row">
-			<h2>Shipment Lines</h2>
+			<h2>More Information</h2>
 		</div>
 
 		<div class="row">
-			<div class="col-md-2">
-				<b>Quantity</b>
-			</div>
-			<div class="col-md-2">
-				<b>Item Id</b>
-			</div>
-			<div class="col-md-2">
-				<b>Item Name</b>
-			</div>
+			<div class="col-md-2"><a href="/invoicing/42" th:href="'/invoicing/'+${shipment.id}">Invocing</a></a></div>
+			<div class="col-md-2"><a href="/order/42" th:href="'/order/'+${shipment.id}">Order</a></a></div>
 		</div>
-
-		<div class="row" th:each="shipmentLine : ${shipment.shipmentLine}">
-			<div class="col-md-2" th:text="${shipmentLine.count}"></div>
-			<div class="col-md-2" th:text="${shipmentLine.item.itemId}"></div>
-			<div class="col-md-2" th:text="${shipmentLine.item.name}"></div>
-		</div>
-
-		<div class="row">
-			<h2>Shipment Costs</h2>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2">
-				<b>Cost</b>
-			</div>
-			<div class="col-md-2" th:text="${shipment.cost}"></div>
-		</div>
-
-     </div>
-
-	 <div class="row">
-		<h2>More Information</h2>
-	 </div>
-
-	<div class="row">
-		<div class="col-md-2" ><a href="/invoicing/42" th:href="'/invoicing/'+${shipment.id}">Invocing</a></a></div>
-		<div class="col-md-2" ><a href="/order/42" th:href="'/order/'+${shipment.id}">Order</a></a></div>
-	</div>
 
 	</div>
 </body>
+
 </html>
