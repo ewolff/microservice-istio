@@ -53,3 +53,8 @@ jobs:
         docker push $IMAGE_PREFIX/microservice-istio-invoicing:1
         docker tag microservice-istio-order:1 $IMAGE_PREFIX/microservice-istio-order:1
         docker push $IMAGE_PREFIX/microservice-istio-order:1
+
+    - name: Build native order microservices with Maven
+      run: cd microservice-istio-demo/microservice-istio-order && mvn -B spring-boot:build-image --file pom.xml
+      docker tag microservice-istio-order:0.0.1-SNAPSHOT $IMAGE_PREFIX/microservice-istio-order-native:1
+      docker push $IMAGE_PREFIX/microservice-istio-order-native:1
