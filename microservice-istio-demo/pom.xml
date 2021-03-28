@@ -59,7 +59,8 @@
 						<builder>paketobuildpacks/builder:tiny</builder>
 						<env>
 							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-http --enable-https --enable-url-protocols=http</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-http --enable-https
+								--enable-url-protocols=http</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
 						</env>
 					</image>
 				</configuration>
@@ -68,6 +69,10 @@
 				<groupId>org.springframework.experimental</groupId>
 				<artifactId>spring-aot-maven-plugin</artifactId>
 				<version>${spring-native.version}</version>
+				<configuration>
+					<removeSpelSupport>true</removeSpelSupport>
+					<removeYamlSupport>true</removeYamlSupport>
+				</configuration>
 				<executions>
 					<execution>
 						<id>test-generate</id>
