@@ -72,7 +72,7 @@ jobs:
 
     - name: Build native shipping microservices with Maven
       run: cd microservice-istio-demo/microservice-istio-shipping && mvn -B spring-boot:build-image --file pom.xml
-    - name: Push image for native microservice shippinginvoicing
+    - name: Push image for native microservice shipping
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-shipping:0.0.1-SNAPSHOT $IMAGE_PREFIX/microservice-istio-shipping-native:1
