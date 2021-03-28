@@ -63,7 +63,7 @@ jobs:
         docker push $IMAGE_PREFIX/microservice-istio-order-native:1
 
     - name: Build native invoice microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-invoice && mvn -B spring-boot:build-image --file pom.xml
+      run: cd microservice-istio-demo/microservice-istio-invoicing && mvn -B spring-boot:build-image --file pom.xml
     - name: Push image for native microservice invoicing
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
