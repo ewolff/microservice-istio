@@ -7,18 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ShipmentService {
+public class ShipmentServiceImpl implements ShipmentService  {
 
-	private final Logger log = LoggerFactory.getLogger(ShipmentService.class);
+	private final Logger log = LoggerFactory.getLogger(ShipmentServiceImpl.class);
 
 	private ShipmentRepository shipmentRepository;
 
 	@Autowired
-	public ShipmentService(ShipmentRepository shipmentRepository) {
+	public ShipmentServiceImpl(ShipmentRepository shipmentRepository) {
 		super();
 		this.shipmentRepository = shipmentRepository;
 	}
 
+	@Override
 	@Transactional
 	public void ship(Shipment shipment) {
 		if (shipmentRepository.existsById(shipment.getId())) {
