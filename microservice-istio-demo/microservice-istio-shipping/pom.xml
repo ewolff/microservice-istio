@@ -42,7 +42,7 @@
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -78,10 +78,11 @@
 			<scope>test</scope>
 		</dependency>
 
+
 		<dependency>
-			<groupId>au.com.dius</groupId>
-			<artifactId>pact-jvm-consumer-junit5</artifactId>
-			<version>4.0.10</version>
+			<groupId>au.com.dius.pact.consumer</groupId>
+			<artifactId>junit5</artifactId>
+			<version>4.2.2</version>
 			<scope>test</scope>
 		</dependency>
 

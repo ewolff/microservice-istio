@@ -48,6 +48,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -73,9 +74,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>au.com.dius</groupId>
-			<artifactId>pact-jvm-provider-junit5</artifactId>
-			<version>4.0.10</version>
+			<groupId>au.com.dius.pact.provider</groupId>
+			<artifactId>junit5spring</artifactId>
+			<version>4.2.2</version>
 			<scope>test</scope>
 		</dependency>
 
