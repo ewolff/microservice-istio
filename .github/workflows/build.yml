@@ -54,24 +54,18 @@ jobs:
         docker tag microservice-istio-order:1 $IMAGE_PREFIX/microservice-istio-order:1
         docker push $IMAGE_PREFIX/microservice-istio-order:1
 
-    - name: Build native order microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-order && mvn -B spring-boot:build-image --file pom.xml
+    - name: Build native microservices with Maven
+      run: cd microservice-istio-demo && mvn -B spring-boot:build-image --file pom.xml
     - name: Push image for native microservice order
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-order:0.0.1-SNAPSHOT $IMAGE_PREFIX/microservice-istio-order-native:1
         docker push $IMAGE_PREFIX/microservice-istio-order-native:1
-
-    - name: Build native invoice microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-invoicing && mvn -B spring-boot:build-image --file pom.xml
     - name: Push image for native microservice invoicing
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-invoicing:0.0.1-SNAPSHOT $IMAGE_PREFIX/microservice-istio-invoicing-native:1
         docker push $IMAGE_PREFIX/microservice-istio-invoicing-native:1
-
-    - name: Build native shipping microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-shipping && mvn -B spring-boot:build-image --file pom.xml
     - name: Push image for native microservice shippinginvoicing
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
