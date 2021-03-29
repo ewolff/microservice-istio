@@ -422,6 +422,26 @@ bin  boot  dev	docker-java-home  etc  home  lib  lib32  lib64	libx32	media  micr
 #
 ```
 
+## Native Images bauen und ausführen
+
+Spring Boot bietet nun die Möglichkeit, native Images zu
+erstellen. GraalVM wird verwendet, um den Code vorzeitig zu
+kompilieren. Native Images starten viel schneller als JVM-basierte
+Images.
+
+* Du kannst die nativen Images auf Ihrem lokalen Rechner mit
+  `docker-build-native.sh`. Das dauert eine ganze Weile und außerdem
+  sind 16 GB RAM nützlich, um den Build-Prozess erfolgreich
+  durchzuführen. Wenn Du die Images nicht selbst bauen willst,
+  kannst Du sie von Dockerhub herunterladen - siehe unten.
+
+* Um die Images auszuführen, verwende `kubectl apply -f
+  microservices-native.yaml`.
+
+* Wenn Du die Images von Dockerhub ausführen möchten, verwende
+  `kubectl apply -f microservices-native-dockerhub.yaml`.
+
+
 ## Demo verwenden
 
 Die Funktionalitäten der Demo sind durch einen Ingress verfügbar, der
