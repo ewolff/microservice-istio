@@ -2,10 +2,6 @@ package com.ewolff.microservice.bonus.poller;
 
 import java.util.Date;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 public class OrderFeedEntry {
 
     private long id;
@@ -38,19 +34,44 @@ public class OrderFeedEntry {
         this.updated = updated;
     }
 
-    @Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((link == null) ? 0 : link.hashCode());
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderFeedEntry other = (OrderFeedEntry) obj;
+		if (id != other.id)
+			return false;
+		if (link == null) {
+			if (other.link != null)
+				return false;
+		} else if (!link.equals(other.link))
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "OrderFeedEntry [id=" + id + ", link=" + link + ", updated=" + updated + "]";
+	}
+
     
 }

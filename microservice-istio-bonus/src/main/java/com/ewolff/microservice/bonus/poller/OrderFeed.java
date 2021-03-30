@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
-import net.logstash.logback.encoder.org.apache.commons.lang.builder.HashCodeBuilder;
-
 public class OrderFeed {
 
     private Date updated;
@@ -35,20 +30,41 @@ public class OrderFeed {
     public void setOrders(List<OrderFeedEntry> orders) {
         this.orders = orders;
     }
-
+    
     @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((orders == null) ? 0 : orders.hashCode());
+		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
+		return result;
+	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderFeed other = (OrderFeed) obj;
+		if (orders == null) {
+			if (other.orders != null)
+				return false;
+		} else if (!orders.equals(other.orders))
+			return false;
+		if (updated == null) {
+			if (other.updated != null)
+				return false;
+		} else if (!updated.equals(other.updated))
+			return false;
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
+	@Override
+	public String toString() {
+		return "OrderFeed [updated=" + updated + ", orders=" + orders + "]";
+	}  
+    
 }
