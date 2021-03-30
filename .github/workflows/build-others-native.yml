@@ -21,13 +21,11 @@ jobs:
       run: cd microservice-istio-demo && mvn -B spring-boot:build-image --file pom.xml
     - name: Log into registry
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-    - name: Push image for native microservice
+    - name: Push image for native microservice order
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
         docker tag microservice-istio-order:0.0.1-SNAPSHOT $IMAGE_PREFIX/microservice-istio-order-native:1
         docker push $IMAGE_PREFIX/microservice-istio-order-native:1
-    - name: Log into registry
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image for native microservice invoicing
       run: |
         IMAGE_PREFIX=${{ secrets.DOCKER_USERNAME }}
