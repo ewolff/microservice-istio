@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-others-native:
 
     runs-on: ubuntu-latest
 
