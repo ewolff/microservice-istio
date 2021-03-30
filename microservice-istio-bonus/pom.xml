@@ -118,18 +118,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>4.11</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.internetitem</groupId>
-			<artifactId>logback-elasticsearch-appender</artifactId>
-			<version>1.6</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
