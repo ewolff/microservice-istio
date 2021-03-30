@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="~{layout}">
-<head>
-<title>Bonuses : View all</title>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout :: common_head(~{::title})">
+	<title>Bonuses : View all</title>
 </head>
-<body>
-	<h1 layout:fragment="~{header}">Bonuses : View all</h1>
-	<div layout:fragment="~{content}" class="container">
+
+<body th:replace="layout :: common_body(~{::h1},~{::#content})">
+	<h1>Bonuses : View all</h1>
+	<div id="content" class="container">
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
@@ -20,10 +20,8 @@
 					<td colspan="4">No bonuses</td>
 				</tr>
 				<tr th:each="bonus : ${bonuses}">
-					<td><a href="bonus/1" th:href="${bonus.id}"
-						th:text="${bonus.id}">1</a></td>
-					<td
-						th:text="${bonus.customer.firstname} + ' ' + ${bonus.customer.name}">Firstname
+					<td><a href="bonus/1" th:href="${bonus.id}" th:text="${bonus.id}">1</a></td>
+					<td th:text="${bonus.customer.firstname} + ' ' + ${bonus.customer.name}">Firstname
 						Name</td>
 				</tr>
 			</tbody>
@@ -36,4 +34,5 @@
 		</form>
 	</div>
 </body>
+
 </html>
