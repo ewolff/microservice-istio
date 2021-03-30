@@ -30,12 +30,8 @@ jobs:
         docker push $IMAGE_PREFIX/microservice-istio-bonus:1
 
 
-    - name: Build order microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-order && mvn -B package --file pom.xml
-    - name: Build invoicing microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-invoicing && mvn -B package --file pom.xml
-    - name: Build shipping microservices with Maven
-      run: cd microservice-istio-demo/microservice-istio-shipping && mvn -B package --file pom.xml
+    - name: Build other microservices with Maven
+      run: cd microservice-istio-demo && mvn -B package --file pom.xml
     - name: Create Docker images for other microservicee
       run: cd microservice-istio-demo && sh ./docker-build.sh
     - name: Log into registry
