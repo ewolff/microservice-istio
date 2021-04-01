@@ -20,9 +20,7 @@ jobs:
         graalvm: '21.0.0'
         java: 'java11'
         arch: 'amd64'
-
-      - name: Install native-image component
-        run: |
-          gu install native-image
+    - name: Install native-image component
+      run: gu install native-image
     - name: Build native bonus microservices with Maven
       run: cd microservice-istio-bonus && mvn -B package --file pom-native-compiler.xml
