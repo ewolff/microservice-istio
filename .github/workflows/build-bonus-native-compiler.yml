@@ -1,0 +1,28 @@
+name: Build and Publish Native Docker Images for Bonus Microservice
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-bonus-native:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Graalvm
+      id: setup-graalvm
+      uses: DeLaGuardo/setup-graalvm@master
+      with:
+        graalvm: '21.0.0'
+        java: 'java11'
+        arch: 'amd64'
+
+      - name: Install native-image component
+        run: |
+          gu install native-image
+    - name: Build native bonus microservices with Maven
+      run: cd microservice-istio-bonus && mvn -B package --file pom-native-compiler.xml
