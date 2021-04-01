@@ -1,4 +1,4 @@
-name: Build and Publish Native Docker Images for Bonus Microservice
+name: Build Native Docker Images for Bonus Microservice with Native Image PlugIn
 
 on:
   push:
