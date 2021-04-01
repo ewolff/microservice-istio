@@ -6,12 +6,6 @@ import org.springframework.nativex.hint.AccessBits;
 import org.springframework.nativex.hint.TypeHint;
 import org.thymeleaf.engine.IterationStatusVar;
 
-import com.ewolff.microservice.order.customer.Customer;
-import com.ewolff.microservice.order.item.Item;
-import com.ewolff.microservice.order.logic.Address;
-import com.ewolff.microservice.order.logic.Order;
-import com.ewolff.microservice.order.logic.OrderLine;
-
 @SpringBootApplication
 @TypeHint(types = { IterationStatusVar.class }, access = AccessBits.ALL)
 public class OrderApp {
