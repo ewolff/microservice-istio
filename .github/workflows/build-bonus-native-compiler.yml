@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-bonus-native:
+  build-bonus-native-compiler:
 
     runs-on: ubuntu-latest
 
