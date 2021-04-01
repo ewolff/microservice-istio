@@ -13,8 +13,7 @@ import com.ewolff.microservice.shipping.poller.OrderFeedEntry;
 
 @EnableScheduling
 @SpringBootApplication
-@TypeHint(types = { Customer.class, Item.class, Shipment.class, Address.class, ShipmentLine.class, OrderFeed.class,
-		OrderFeedEntry.class }, access = AccessBits.ALL)
+@TypeHint(types = { OrderFeed.class, OrderFeedEntry.class }, access = AccessBits.ALL)
 @TypeHint(types = { IterationStatusVar.class }, access = AccessBits.ALL)
 @ProxyHint(types = ShipmentService.class)
 public class ShippingApp {

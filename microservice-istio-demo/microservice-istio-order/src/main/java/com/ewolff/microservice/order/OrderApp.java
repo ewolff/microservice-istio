@@ -13,7 +13,6 @@ import com.ewolff.microservice.order.logic.Order;
 import com.ewolff.microservice.order.logic.OrderLine;
 
 @SpringBootApplication
-@TypeHint(types = { Customer.class, Item.class, Order.class, Address.class, OrderLine.class }, access = AccessBits.ALL)
 @TypeHint(types = { IterationStatusVar.class }, access = AccessBits.ALL)
 public class OrderApp {
 

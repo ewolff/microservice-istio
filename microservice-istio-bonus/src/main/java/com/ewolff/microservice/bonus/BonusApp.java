@@ -13,7 +13,7 @@ import com.ewolff.microservice.bonus.poller.OrderFeedEntry;
 
 @EnableScheduling
 @SpringBootApplication
-@TypeHint(types = { Customer.class, Bonus.class, OrderFeed.class, OrderFeedEntry.class }, access = AccessBits.ALL)
+@TypeHint(types = { OrderFeed.class, OrderFeedEntry.class }, access = AccessBits.ALL)
 @TypeHint(types = { IterationStatusVar.class }, access = AccessBits.ALL)
 @ProxyHint(types = BonusService.class)
 public class BonusApp {
