@@ -468,6 +468,35 @@ locally.
 
 You can remove the microservice again with `kubectl delete -f bonus.yaml`.
 
+## Adding another Microservice as a Native Image
+
+There is also a version of the bonus microservice as a native
+image. In that case, the Java application is compiled ahead of time
+using the GraalVM.
+
+* You can build it with `mvn -B spring-boot:build-image --file
+  pom.xml` .
+  
+* You can run the native image with `kubectl apply -f
+  bonus-native.yaml`.
+  
+* If you want to download the image from Dockerhub, there is no need
+  to build it. You can just go ahead and run it with `kubectl apply -f
+  bonus-native-dockerhub.yaml`
+
+The approach mentioned above uses the Spring Boot Maven PlugIn to
+create the native image. You can also use the GraalVM `native-image`
+tool which is slightly faster:
+
+* You can build it with `mvn -B package --file pom-native-compiler.xml` .
+  
+* You can run the native image with `kubectl apply -f
+  bonus-native-compiler.yaml`.
+  
+* If you want to download the image from Dockerhub, there is no need
+  to build it. You can just go ahead and run it with `kubectl apply -f
+  bonus-native-compiler-dockerhub.yaml`
+
 ## Adding a Microservice with Helm
 
 You can also add the microservice with Helm.  [Helm](https://helm.sh/)

@@ -504,6 +504,35 @@ herunterladen, so dass sie nicht lokal gebaut werden müssen.
 Mit `kubectl delete -f bonus.yaml` kann man die Microservices wieder
 löschen.
 
+## Microservice als Native Image hinzufügen
+
+Es gibt auch eine Version des Bonus-Microservice als natives Image. In
+diesem Fall wird die Java-Anwendung mit der GraalVM im Voraus
+kompiliert (Ahead of Time Compiler).
+
+* Du kannst das Image mit `mvn -B spring-boot:build-image --file
+  pom.xml` bauen.
+  
+* Mit `kubectl apply -f bonus-native.yaml` kann man das Image starten.
+  
+* Wenn Du das Image von Dockerhub herunterladen möchtest, ist es nicht
+  notwendig es zu bauen. Du kannst es einfach mit `kubectl apply -f
+  bonus-native-dockerhub.yaml` herunterladen und starten.
+
+Der oben genannte Ansatz verwendet das Spring Boot Maven PlugIn, um
+das native Image zu erstellen. Sie können auch das GraalVM
+`native-image` Tool verwenden, das etwas schneller ist:
+
+* Du kannst das Image mit `mvn -B package --file
+  pom-native-compiler.xml` erstellen.
+  
+* Sie können das native Image mit `kubectl apply -f
+  bonus-native-compiler.yaml` starten.
+  
+* Wenn Sie das Image von Dockerhub herunterladen möchten, ist es nicht
+  notwendig es zu bauen. Sie können es einfach mit `kubectl apply -f
+  bonus-native-compiler-dockerhub.yaml` starten
+
 ## Microservice mit Helm hinzufügen
 
 Man kann einen Microservice ebenfalls mit Helm
