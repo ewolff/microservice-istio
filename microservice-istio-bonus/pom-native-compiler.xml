@@ -104,8 +104,10 @@
 				<artifactId>native-image-maven-plugin</artifactId>
 				<version>21.0.0</version>
 				<configuration>
-					<!-- The native image build needs to know the entry point to your application -->
 					<mainClass>com.ewolff.microservice.bonus.BonusApp</mainClass>
+					<buildArgs>
+					  <buildArg>--enable-http</buildArg>
+					</buildArgs>
 				</configuration>
 				<executions>
 					<execution>
