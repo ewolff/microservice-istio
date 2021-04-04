@@ -523,6 +523,10 @@ Der oben genannte Ansatz verwendet das Spring Boot Maven PlugIn, um
 das native Image zu erstellen. Sie können auch das GraalVM
 `native-image` Tool verwenden, das etwas schneller ist:
 
+* Dazu muss der Native-Image-Compiler installiert werden, wie in der 
+  [Spring-Native-Dokumentation](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#getting-started-native-image) beschrieben.
+
+
 * Du kannst das Image mit `mvn -B package --file
   pom-native-compiler.xml` erstellen.
   

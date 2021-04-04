@@ -488,6 +488,9 @@ The approach mentioned above uses the Spring Boot Maven PlugIn to
 create the native image. You can also use the GraalVM `native-image`
 tool which is slightly faster:
 
+* Make sure to install the native image compiler as described in the
+  [Spring Native documentation](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#getting-started-native-image).
+
 * You can build it with `mvn -B package --file pom-native-compiler.xml` .
   
 * You can run the native image with `kubectl apply -f
