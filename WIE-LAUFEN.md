@@ -71,7 +71,7 @@ Sonst muss das [Google Cloud
 * Konfiguriere Docker `gcloud auth configure-docker`
 
 * Erzeuge einen Cluster mit `gcloud container clusters create
-  hello-cluster --num-nodes=3 --release-channel=rapid`
+  hello-cluster --num-nodes=2 --release-channel=rapid`
   
 
 ## Installation von Istio

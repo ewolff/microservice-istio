@@ -59,7 +59,7 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 * Configure Docker `gcloud auth configure-docker`
 
 * Create a cluster with `gcloud container clusters create
-  hello-cluster --num-nodes=3 --release-channel=rapid`
+  hello-cluster --num-nodes=2 --release-channel=rapid`
     
 ## Install Istio
 
