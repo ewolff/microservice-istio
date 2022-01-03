@@ -176,7 +176,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /shipping
+        prefix: /shipping/
     rewrite:
       uri: /
     route:
@@ -199,7 +199,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /invoicing
+        prefix: /invoicing/
     rewrite:
       uri: /
     route:
@@ -222,7 +222,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /order
+        prefix: /order/
     rewrite:
       uri: /
     route:
