@@ -1,7 +1,5 @@
 package com.ewolff.microservice.order.item;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,6 @@ public class ItemTestDataGenerator {
 		this.itemRepository = itemRepository;
 	}
 
-	@PostConstruct
 	public void generateTestData() {
 		createIfNotExist("iPod", 42.0);
 		createIfNotExist("iPod touch", 21.0);
