@@ -62,7 +62,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /bonus
+        prefix: /bonus/
     rewrite:
       uri: /
     route:
