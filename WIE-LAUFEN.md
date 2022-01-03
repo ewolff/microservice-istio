@@ -519,24 +519,6 @@ kompiliert (Ahead of Time Compiler).
   notwendig es zu bauen. Du kannst es einfach mit `kubectl apply -f
   bonus-native-dockerhub.yaml` herunterladen und starten.
 
-Der oben genannte Ansatz verwendet das Spring Boot Maven PlugIn, um
-das native Image zu erstellen. Sie können auch das GraalVM
-`native-image` Tool verwenden, das etwas schneller ist:
-
-* Dazu muss der Native-Image-Compiler installiert werden, wie in der 
-  [Spring-Native-Dokumentation](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#getting-started-native-image) beschrieben.
-
-
-* Du kannst das Image mit `mvn -B package --file
-  pom-native-compiler.xml` erstellen.
-  
-* Sie können das native Image mit `kubectl apply -f
-  bonus-native-compiler.yaml` starten.
-  
-* Wenn Sie das Image von Dockerhub herunterladen möchten, ist es nicht
-  notwendig es zu bauen. Sie können es einfach mit `kubectl apply -f
-  bonus-native-compiler-dockerhub.yaml` starten
-
 ## Microservice mit Helm hinzufügen
 
 Man kann einen Microservice ebenfalls mit Helm
