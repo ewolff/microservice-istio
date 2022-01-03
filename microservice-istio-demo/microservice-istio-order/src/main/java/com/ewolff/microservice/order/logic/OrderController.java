@@ -27,7 +27,7 @@ class OrderController {
 	private ItemRepository itemRepository;
 
 	@Autowired
-	private OrderController(OrderService orderService, OrderRepository orderRepository,
+	public OrderController(OrderService orderService, OrderRepository orderRepository,
 			CustomerRepository customerRepository, ItemRepository itemRepository) {
 		super();
 		this.orderRepository = orderRepository;
