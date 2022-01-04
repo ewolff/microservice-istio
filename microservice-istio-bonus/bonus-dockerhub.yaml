@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bonus
+    version: "1.0"
+  name: bonus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bonus
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bonus
+    spec:
+      containers:
+      - name: bonus
+        image: docker.io/ewolff/microservice-istio-bonus:1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        resources: {}
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bonus
+  name: bonus
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    name: http    
+  selector:
+    app: bonus
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: bonus
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - microservice-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /bonus/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: bonus.default.svc.cluster.local

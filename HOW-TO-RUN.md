@@ -222,16 +222,15 @@ microservice-istio-postgres          latest              deadbeef8880        Abo
 * If you have build the Docker images yourself and use Google Cloud: 
   Modify the YAML files to load the Docker images
 from the Google Docker repo with `fix-microservices-gcp.sh`
-* If you haven't built the Docker container yourself, run
-  `fix-microservices-dockerhub.sh`. The Docker images will be
-  downloaded from the Docker Hub in the Internet then.
 * Deploy the infrastructure for the microservices using `kubectl` in
   the directory
   `microservice-kubernetes-demo`.
   Use `infrastructure-gcp.yaml` instead of `infrastructure.yaml` if you
   if you built and uploaded the images to Google Cloud. 
-  Use `infrastructure-dockerhub.yaml` if you haven't
-  built the Docker container yourself:
+* Use `infrastructure-dockerhub.yaml` if you haven't
+  built the Docker container yourself.
+  The Docker images will be
+  downloaded from the Docker Hub in the Internet in that case.:
 
 ```
 [~/microservice-istio/microservice-istio-demo]kubectl apply -f infrastructure.yaml
@@ -462,7 +461,7 @@ the Kubernetes cluster.
   `kubectl apply -f bonus-gcp.yaml`.
 
 You can also download the images from Dockerhub with
-`fix-bonus-github.sh` and `kubectl apply -f
+`kubectl apply -f
 bonus-dockerhub.yaml`. That way there is no need to build them
 locally.
 

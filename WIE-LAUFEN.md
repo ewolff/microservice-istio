@@ -1,4 +1,4 @@
-# Beispiel starten
+y# Beispiel starten
 
 Die ist eine Schritt-für-Schritt-Anleitung zum Starten der Beispiele.
 Informationen zu Maven und Docker finden sich im
@@ -251,16 +251,13 @@ istio-injection=enabled`
   Docker Images aus dem Google Docker Repository herunterladen mit
   `fix-microservices-gcp.sh` 
 
-* Wenn du die Container nicht selbst gebaut hast, starte
-  `fix-microservices-dockerhub.sh`, so dass die Container aus dem
-  Docker Hub im Internet heruntergeladen werden.
-
 * Deploye die Infrastruktur für die Microservices mit `kubectl` im
 Verzeichnis `microservice-kubernetes-demo` .
 Verwende `infrastructure-gcp.yaml` statt  `infrastructure.yaml`, wenn
 das System in der Google Cloud läuft. Verwende
 `infrastructure-dockerhub.yaml`, wenn du die Container nicht selbst
-gebaut hast.
+gebaut hast. Dann werden die Container aus dem
+Docker Hub im Internet heruntergeladen.
 
 
 ```
@@ -497,7 +494,7 @@ lädt es in den Kubernetes Cluster.
 * Google Cloud: Nutze stattdessen `fix-bonus-gcp.sh` und deploye dann
   mit `kubectl apply -f bonus-gcp.yaml`.
 
-Mit `fix-bonus-github.sh` und `kubectl apply -f
+Mit `kubectl apply -f
 bonus-dockerhub.yaml` kann man die Images auch aus Dockerhub
 herunterladen, so dass sie nicht lokal gebaut werden müssen.
 
