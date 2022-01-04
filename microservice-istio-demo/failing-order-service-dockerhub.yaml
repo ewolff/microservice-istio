@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: order    
+    version: "1.0"
+  name: order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: order
+    spec:
+      containers:
+      - name: order
+        image: docker.io/ewolff/microservice-istio-order:1
+        imagePullPolicy: IfNotPresent        
+        ports:
+        - containerPort: 8080
+        env:
+          - name: FAILRANDOMLY
+            value: "true"
+        resources: {}
+status: {}
