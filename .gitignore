@@ -5,6 +5,7 @@
 .project
 .settings
 .idea
+.metadata
 *.iml
 target/
 istio-*/
