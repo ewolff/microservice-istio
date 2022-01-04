@@ -21,7 +21,7 @@ spec:
       containers:
       - name: bonus
         image: docker.io/ewolff/microservice-istio-bonus-native:1
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         resources: {}
