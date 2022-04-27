@@ -1,4 +1,4 @@
-y# Beispiel starten
+# Beispiel starten
 
 Die ist eine Schritt-für-Schritt-Anleitung zum Starten der Beispiele.
 Informationen zu Maven und Docker finden sich im
@@ -579,7 +579,7 @@ In der Google Cloud Shell kann man die [Web
 +Preview](https://cloud.google.com/shell/docs/using-web-preview)
 nutzen, um die Oberfläche im Browser anzuzeigen.
 
-Das Skript `monitoring-prometheus.sh` enthält ebenfalls diesen Befehl.
+Die Alternative ist `istioctl dashboard prometheus`.
 
 Metriken sind nur sinnvoll, wenn das System unter Last ist. Das
 Shell-Skript `load.sh` nutzt `curl`, um eine bestimmte URL 1.000
@@ -601,7 +601,7 @@ vordefinierte Dashboards.
 Falls die Dashboards nicht auf der Startseite aufgelistet werden, 
 gehe auf Dashboard (Symbol mit vier Kacheln) --> Manage. 
 
-Das Skript `monitoring-grafana.sh` erzeugt ebenfalls den für den
+`istioctl dashboard grafana` erzeugt ebenfalls den für den
 Zugriff notwendigen Proxy.
 
 ## Tracing
@@ -612,14 +612,14 @@ Istio enthält eine Installation von Jaeger. Nach einem Aufruf von
 `kubectl -n istio-system port-forward deployment/istio-tracing
 16686:16686` kann man es unter http://localhost:16686/ erreichen.
 
-Das Skript `tracing.sh` enhält ebenfalls den notwendigen Befehl.
+`istioctl dashboard jaeger` ist eine Alternative.
 
 ## Kiali
 
 [Kiali](https://www.kiali.io/) ist ein Werkzeug, dass die
 Abhängigkeiten zwischen den Microservices visualisiert. Es generiert
-Abhängigkeitsgraphen und zeigt einige wesentliche Metriken an. Das
-Skript `kiali.sh` bzw. der darin enthaltene Befehl `kubectl -n istio-system port-forward deployment/kiali 20001:20001` dient dazu, einen Proxy zu Istios Kiali-Installation
+Abhängigkeitsgraphen und zeigt einige wesentliche Metriken an. 
+ `istioctl dashboard kiali` bzw. `kubectl -n istio-system port-forward deployment/kiali 20001:20001` dient dazu, einen Proxy zu Istios Kiali-Installation
 zu starten. Danach steht die Kiali-Konsole unter
 http://localhost:20001/ bereits. Der voreingestellte Benutzername ist
 admin. Das Passwort ist ebenfalls admin.

@@ -538,7 +538,7 @@ In the Google Cloud Shell you can use [Web
 Preview](https://cloud.google.com/shell/docs/using-web-preview) to
 open the URL from the shell in your local browser.
 
-You can also use the shell script `monitoring-prometheus.sh`.
+You can also use  `istioctl dashboard prometheus`.
 
 Metrics only make sense if there is load on the system. The shell
 script `load.sh` uses the tool `curl` to request a certain URL 1,000
@@ -555,7 +555,7 @@ Enter `kubectl -n istio-system port-forward deployment/grafana
 the tool at http://localhost:3000/ then. There are quite a few predefined dashboards. 
 In case they are not listed at the start page, go to Dashboard (4 tiles symbol) --> Manage. 
 
-You can also use the shell script `monitoring-grafana.sh`.
+You can also use `istioctl dashboard grafana`.
 
 ## Tracing
 
@@ -564,13 +564,13 @@ Istio provides an installation of Jaeger. If you run `kubectl -n
 istio-system port-forward deployment/istio-tracing 16686:16686` you
 can access it at http://localhost:16686/ .
 
-You can also use the shell script `tracing.sh`.
+You can also use `istioctl dashboard jaeger`.
 
 ## Kiali
 
 [Kiali](https://www.kiali.io/) is a tool to visualize the dependencies
 between microservices. It generates a graph and also adds some basic
-metrics to the graph. You can use run `kubectl -n istio-system port-forward deployment/kiali 20001:20001` or the shell script `kiali.sh` to start
+metrics to the graph. You can use run `kubectl -n istio-system port-forward deployment/kiali 20001:20001` or `istioctl dashboard kiali` to start
 a proxy to Istio's Kiali installation. Then you can open the Kiali
 console at http://localhost:20001/ . For the default installation, the
 user name is admin and the password is admin, too.
