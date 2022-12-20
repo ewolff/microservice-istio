@@ -1,8 +1,9 @@
 package com.ewolff.microservice.bonus.poller;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrderFeedEntry {
+public class OrderFeedEntry implements Serializable {
 
     private long id;
 

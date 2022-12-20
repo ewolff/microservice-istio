@@ -1,10 +1,11 @@
 package com.ewolff.microservice.bonus.poller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderFeed {
+public class OrderFeed implements Serializable {
 
     private Date updated;
 
