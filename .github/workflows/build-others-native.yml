@@ -13,12 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 16
+    - name: Set up JDK 17
       uses: actions/setup-java@v1
       with:
-        java-version: 16
+        java-version: 17
     - name: Build native microservices with Maven
-      run: cd microservice-istio-demo && mvn -B spring-boot:build-image --file pom-native.xml
+      run: cd microservice-istio-demo && mvn -B spring-boot:build-image -Pnative
     - name: Log into registry
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image for native microservice order
