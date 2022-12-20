@@ -2,7 +2,6 @@ package com.ewolff.microservice.bonus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ public class BonusServiceImpl implements BonusService {
 
 	private BonusRepository bonusRepository;
 
-	@Autowired
 	public BonusServiceImpl(BonusRepository bonusRepository) {
 		super();
 		this.bonusRepository = bonusRepository;
