@@ -1,6 +1,5 @@
 package com.ewolff.microservice.order.item;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -8,7 +7,6 @@ public class ItemTestDataGenerator {
 
 	private final ItemRepository itemRepository;
 
-	@Autowired
 	public ItemTestDataGenerator(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 	}

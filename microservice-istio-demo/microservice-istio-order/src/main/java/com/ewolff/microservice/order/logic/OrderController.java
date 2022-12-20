@@ -2,7 +2,7 @@ package com.ewolff.microservice.order.logic;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,6 @@ class OrderController {
 	private CustomerRepository customerRepository;
 	private ItemRepository itemRepository;
 
-	@Autowired
 	public OrderController(OrderService orderService, OrderRepository orderRepository,
 			CustomerRepository customerRepository, ItemRepository itemRepository) {
 		super();
@@ -38,12 +37,12 @@ class OrderController {
 
 	@ModelAttribute("items")
 	public Iterable<com.ewolff.microservice.order.item.Item> items() {
-		return itemRepository.findAll();
+		return itemRepository.findAll(Sort.unsorted());
 	}
 
 	@ModelAttribute("customers")
 	public Iterable<Customer> customers() {
-		return customerRepository.findAll();
+		return customerRepository.findAll(Sort.unsorted());
 	}
 
 	@RequestMapping("/")
@@ -58,7 +57,7 @@ class OrderController {
 
 	@RequestMapping(value = "/line", method = RequestMethod.POST)
 	public ModelAndView addLine(Order order) {
-		order.addLine(0, itemRepository.findAll().iterator().next());
+		order.addLine(0, itemRepository.findAll(Sort.unsorted()).iterator().next());
 		return new ModelAndView("orderForm", "order", order);
 	}
 

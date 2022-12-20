@@ -3,18 +3,17 @@ package com.ewolff.microservice.order.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.ewolff.microservice.order.OrderFeed;
-import com.ewolff.microservice.order.OrderFeedEntry;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
+
+import com.ewolff.microservice.order.OrderFeed;
+import com.ewolff.microservice.order.OrderFeedEntry;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class OrderRestController {
@@ -23,7 +22,6 @@ public class OrderRestController {
 
     private OrderRepository orderRepository;
 
-    @Autowired
     public OrderRestController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }

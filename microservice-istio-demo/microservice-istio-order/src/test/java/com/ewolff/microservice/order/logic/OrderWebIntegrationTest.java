@@ -10,14 +10,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +27,6 @@ import com.ewolff.microservice.order.customer.CustomerRepository;
 import com.ewolff.microservice.order.item.Item;
 import com.ewolff.microservice.order.item.ItemRepository;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 @TestInstance(Lifecycle.PER_CLASS)
@@ -54,7 +52,7 @@ public class OrderWebIntegrationTest {
 
 	@BeforeAll
 	public void setup() {
-		item = itemRepository.findAll().iterator().next();
+		item = itemRepository.findAll(Sort.unsorted()).iterator().next();
 		customer = new Customer("RZA", "GZA", "rza@wutang.com", "Chamber", "Shaolin");
 		customer = customerRepository.save(customer);
 	}

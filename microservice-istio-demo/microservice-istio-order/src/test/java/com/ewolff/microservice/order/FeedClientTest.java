@@ -8,25 +8,23 @@ import java.util.Date;
 
 import org.apache.http.client.utils.DateUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 import com.ewolff.microservice.order.customer.CustomerRepository;
 import com.ewolff.microservice.order.logic.Order;
 import com.ewolff.microservice.order.logic.OrderRepository;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 public class FeedClientTest {
@@ -67,7 +65,7 @@ public class FeedClientTest {
 	@Test
 	public void feedReturnsNewlyCreatedOrder() {
 		Order order = new Order();
-		order.setCustomer(customerRepository.findAll().iterator().next());
+		order.setCustomer(customerRepository.findAll(Sort.unsorted()).iterator().next());
 		orderRepository.save(order);
 		OrderFeed feed = retrieveFeed();
 		boolean foundLinkToCreatedOrder = false;

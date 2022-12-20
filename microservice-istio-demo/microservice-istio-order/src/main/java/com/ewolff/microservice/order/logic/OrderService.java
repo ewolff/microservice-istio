@@ -2,7 +2,6 @@ package com.ewolff.microservice.order.logic;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,7 +9,6 @@ class OrderService {
 
 	private OrderRepository orderRepository;
 
-	@Autowired
 	public OrderService(OrderRepository orderRepository) {
 		super();
 		this.orderRepository = orderRepository;

@@ -2,13 +2,9 @@ package com.ewolff.microservice.shipping.poller;
 
 import java.util.Date;
 
-import com.ewolff.microservice.shipping.Shipment;
-import com.ewolff.microservice.shipping.ShipmentService;
-
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import com.ewolff.microservice.shipping.Shipment;
+import com.ewolff.microservice.shipping.ShipmentService;
 
 @Component
 public class ShippingPoller {
@@ -34,7 +33,6 @@ public class ShippingPoller {
 
 	private boolean pollingActivated = true;
 
-	@Autowired
 	public ShippingPoller(@Value("${order.url}") String url, @Value("${poller.actived:true}") boolean pollingActivated,
 			ShipmentService shipmentService) {
 		super();

@@ -5,7 +5,6 @@ import java.util.Date;
 import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,8 +32,7 @@ public class InvoicePoller {
 	private boolean pollingActivated;
 
 	private InvoiceService invoiceService;
-
-	@Autowired
+	
 	public InvoicePoller(@Value("${order.url}") String url, @Value("${poller.actived:true}") boolean pollingActivated,
 			InvoiceService invoiceService) {
 		super();

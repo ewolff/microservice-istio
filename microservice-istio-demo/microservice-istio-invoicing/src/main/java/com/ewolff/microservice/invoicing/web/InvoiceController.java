@@ -1,6 +1,5 @@
 package com.ewolff.microservice.invoicing.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ public class InvoiceController {
 
 	private InvoiceRepository invoiceRepository;
 
-	@Autowired
 	public InvoiceController(InvoiceRepository invoiceRepository) {
 		this.invoiceRepository = invoiceRepository;
 	}

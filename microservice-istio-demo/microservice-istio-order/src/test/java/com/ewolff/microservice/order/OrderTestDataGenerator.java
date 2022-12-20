@@ -2,9 +2,9 @@ package com.ewolff.microservice.order;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.ewolff.microservice.order.customer.CustomerRepository;
@@ -26,7 +26,6 @@ public class OrderTestDataGenerator {
 	private ItemTestDataGenerator itemTestDataGenerator;
 	private CustomerTestDataGenerator customerTestDataGenerator;
 
-	@Autowired
 	public OrderTestDataGenerator(OrderRepository orderRepository, ItemRepository itemRepository,
 			CustomerRepository customerRepository, CustomerTestDataGenerator customerTestDataGenerator,
 			ItemTestDataGenerator itemTestDataGenerator) {
@@ -41,11 +40,11 @@ public class OrderTestDataGenerator {
 	public void generateTestData() {
 		itemTestDataGenerator.generateTestData();
 		customerTestDataGenerator.generateTestData();
-		Order order = new Order(customerRepository.findAll().iterator().next(), 1);
+		Order order = new Order(customerRepository.findAll(Sort.unsorted()).iterator().next(), 1);
 		order.setShippingAddress(new Address("Ohlauer Str. 43", "10999", "Berlin"));
 		order.setBillingAddress(new Address("Krischerstr. 100", "40789", "Monheim am Rhein"));
 		order.setDeliveryService("Hermes");
-		order.addLine(42, itemRepository.findAll().iterator().next());
+		order.addLine(42, itemRepository.findAll(Sort.unsorted()).iterator().next());
 		order = orderRepository.save(order);
 		orderRepository.save(order);
 	}

@@ -1,42 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.2</version>
+		<version>3.0.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ewolff</groupId>
 	<artifactId>microservice-istio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
 	<modules>
 		<module>microservice-istio-shipping</module>
 		<module>microservice-istio-invoicing</module>
 		<module>microservice-istio-order</module>
 	</modules>
-
 	<properties>
-		<java.version>11</java.version>
-		<spring-native.version>0.11.1</spring-native.version>
+		<java.version>17</java.version>
 	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.webjars</groupId>
 				<artifactId>bootstrap</artifactId>
 				<version>3.3.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.experimental</groupId>
-				<artifactId>spring-native</artifactId>
-				<version>${spring-native.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -47,7 +36,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -57,13 +45,17 @@
 					<argLine>-XX:TieredStopAtLevel=1 -noverify</argLine>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
+			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
 					<argLine>-XX:TieredStopAtLevel=1 -noverify</argLine>
 				</configuration>
-            </plugin>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
