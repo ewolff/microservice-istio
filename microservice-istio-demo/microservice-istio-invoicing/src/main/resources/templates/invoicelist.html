@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layout :: common_head(~{::title})">
+<head th:replace="~{layout :: common_head(~{::title})}">
 	<title>Invoicing : View all</title>
 </head>
 
-<body th:replace="layout :: common_body(~{::h1},~{::#content})">
+<body th:replace="~{layout :: common_body(~{::h1},~{::#content})}">
 	<h1>Invoicing : View all</h1>
 	<div id="content" class="container">
 		<table class="table table-bordered table-striped">
