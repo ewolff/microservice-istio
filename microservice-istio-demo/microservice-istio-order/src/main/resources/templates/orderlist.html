@@ -23,7 +23,7 @@
 				</tr>
 				<tr th:each="order : ${orders}">
 					<td><a href="order/1" th:href="${order.id}" th:text="${order.id}">1</a></td>
-					<td th:text="${order.customer.firstname} + ' ' + ${order.customer.name}">Firstname
+					<td th:text="${order?.customer?.firstname} + ' ' + ${order?.customer?.name}">Firstname
 						Name</td>
 					<td th:text="${order.totalPrice()}">42.0</td>
 					<td>
