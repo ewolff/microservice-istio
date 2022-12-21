@@ -6,13 +6,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ewolff.microservice.order.customer.Customer;
 import com.ewolff.microservice.order.customer.CustomerRepository;
 import com.ewolff.microservice.order.item.ItemRepository;
 
@@ -35,16 +33,6 @@ class OrderController {
 		this.orderService = orderService;
 	}
 
-	@ModelAttribute("items")
-	public Iterable<com.ewolff.microservice.order.item.Item> items() {
-		return itemRepository.findAll(Sort.unsorted());
-	}
-
-	@ModelAttribute("customers")
-	public Iterable<Customer> customers() {
-		return customerRepository.findAll(Sort.unsorted());
-	}
-
 	@RequestMapping("/")
 	public ModelAndView orderList() {
 		return new ModelAndView("orderlist", "orders", orderRepository.findAll());
@@ -52,13 +40,19 @@ class OrderController {
 
 	@RequestMapping(value = "/form.html", method = RequestMethod.GET)
 	public ModelAndView form() {
-		return new ModelAndView("orderForm", "order", new Order());
+		ModelAndView modelAndView = new ModelAndView("orderForm", "order", new Order());
+		modelAndView.addObject("items", itemRepository.findAll(Sort.unsorted()));
+		modelAndView.addObject("customers", customerRepository.findAll(Sort.unsorted()));
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/line", method = RequestMethod.POST)
 	public ModelAndView addLine(Order order) {
 		order.addLine(0, itemRepository.findAll(Sort.unsorted()).iterator().next());
-		return new ModelAndView("orderForm", "order", order);
+		ModelAndView modelAndView = new ModelAndView("orderForm", "order", order);
+		modelAndView.addObject("items", itemRepository.findAll(Sort.unsorted()));
+		modelAndView.addObject("customers", customerRepository.findAll(Sort.unsorted()));
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
