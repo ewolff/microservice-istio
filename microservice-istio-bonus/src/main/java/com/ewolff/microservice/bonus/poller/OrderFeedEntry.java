@@ -1,39 +1,38 @@
 package com.ewolff.microservice.bonus.poller;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class OrderFeedEntry implements Serializable {
+public class OrderFeedEntry {
 
-    private long id;
+	private long id;
 
-    private String link;
+	private String link;
 
-    private Date updated;
+	private Date updated;
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public String getLink() {
-        return link;
-    }
+	public String getLink() {
+		return link;
+	}
 
-    public void setLink(String link) {
-        this.link = link;
-    }
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-    public Date getUpdated() {
-        return updated;
-    }
+	public Date getUpdated() {
+		return updated;
+	}
 
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
 
 	@Override
 	public int hashCode() {
@@ -74,5 +73,4 @@ public class OrderFeedEntry implements Serializable {
 		return "OrderFeedEntry [id=" + id + ", link=" + link + ", updated=" + updated + "]";
 	}
 
-    
 }
