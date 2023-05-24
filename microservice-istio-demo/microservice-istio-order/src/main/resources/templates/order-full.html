@@ -89,16 +89,14 @@
 			<a href="/shipping/42" class="embeddable" th:href="'/shipping/'+${order.id}">Shipping</a>
 		</div>
 
-		<script src="webjars/jquery/1.11.1/jquery.min.js"></script>
 		<script>
-			$(document).ready(function () {
-				$("a.embeddable").each(function (i, link) {
-					$("<div />").load(link.href, function (data, status, xhr) {
-						if (status != "error") {
-							$(link).replaceWith($(this).find("div.snippet"));
-						}
-					});
-				});
+			const embeddableLinks = document.querySelectorAll('a.embeddable');
+			embeddableLinks.forEach(async (link) => {
+				const response = await fetch(link.href);
+				const content = await response.text();
+				const contentElement = document.createElement('div');
+				contentElement.innerHTML = content;
+				link.parentNode.replaceChild(contentElement.querySelector('div.snippet'), link);
 			});
 		</script>
 
