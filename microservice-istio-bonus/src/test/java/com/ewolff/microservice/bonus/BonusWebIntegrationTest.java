@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(classes = BonusTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class BonusWebIntegrationTest {
+class BonusWebIntegrationTest {
 
 	@LocalServerPort
 	private int serverPort;
@@ -27,7 +27,7 @@ public class BonusWebIntegrationTest {
 	private RestTemplate restTemplate = new RestTemplate();
 
 	@Test
-	public void isHTMLReturned() {
+	void isHTMLReturned() {
 		String body = getForMediaType(String.class, MediaType.TEXT_HTML, bonusURL());
 
 		assertThat(body, containsString("<div"));

@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = BonusTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class BonusServiceTest {
+class BonusServiceTest {
 
 	@Autowired
 	private BonusRepository bonusRepository;
@@ -23,7 +23,7 @@ public class BonusServiceTest {
 	private BonusService bonusService;
 
 	@Test
-	public void ensureIdempotencySecondCallIgnored() {
+	void ensureIdempotencySecondCallIgnored() {
 		long countBefore = bonusRepository.count();
 		Bonus bonus = new Bonus(42L,
 				new Customer(23L, "Eberhard", "Wolff"),

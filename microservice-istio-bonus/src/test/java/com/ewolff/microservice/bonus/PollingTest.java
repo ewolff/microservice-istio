@@ -82,7 +82,7 @@ public class PollingTest {
 	}
 
 	@Test
-	public void orderArePolled() {
+	void orderArePolled() {
 		long countBeforePoll = bonusRepository.count();
 		bonusPoller.pollInternal();
 		assertThat(bonusRepository.count(), is(greaterThan(countBeforePoll)));
