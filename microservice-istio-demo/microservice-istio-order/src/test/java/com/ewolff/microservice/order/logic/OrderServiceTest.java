@@ -13,14 +13,14 @@ import com.ewolff.microservice.order.OrderApp;
 
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class OrderServiceTest {
+class OrderServiceTest {
 
 	@Autowired
 	private OrderRepository orderRepository;
 
 	@Test
 	@Transactional
-	public void lastCreatedIsUpdated() {
+	void lastCreatedIsUpdated() {
 		Order order = new Order();
 		order = orderRepository.save(order);
 		assertEquals(order.getUpdated(), orderRepository.lastUpdate());

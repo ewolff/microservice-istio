@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(classes = InvoiceTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class InvoiceWebIntegrationTest {
+class InvoiceWebIntegrationTest {
 
 	@LocalServerPort
 	private int serverPort;
@@ -27,7 +27,7 @@ public class InvoiceWebIntegrationTest {
 	private RestTemplate restTemplate = new RestTemplate();
 
 	@Test
-	public void isHTMLReturned() {
+	void isHTMLReturned() {
 		String body = getForMediaType(String.class, MediaType.TEXT_HTML, shippingURL());
 
 		assertThat(body, containsString("<div"));

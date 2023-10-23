@@ -13,7 +13,7 @@ import com.ewolff.microservice.order.item.ItemTestDataGenerator;
 
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class ItemTestDataGeneratorTest {
+class ItemTestDataGeneratorTest {
 
 	@Autowired
 	private ItemRepository itemRepository;
@@ -22,7 +22,7 @@ public class ItemTestDataGeneratorTest {
 	private ItemTestDataGenerator itemTestDataGenerator;
 
 	@Test
-	public void assureTestDataGeneratedOnce() {
+	void assureTestDataGeneratedOnce() {
 		assertEquals(1, itemRepository.findByName("iPod").size());
 		itemTestDataGenerator.generateTestData();
 		assertEquals(1, itemRepository.findByName("iPod").size());

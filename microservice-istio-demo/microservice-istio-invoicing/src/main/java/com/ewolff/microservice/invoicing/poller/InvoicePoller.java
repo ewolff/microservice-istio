@@ -1,8 +1,8 @@
 package com.ewolff.microservice.invoicing.poller;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
-import org.apache.http.client.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ public class InvoicePoller {
 
 	private RestTemplate restTemplate = new RestTemplate();
 
-	private Date lastModified = null;
+	private ZonedDateTime lastModified = null;
 
 	private boolean pollingActivated;
 
@@ -52,7 +52,7 @@ public class InvoicePoller {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.set(HttpHeaders.ACCEPT, "*/*");
 		if (lastModified != null) {
-			requestHeaders.set(HttpHeaders.IF_MODIFIED_SINCE, DateUtils.formatDate(lastModified));
+			requestHeaders.setZonedDateTime(HttpHeaders.IF_MODIFIED_SINCE, lastModified);
 		}
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 		ResponseEntity<OrderFeed> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, OrderFeed.class);
@@ -61,7 +61,7 @@ public class InvoicePoller {
 			log.trace("data has been modified");
 			OrderFeed feed = response.getBody();
 			for (OrderFeedEntry entry : feed.getOrders()) {
-				if ((lastModified == null) || (entry.getUpdated().after(lastModified))) {
+				if ((lastModified == null) || (entry.getUpdated().after(Date.from(lastModified.toInstant())))) {
 					Invoice invoice = restTemplate
 							.getForEntity(entry.getLink(), Invoice.class).getBody();
 					log.trace("saving invoice {}", invoice.getId());
@@ -69,7 +69,7 @@ public class InvoicePoller {
 				}
 			}
 			if (response.getHeaders().getFirst(HttpHeaders.LAST_MODIFIED) != null) {
-				lastModified = DateUtils.parseDate(response.getHeaders().getFirst(HttpHeaders.LAST_MODIFIED));
+				lastModified = response.getHeaders().getFirstZonedDateTime(HttpHeaders.LAST_MODIFIED);
 				log.trace("Last-Modified header {}", lastModified);
 			}
 		} else {

@@ -17,7 +17,7 @@ import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 @ActiveProfiles("test")
 @Provider("OrderProvider")
 @PactFolder("pacts")
-public class PactTest {
+class PactTest {
 
 	@BeforeEach
 	void setupTestTarget(PactVerificationContext context) {

@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = ShippingTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class ShippingServiceTest {
+class ShippingServiceTest {
 
 	@Autowired
 	private ShipmentRepository shipmentRepository;
@@ -25,7 +25,7 @@ public class ShippingServiceTest {
 	private ShipmentService shipmentService;
 
 	@Test
-	public void ensureIdempotencySecondCallIgnored() {
+	void ensureIdempotencySecondCallIgnored() {
 		long countBefore = shipmentRepository.count();
 		Shipment shipment = new Shipment(42L,
 				new Customer(23L, "Eberhard", "Wolff"),
@@ -44,7 +44,7 @@ public class ShippingServiceTest {
 	}
 
 	@Test
-	public void ensureShipmentRateCalculted() {
+	void ensureShipmentRateCalculted() {
 		Shipment shipment = new Shipment(43L,
 				new Customer(23L, "Eberhard", "Wolff"),
 				new Date(0L), new Address("Krischstr. 100", "40789", "Monheim am Rhein"),
@@ -54,7 +54,7 @@ public class ShippingServiceTest {
 	}
 
 	@Test
-	public void ensureUnkownShipmentError() {
+	void ensureUnkownShipmentError() {
 		Shipment shipment = new Shipment(44L,
 				new Customer(23L, "Eberhard", "Wolff"),
 				new Date(0L), new Address("Krischstr. 100", "40789", "Monheim am Rhein"),

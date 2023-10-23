@@ -6,9 +6,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ewolff.microservice.order.customer.CustomerRepository;
@@ -38,7 +40,7 @@ class OrderController {
 		return new ModelAndView("orderlist", "orders", orderRepository.findAll());
 	}
 
-	@RequestMapping(value = "/form.html", method = RequestMethod.GET)
+	@GetMapping("/form.html")
 	public ModelAndView form() {
 		ModelAndView modelAndView = new ModelAndView("orderForm", "order", new Order());
 		modelAndView.addObject("items", itemRepository.findAll(Sort.unsorted()));
@@ -46,7 +48,7 @@ class OrderController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/line", method = RequestMethod.POST)
+	@PostMapping("/line")
 	public ModelAndView addLine(Order order) {
 		order.addLine(0, itemRepository.findAll(Sort.unsorted()).iterator().next());
 		ModelAndView modelAndView = new ModelAndView("orderForm", "order", order);
@@ -55,13 +57,13 @@ class OrderController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ModelAndView get(@PathVariable("id") long id) {
+	@GetMapping("/{id}")
+	public ModelAndView get(@PathVariable long id) {
 		return new ModelAndView("order", "order", orderRepository.findById(id).get());
 	}
 
-	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Order> getJSON(@PathVariable("id") long id) {
+	@GetMapping("/order/{id}")
+	public ResponseEntity<Order> getJSON(@PathVariable long id) {
 		Optional<Order> response = orderRepository.findById(id);
 		if (response.isEmpty()) {
 			return new ResponseEntity<Order>(HttpStatus.NOT_FOUND);
@@ -70,19 +72,19 @@ class OrderController {
 		}
 	}
 
-	@RequestMapping(value = "/full-{id}", method = RequestMethod.GET)
-	public ModelAndView full(@PathVariable("id") long id) {
+	@GetMapping("/full-{id}")
+	public ModelAndView full(@PathVariable long id) {
 		return new ModelAndView("order-full", "order", orderRepository.findById(id).get());
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@PostMapping("/")
 	public ModelAndView post(Order order) {
 		order = orderService.order(order);
 		return new ModelAndView("success");
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ModelAndView delete(@PathVariable("id") long id) {
+	@DeleteMapping("/{id}")
+	public ModelAndView delete(@PathVariable long id) {
 		orderRepository.deleteById(id);
 
 		return new ModelAndView("success");

@@ -95,7 +95,7 @@ public class PollingTest {
 	}
 
 	@Test
-	public void orderArePolled() {
+	void orderArePolled() {
 		long countBeforePoll = invoiceRepository.count();
 		invoicePoller.pollInternal();
 		assertThat(invoiceRepository.count(), is(greaterThan(countBeforePoll)));

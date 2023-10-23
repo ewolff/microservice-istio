@@ -2,9 +2,9 @@ package com.ewolff.microservice.invoicing.web;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ewolff.microservice.invoicing.InvoiceRepository;
@@ -18,8 +18,8 @@ public class InvoiceController {
 		this.invoiceRepository = invoiceRepository;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView invoice(@PathVariable("id") long id) {
+	@GetMapping(value = "/{id}", produces = MediaType.TEXT_HTML_VALUE)
+	public ModelAndView invoice(@PathVariable long id) {
 		return new ModelAndView("invoice", "invoice", invoiceRepository.findById(id).get());
 	}
 

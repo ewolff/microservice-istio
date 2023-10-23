@@ -4,9 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
-import org.apache.http.client.utils.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +26,7 @@ import com.ewolff.microservice.order.logic.OrderRepository;
 
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class FeedClientTest {
+class FeedClientTest {
 
 	@LocalServerPort
 	private long serverPort;
@@ -41,20 +40,20 @@ public class FeedClientTest {
 	private RestTemplate restTemplate = new RestTemplate();
 
 	@Test
-	public void feedReturnsBasicInformation() {
+	void feedReturnsBasicInformation() {
 		OrderFeed feed = retrieveFeed();
 		assertNotNull(feed.getUpdated());
 	}
 
 	@Test
-	public void requestWithLastModifiedReturns304() {
+	void requestWithLastModifiedReturns304() {
 		ResponseEntity<OrderFeed> response = restTemplate.exchange(feedUrl(), HttpMethod.GET, new HttpEntity(null),
 				OrderFeed.class);
 
-		Date lastModified = DateUtils.parseDate(response.getHeaders().getFirst("Last-Modified"));
+		ZonedDateTime lastModified = response.getHeaders().getFirstZonedDateTime("Last-Modified");
 
 		HttpHeaders requestHeaders = new HttpHeaders();
-		requestHeaders.set("If-Modified-Since", DateUtils.formatDate(lastModified));
+		requestHeaders.setZonedDateTime("If-Modified-Since", lastModified);
 		HttpEntity requestEntity = new HttpEntity(requestHeaders);
 
 		response = restTemplate.exchange(feedUrl(), HttpMethod.GET, requestEntity, OrderFeed.class);
@@ -63,7 +62,7 @@ public class FeedClientTest {
 	}
 
 	@Test
-	public void feedReturnsNewlyCreatedOrder() {
+	void feedReturnsNewlyCreatedOrder() {
 		Order order = new Order();
 		order.setCustomer(customerRepository.findAll(Sort.unsorted()).iterator().next());
 		orderRepository.save(order);
@@ -82,7 +81,7 @@ public class FeedClientTest {
 	}
 
 	private String feedUrl() {
-		return String.format("http://localhost:%d/feed", serverPort);
+		return "http://localhost:%d/feed".formatted(serverPort);
 	}
 
 }

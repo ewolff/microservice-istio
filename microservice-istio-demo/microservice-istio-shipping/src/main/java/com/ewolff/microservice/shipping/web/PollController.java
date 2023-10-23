@@ -1,8 +1,7 @@
 package com.ewolff.microservice.shipping.web;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ewolff.microservice.shipping.poller.ShippingPoller;
 
@@ -15,7 +14,7 @@ public class PollController {
 		this.poller = poller;
 	}
 
-	@RequestMapping(value = "/poll", method = RequestMethod.POST)
+	@PostMapping("/poll")
 	public String poll() {
 		poller.poll();
 		return "success";

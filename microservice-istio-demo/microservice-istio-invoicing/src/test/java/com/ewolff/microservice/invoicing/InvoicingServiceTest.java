@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest(classes = InvoiceTestApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class InvoicingServiceTest {
+class InvoicingServiceTest {
 
 	@Autowired
 	private InvoiceRepository invoiceRepository;
@@ -24,7 +24,7 @@ public class InvoicingServiceTest {
 	private InvoiceService invoiceService;
 
 	@Test
-	public void ensureIdempotencySecondCallIgnored() {
+	void ensureIdempotencySecondCallIgnored() {
 		long countBefore = invoiceRepository.count();
 		Invoice invoice = new Invoice(42,
 				new Customer(23, "Eberhard", "Wolff", "eberhard.wolff@innoq.com"),

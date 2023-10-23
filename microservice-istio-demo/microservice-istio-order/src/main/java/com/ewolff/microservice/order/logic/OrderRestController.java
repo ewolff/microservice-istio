@@ -27,8 +27,8 @@ public class OrderRestController {
     }
 
     private String baseUrl(HttpServletRequest request) {
-        return String.format("%s://%s:%d%s/", request.getScheme(), request.getServerName(), request.getServerPort(),
-                request.getContextPath());
+        return "%s://%s:%d%s/".formatted(request.getScheme(), request.getServerName(), request.getServerPort(),
+									request.getContextPath());
     }
 
     @RequestMapping(value = "/feed", produces = "application/json")

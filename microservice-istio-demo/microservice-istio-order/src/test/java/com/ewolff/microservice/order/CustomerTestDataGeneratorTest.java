@@ -13,7 +13,7 @@ import com.ewolff.microservice.order.customer.CustomerTestDataGenerator;
 
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class CustomerTestDataGeneratorTest {
+class CustomerTestDataGeneratorTest {
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -22,7 +22,7 @@ public class CustomerTestDataGeneratorTest {
 	private CustomerTestDataGenerator customerTestDataGenerator;
 
 	@Test
-	public void assureTestDataGeneratedOnce() {
+	void assureTestDataGeneratedOnce() {
 		assertEquals(1, customerRepository.findByName("Wolff").size());
 		customerTestDataGenerator.generateTestData();
 		assertEquals(1, customerRepository.findByName("Wolff").size());

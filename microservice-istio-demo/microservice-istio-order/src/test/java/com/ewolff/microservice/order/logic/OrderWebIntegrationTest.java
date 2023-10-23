@@ -30,7 +30,7 @@ import com.ewolff.microservice.order.item.ItemRepository;
 @SpringBootTest(classes = OrderApp.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 @TestInstance(Lifecycle.PER_CLASS)
-public class OrderWebIntegrationTest {
+class OrderWebIntegrationTest {
 
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -51,14 +51,14 @@ public class OrderWebIntegrationTest {
 	private Customer customer;
 
 	@BeforeAll
-	public void setup() {
+	void setup() {
 		item = itemRepository.findAll(Sort.unsorted()).iterator().next();
 		customer = new Customer("RZA", "GZA", "rza@wutang.com", "Chamber", "Shaolin");
 		customer = customerRepository.save(customer);
 	}
 
 	@Test
-	public void IsTestOrderReturned() {
+	void IsTestOrderReturned() {
 		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL() + "/order/1", String.class);
 		assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 		String order = resultEntity.getBody();
@@ -66,7 +66,7 @@ public class OrderWebIntegrationTest {
 	}
 
 	@Test
-	public void IsOrderListReturned() {
+	void IsOrderListReturned() {
 		Order order = null;
 		try {
 			Iterable<Order> orders = orderRepository.findAll();
@@ -93,14 +93,14 @@ public class OrderWebIntegrationTest {
 	}
 
 	@Test
-	public void IsOrderFormDisplayed() {
+	void IsOrderFormDisplayed() {
 		ResponseEntity<String> resultEntity = restTemplate.getForEntity(orderURL() + "/form.html", String.class);
 		assertTrue(resultEntity.getStatusCode().is2xxSuccessful());
 		assertTrue(resultEntity.getBody().contains("<form"));
 	}
 
 	@Test
-	public void IsSubmittedOrderSaved() {
+	void IsSubmittedOrderSaved() {
 		long before = orderRepository.count();
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
 		map.add("submit", "");
