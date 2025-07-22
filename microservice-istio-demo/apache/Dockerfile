@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 # Update Ubuntu
 RUN apt-get update ; apt-get dist-upgrade -y -qq 
