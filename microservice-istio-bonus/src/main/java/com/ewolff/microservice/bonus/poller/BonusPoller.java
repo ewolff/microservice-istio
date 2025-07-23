@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.thymeleaf.util.DateUtils;
 
 import com.ewolff.microservice.bonus.Bonus;
 import com.ewolff.microservice.bonus.BonusRepository;
@@ -63,8 +62,7 @@ public class BonusPoller {
 			OrderFeed feed = response.getBody();
 			for (OrderFeedEntry entry : feed.getOrders()) {
 				if ((lastModified == null) || (entry.getUpdated().after(Date.from(lastModified.toInstant())))) {
-					Bonus bonus = restTemplate
-							.getForEntity(entry.getLink(), Bonus.class).getBody();
+					Bonus bonus = restTemplate.getForEntity(entry.getLink(), Bonus.class).getBody();
 					log.trace("saving bonus {}", bonus.getId());
 					bonusService.calculateBonus(bonus);
 				}

@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.thymeleaf.util.DateUtils;
 
 import com.ewolff.microservice.shipping.Shipment;
 import com.ewolff.microservice.shipping.ShipmentService;
