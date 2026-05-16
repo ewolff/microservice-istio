@@ -66,7 +66,13 @@ SDK](https://cloud.google.com/sdk/docs/quickstarts) and
 This and all following steps are either done in the command line
 (Minikube / Google Cloud) or the Google Cloud Shell.
 
-* [Install](https://istio.io/docs/setup/getting-started/) istioctl and use it install istio on the cluster. Use the demo profile. 
+* [Install](https://istio.io/docs/setup/getting-started/) istioctl and
+  use it install istio on the cluster with `istioctl install --set
+  profile=demo -y`.
+
+* Use `kubectl label namespace default istio-injection=enabled` to
+  automatically create proxies.
+
 
 * Also install the addons (Kiali, Prometheus, Jaeger, Grafana). In the
   subdirectory `samples/addons` of the istio configuration are

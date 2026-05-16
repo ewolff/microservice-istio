@@ -80,8 +80,12 @@ Dieser und die folgenden Schritte können entweder auf der
 Kommandozeile (Minkube / Google Cloud) oder in der Google Cloud Shell
 durchgeführt werden.
 
-* [Installiere istioctl](https://istio.io/docs/setup/getting-started/) 
-und nutze es, um Istio auf dem Cluster zu installieren. Nutze das "demo" Profil.
+* [Installiere istioctl](https://istio.io/docs/setup/getting-started/)
+und nutze `isitioctl install --set profile=demo -y`, um Istio auf dem
+Cluster zu installieren.
+
+* Nutze `kubectl label namespace default istio-injection=enabled`,
+  damit automatisch Proxys erstellt werden.
 
 * Installiere auch die Addons (Kiali, Prometheus, Jaeger, Grafana). Die
   dafür notwendigen Konfigurationsdatein finden sich im
